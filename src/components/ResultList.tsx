@@ -1,18 +1,20 @@
+import type {Line} from "../utils/Line.ts";
+
 type ResultListProps = {
-    lines: []
+    results:Line[] | null
 }
 
-function ResultList({lines}:ResultListProps){
+function ResultList({results}: ResultListProps) {
 
-    if(lines){
-        return(
+    if (results) {
+        return (
             <div className="results-container" style={{border: "5px solid black"}}>
-                {lines.map(result=>
-                    <div style={{border: "1px solid red"}} className="result" key={lines.indexOf(result)}>
+                {results.slice(0,100).map((result: Line, index:number) =>
+                    <div style={{border: "1px solid red"}} className="result" key={index}>
                         <p>{result.speaker_jp}</p>
                         <p>{result.text_jp}</p>
                     </div>
-                ).splice(0,100)}
+                )}
             </div>
         )
     } else {

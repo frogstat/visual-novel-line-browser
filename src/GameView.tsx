@@ -3,6 +3,8 @@ import ResultList from "./components/ResultList.tsx";
 import SearchBar from "./components/SearchBar.tsx";
 import {useGameView} from "./hooks/useGameView.ts";
 import {useGameData} from "./hooks/useGameData.ts";
+import {useMemo} from "react";
+import {getFilteredList} from "./utils/search.ts";
 
 type GameViewProps = {
     game: string;
@@ -12,15 +14,22 @@ type GameViewProps = {
 function GameView({game, unselectGame}: GameViewProps) {
 
     const {
-        gameFolder,
-        lines,
-        voiceBasePath
+        lines
     } = useGameData(game);
 
     const {
         searchText,
         setSearchText
     } = useGameView();
+
+
+
+    const results = useMemo(() => {
+        if (!lines) {
+            return null;
+        }
+        return getFilteredList(lines, searchText);
+    }, [lines, searchText]);
 
     return (
         <>
@@ -30,12 +39,11 @@ function GameView({game, unselectGame}: GameViewProps) {
             />
 
             <SearchBar
-                searchText={searchText}
                 setSearchText={setSearchText}
             />
 
             <ResultList
-                lines={lines}
+                results={results}
             />
         </>
     )

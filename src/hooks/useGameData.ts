@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
+import type {Line} from "../utils/Line.ts";
 
 export function useGameData(game: string) {
-    const [lines, setLines] = useState(null);
+    const [lines, setLines] = useState<Line[] | null>(null);
     const gameFolder: string = game;
-    const voiceBasePath: string = gameFolder + "/voice";
+    //const voiceBasePath: string = gameFolder + "/voice";
 
     useEffect(() =>{
 
@@ -23,9 +24,9 @@ export function useGameData(game: string) {
     },[gameFolder])
 
     return {
-        gameFolder,
-        lines,
-        voiceBasePath
+        //gameFolder,
+        lines
+        //voiceBasePath
     }
 }
 
