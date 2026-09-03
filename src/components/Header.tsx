@@ -2,7 +2,7 @@ function Header(props:any){
 
     const gameName:string = props.gameName;
 
-    return (<p>{gameName}</p>)
+    return (<h1>{gameName}</h1>)
 }
 
 export default Header;

@@ -1,31 +1,25 @@
-const results = [
-    {
-        key: 1,
-        speaker: "Bob",
-        text: "Hello World!"
-    },
-    {
-        key: 2,
-        speaker: "Jessie",
-        text: "This is my text"
-    }
+type ResultListProps = {
+    lines: []
+}
 
-]
+function ResultList({lines}:ResultListProps){
 
-
-
-function ResultList(){
-
-    return(
-        <div className="results-container" style={{border: "5px solid black"}}>
-            {results.map(result=>
-            <div style={{border: "1px solid red"}} className="result" key={result.key}>
-                <p>{result.speaker}</p>
-                <p>{result.text}</p>
+    if(lines){
+        return(
+            <div className="results-container" style={{border: "5px solid black"}}>
+                {lines.map(result=>
+                    <div style={{border: "1px solid red"}} className="result" key={lines.indexOf(result)}>
+                        <p>{result.speaker_jp}</p>
+                        <p>{result.text_jp}</p>
+                    </div>
+                ).splice(0,100)}
             </div>
-            )}
-        </div>
-    )
+        )
+    } else {
+        return (
+            <p>loading</p>
+        );
+    }
 }
 
 export default ResultList

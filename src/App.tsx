@@ -7,11 +7,17 @@ function App() {
     const [game, setGame] = useState<string | null>(null)
     const games: string[] = useGameManifest()
 
+    function unselectGame(){
+        setGame(null);
+    }
+
     if (game) {
         return (
             <>
-                <h1>{game}</h1>
-                <GameView/>
+                <GameView
+                    game={game}
+                    unselectGame={unselectGame}
+                />
             </>
         )
     } else {
@@ -19,13 +25,10 @@ function App() {
             <main className="app">
                 <div className="container">
                     <h1>Line Browser</h1>
-                    {
-                        games.map(currentGame =>
-                            <p key={currentGame} onClick={() => setGame(currentGame)}>{currentGame}</p>
-                        )
-
-                    }
-
+                    {games.length > 0 && games.map(currentGame =>
+                        <p key={currentGame} onClick={() => setGame(currentGame)}>{currentGame}</p>
+                    )}
+                    {games.length === 0 && <p>No games found</p>}
                 </div>
             </main>
         );
