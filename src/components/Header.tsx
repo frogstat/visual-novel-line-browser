@@ -1,9 +1,8 @@
-const game_name = "Little Busters"
+function Header(props:any){
 
-function Header(){
+    const gameName:string = props.gameName;
 
-
-    return (<p>{game_name}</p>)
+    return (<p>{gameName}</p>)
 }
 
 export default Header;

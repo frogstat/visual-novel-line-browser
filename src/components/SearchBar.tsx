@@ -1,18 +1,12 @@
-import {useState} from "react";
+function SearchBar(props:any) {
 
-function SearchBar(){
-
-    const [searchText, setSearchText] = useState('');
-
-    function handleSearchTextChange(event){
-        const newSearch = event.target.value;
-        setSearchText(newSearch);
-    }
+    const searchText:string = props.searchText;
+    const setSearchText:(searchText:string) => void = props.setSearchText;
 
     return(
         <>
             <p>{searchText}</p>
-            <input onChange={event => handleSearchTextChange(event)} type="text"/>
+            <input onChange={(e) => setSearchText(e.target.value)} type="text"/>
         </>
 
 
