@@ -1,4 +1,4 @@
-import {useRef} from "react";
+import {useEffect, useRef} from "react";
 
 export function useAudioPlayer(voiceBasePath:string){
     const currentAudio = useRef<HTMLAudioElement | null>(null);
@@ -24,8 +24,13 @@ export function useAudioPlayer(voiceBasePath:string){
                 currentAudio.current = null;
             }
         });
-
-
     }
+
+    useEffect(() => {
+        return () => {
+            currentAudio.current?.pause();
+            currentAudio.current = null;
+        };
+    }, []);
     return playVoice;
 }

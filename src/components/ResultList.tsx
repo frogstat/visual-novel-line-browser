@@ -3,7 +3,7 @@ import ResultCard from "./ResultCard.tsx";
 
 type ResultListProps = {
     results:Line[] | null
-    playVoice:any
+    playVoice:(voiceFile: string | undefined) => void
 }
 
 function ResultList({results, playVoice}: ResultListProps) {

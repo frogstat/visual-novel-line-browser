@@ -2,17 +2,20 @@ type ResultCardProp = {
     speaker?: string,
     text?: string,
     voice_file?: string,
-    playVoice: any
+    playVoice: (voiceFile: string | undefined) => void
 
 }
 
 function ResultCard({speaker, text, voice_file, playVoice}: ResultCardProp) {
 
-    function formatVoiceFile() {
-        if (!voice_file) {
-            return
+    function formatVoiceFile(voiceFile: string) {
+        const extensionIndex = voiceFile.lastIndexOf(".");
+
+        if (extensionIndex === -1) {
+            return voiceFile;
         }
-        return voice_file.substring(0, voice_file.lastIndexOf("."));
+
+        return voiceFile.substring(0, extensionIndex);
     }
 
     return (
@@ -21,7 +24,7 @@ function ResultCard({speaker, text, voice_file, playVoice}: ResultCardProp) {
             {text && <p>{text}</p>}
             {voice_file && (
                 <>
-                    <p>{formatVoiceFile()}</p>
+                    <p>{formatVoiceFile(voice_file)}</p>
                     <button onClick={() => playVoice(voice_file)}>Play</button>
                 </>
             )}

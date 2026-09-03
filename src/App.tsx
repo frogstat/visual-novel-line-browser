@@ -2,6 +2,7 @@ import './App.css'
 import GameView from "./GameView.tsx";
 import {useState} from "react";
 import {useGameManifest} from "./hooks/useGameManifest.ts"
+import GameGrid from "./components/GameGrid.tsx";
 
 function App() {
     const [game, setGame] = useState<string | null>(null)
@@ -18,7 +19,8 @@ function App() {
             return <p>No games found</p>
         } else {
             return games.map(currentGame =>
-                <p key={currentGame} onClick={() => setGame(currentGame)}>{currentGame}</p>
+                //
+                <GameGrid selectGame={() => setGame(currentGame)} key={currentGame} game={currentGame}/>
             );
         }
     }
@@ -33,8 +35,12 @@ function App() {
     } else {
         return (
             <main className="app">
-                <div className="container">
-                    <h1>Line Browser</h1>
+                <h1>Line Browser</h1>
+                <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fill, 220px)",
+                    gap: "20px",
+                }} className="container">
                     {resolveGameSelectorScreen()}
                 </div>
             </main>

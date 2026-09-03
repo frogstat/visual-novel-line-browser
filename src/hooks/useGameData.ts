@@ -3,7 +3,7 @@ import type {Line} from "../utils/Line.ts";
 
 export function useGameData(game: string) {
     const [lines, setLines] = useState<Line[] | null>(null);
-    const voiceBasePath: string = encodeURIComponent(game) + "/voice";
+    const voiceBasePath: string = `/${encodeURIComponent(game)}/voice`;
 
     useEffect(() =>{
 
