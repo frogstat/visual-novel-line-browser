@@ -1,8 +1,9 @@
-function Header(props:any){
+type HeaderProps = {
+    gameName: string;
+};
 
-    const gameName:string = props.gameName;
-
-    return (<h1>{gameName}</h1>)
+function Header({gameName}: HeaderProps) {
+    return <h1>{gameName}</h1>;
 }
 
 export default Header;

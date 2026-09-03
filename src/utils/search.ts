@@ -1,17 +1,19 @@
 import type {Line} from "./Line.ts";
 
 
-export function getFilteredList (lines:Line[], searchTerm: string): Line[] {
+export function getFilteredList(lines: Line[], searchTerm: string): Line[] {
     searchTerm = searchTerm.toLowerCase();
-    if(!searchTerm){
-        return lines;
+
+    let filteredLines: Line[];
+
+    if (!searchTerm) {
+        filteredLines = lines;
+    } else {
+        filteredLines = lines
+            .filter((item: Line) =>
+                item.speaker_jp?.toLowerCase().includes(searchTerm) ||
+                item.text_jp?.toLowerCase().includes(searchTerm)
+            );
     }
-
-    const filteredList:Line[] = lines
-        .filter((item:Line) =>
-            item.speaker_jp?.toLowerCase().includes(searchTerm) ||
-            item.text_jp?.toLowerCase().includes(searchTerm)
-        )
-
-    return filteredList;
+    return filteredLines.slice(0,100);
 }

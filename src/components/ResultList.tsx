@@ -9,7 +9,7 @@ function ResultList({results}: ResultListProps) {
     if (results) {
         return (
             <div className="results-container" style={{border: "5px solid black"}}>
-                {results.slice(0,100).map((result: Line, index:number) =>
+                {results.map((result: Line, index:number) =>
                     <div style={{border: "1px solid red"}} className="result" key={index}>
                         <p>{result.speaker_jp}</p>
                         <p>{result.text_jp}</p>

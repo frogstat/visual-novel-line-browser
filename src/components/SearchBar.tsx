@@ -1,13 +1,14 @@
-function SearchBar(props:any) {
+type SearchBarProps = {
+    setSearchText: (searchText: string) => void;
+};
 
-    const setSearchText:(searchText:string) => void = props.setSearchText;
+function SearchBar({setSearchText}: SearchBarProps) {
 
-    return(
-        <>
-            <input onChange={(e) => setSearchText(e.target.value)} type="text"/>
-        </>
-
-
+    return (
+        <input
+            type="text"
+            onChange={(e) => setSearchText(e.target.value)}
+        />
     )
 
 }

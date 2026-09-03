@@ -5,30 +5,37 @@ import {useGameManifest} from "./hooks/useGameManifest.ts"
 
 function App() {
     const [game, setGame] = useState<string | null>(null)
-    const games: string[] = useGameManifest()
+    const games: string[] | null = useGameManifest()
 
-    function unselectGame(){
+    function unselectGame() {
         setGame(null);
+    }
+
+    function resolveGameSelectorScreen() {
+        if (games === null) {
+            return <p>Loading...</p>
+        } else if (games.length === 0) {
+            return <p>No games found</p>
+        } else {
+            return games.map(currentGame =>
+                <p key={currentGame} onClick={() => setGame(currentGame)}>{currentGame}</p>
+            );
+        }
     }
 
     if (game) {
         return (
-            <>
-                <GameView
-                    game={game}
-                    unselectGame={unselectGame}
-                />
-            </>
+            <GameView
+                game={game}
+                unselectGame={unselectGame}
+            />
         )
     } else {
         return (
             <main className="app">
                 <div className="container">
                     <h1>Line Browser</h1>
-                    {games.length > 0 && games.map(currentGame =>
-                        <p key={currentGame} onClick={() => setGame(currentGame)}>{currentGame}</p>
-                    )}
-                    {games.length === 0 && <p>No games found</p>}
+                    {resolveGameSelectorScreen()}
                 </div>
             </main>
         );
