@@ -5,6 +5,7 @@ import {useGameView} from "./hooks/useGameView.ts";
 import {useGameData} from "./hooks/useGameData.ts";
 import {useMemo} from "react";
 import {getFilteredList} from "./utils/search.ts";
+import {useAudioPlayer} from "./hooks/useAudioPlayer.ts";
 
 type GameViewProps = {
     game: string;
@@ -14,13 +15,16 @@ type GameViewProps = {
 function GameView({game, unselectGame}: GameViewProps) {
 
     const {
-        lines
+        lines,
+        voiceBasePath
     } = useGameData(game);
 
     const {
         searchText,
         setSearchText
     } = useGameView();
+
+    const playVoice = useAudioPlayer(voiceBasePath);
 
 
 
@@ -44,7 +48,10 @@ function GameView({game, unselectGame}: GameViewProps) {
 
             <ResultList
                 results={results}
+                playVoice={playVoice}
             />
+
+
         </>
     )
 }
