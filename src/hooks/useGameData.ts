@@ -4,21 +4,43 @@ import {loadJson} from "../utils/loadJson.ts";
 
 export function useGameData(game: string) {
     const [lines, setLines] = useState<Line[] | null>(null);
+    const [characters, setCharacters] = useState(null);
     const voiceBasePath: string = `/${encodeURIComponent(game)}/voice`;
 
     useEffect(() =>{
 
-         function loadGame(){
-             const base = `/${encodeURIComponent(game)}`;
+         function loadLines(){
+             const linesJsonFile = `/${encodeURIComponent(game)}/lines.json`;
 
-             loadJson(base + "/lines.json").then(linesData => {
+             loadJson(linesJsonFile).then(linesData => {
                  setLines(linesData)
              }).catch(e => {
-                 throw Error(e);
+                 console.error("FAILED TO READ " + linesJsonFile + "\n" + e)
+                 setLines([])
              });
         }
 
-        loadGame();
+        function loadCharacters(){
+             const charactersJsonFile = `/${encodeURIComponent(game)}/characters.json`;
+
+             loadJson(charactersJsonFile).then(charactersData => {
+                 setCharacters(charactersData)
+                 for (let char of charactersData){
+                     console.log(char)
+                 }
+             }).catch(e => {
+                 console.error("FAILED TO READ " + charactersJsonFile + "\n" + e)
+                 setCharacters([])
+             })
+
+
+
+
+
+        }
+
+        loadLines();
+         loadCharacters()
 
     },[game])
 

@@ -8,25 +8,32 @@ type ResultListProps = {
 
 function ResultList({results, playVoice}: ResultListProps) {
 
-    if (results) {
-        return (
-            <div className="results-container" style={{border: "5px solid black"}}>
-                {results.map((result: Line, index:number) =>
-                    <ResultCard
-                        key={index}
-                        speaker={result.speaker_jp}
-                        text={result.text_jp}
-                        voice_file={result.voice_file}
-                        playVoice={playVoice}
-                    />
-                )}
-            </div>
-        )
-    } else {
-        return (
-            <p>loading</p>
-        );
+    function handleResultsDisplay(){
+    if (results === null){
+        return <p>Loading...</p>
     }
+
+    if (results.length === 0){
+        return <p>No results found.</p>
+    }
+
+    return (
+        results.map((result: Line, index:number) =>
+            <ResultCard
+                key={index}
+                speaker={result.speaker_jp}
+                text={result.text_jp}
+                   voice_file={result.voice_file}
+                playVoice={playVoice}
+            />
+        ))
+    }
+
+    return(
+        <div className="results-container" style={{border: "5px solid black"}}>
+            {handleResultsDisplay()}
+        </div>
+    );
 }
 
 export default ResultList
