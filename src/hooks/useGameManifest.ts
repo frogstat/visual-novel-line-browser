@@ -1,10 +1,14 @@
 import {useEffect, useState} from "react";
 import {loadJson} from "../utils/loadJson.ts";
 
+type GameData = {
+    "games": [string];
+}
+
 export function useGameManifest(): string[] | null {
     const [games, setGames] = useState<string[] | null>(null);
     useEffect(() => {
-        loadJson("/manifest.json")
+        loadJson<GameData>("/manifest.json")
             .then((data) => {
                 setGames(data.games ?? []);
             })

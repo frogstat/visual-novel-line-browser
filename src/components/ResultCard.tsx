@@ -1,12 +1,12 @@
+import type {Match} from "../utils/types.ts";
+
 type ResultCardProp = {
-    speaker?: string,
-    text?: string,
-    voice_file?: string,
-    playVoice: (voiceFile: string | undefined) => void
+    line: Match
+    playVoice: (voiceFile: string | null | undefined) => void
 
 }
 
-function ResultCard({speaker, text, voice_file, playVoice}: ResultCardProp) {
+function ResultCard({line, playVoice}: ResultCardProp) {
 
     function formatVoiceFile(voiceFile: string) {
         const extensionIndex = voiceFile.lastIndexOf(".");
@@ -20,12 +20,12 @@ function ResultCard({speaker, text, voice_file, playVoice}: ResultCardProp) {
 
     return (
         <div style={{border: "1px solid red"}} className="result">
-            {speaker && <p>{speaker}</p>}
-            {text && <p>{text}</p>}
-            {voice_file && (
+            {line.speaker && <p>{line.speaker}</p>}
+            {line.text && <p>{line.text}</p>}
+            {line.voiceFile && (
                 <>
-                    <p>{formatVoiceFile(voice_file)}</p>
-                    <button onClick={() => playVoice(voice_file)}>Play</button>
+                    <p>{formatVoiceFile(line.voiceFile)}</p>
+                    <button onClick={() => playVoice(line.voiceFile)}>Play</button>
                 </>
             )}
 

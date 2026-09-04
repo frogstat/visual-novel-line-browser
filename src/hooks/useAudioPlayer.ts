@@ -3,7 +3,7 @@ import {useEffect, useRef} from "react";
 export function useAudioPlayer(voiceBasePath:string){
     const currentAudio = useRef<HTMLAudioElement | null>(null);
 
-    function playVoice(voiceFile:string | undefined){
+    function playVoice(voiceFile:string | null | undefined){
         if (!voiceFile){
             return;
         }
