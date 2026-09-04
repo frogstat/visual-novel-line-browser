@@ -1,9 +1,3 @@
-/**
- * Returns a character name from the value of a voice file. Returns null if nothing is required data doesn't exist.
- * @param voiceFile - The voice file for the line (e.g. HAY45666.ogg where HAY stands for Hayato)
- * @param characters - A list of character codes and their matching character names.
- * @param codeLength - How many chars in the voice file name are the code. (e.g. MAK_COMMON_033.ogg will have a code length of 3)
- */
 import type {Line} from "./types.ts";
 
 
@@ -16,6 +10,13 @@ export function resolveTextFromLanguage(line: Line, language: string): string | 
     return line[`text_${language}`];
 }
 
+
+/**
+ * Returns a character name from the value of a voice file. Returns null if nothing is required data doesn't exist.
+ * @param voiceFile - The voice file for the line (e.g. HAY45666.ogg where HAY stands for Hayato)
+ * @param characters - A list of character codes and their matching character names.
+ * @param codeLength - How many chars in the voice file name are the code. (e.g. MAK_COMMON_033.ogg will have a code length of 3)
+ */
 function resolveCharacterNameFromCode(voiceFile: string | undefined | null, characters: any, codeLength: number, language: string) {
 
     if (!voiceFile || !codeLength) {
