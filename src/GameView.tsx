@@ -6,7 +6,7 @@ import {useGameData} from "./hooks/useGameData.ts";
 import {useMemo} from "react";
 import {createListOfMatches} from "./utils/search.ts";
 import {useAudioPlayer} from "./hooks/useAudioPlayer.ts";
-import {useCycleLanguage} from "./hooks/useCycleLanguage.ts";
+
 
 type GameViewProps = {
     game: string;
@@ -25,8 +25,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         setCurrentLanguage
     } = useGameData(game);
 
-    const cycleLanguage
-        = useCycleLanguage(currentLanguage, setCurrentLanguage, languages)
+    //const cycleLanguage = useCycleLanguage(currentLanguage, setCurrentLanguage, languages)
 
     const {
         query,
@@ -45,13 +44,11 @@ function GameView({game, unselectGame}: GameViewProps) {
 
     return (
         <>
-            <h1 onClick={unselectGame}>Return</h1>
             <Header
+                returnToGameMenu={unselectGame}
                 gameName={game}
-                currentLanguage={currentLanguage}
                 languages={languages}
-                //TODO: Make this actually dynamic
-                cycleLanguage={cycleLanguage}
+                setCurrentLanguage={setCurrentLanguage}
             />
 
             <SearchBar

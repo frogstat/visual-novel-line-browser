@@ -1,19 +1,18 @@
 type HeaderProps = {
+    returnToGameMenu: () => void;
     gameName: string,
-    currentLanguage: string,
     languages: string[],
-    cycleLanguage?: () => void
+    setCurrentLanguage: (language: string) => void,
 };
 
-function Header({gameName, currentLanguage, languages, cycleLanguage}: HeaderProps) {
+function Header({returnToGameMenu, gameName, languages, setCurrentLanguage}: HeaderProps) {
     return (
         <>
             <h1>{gameName}</h1>
-            <p>Languages available: {languages.map((language: string) =>
-                <span key={language}>{language}, </span>
-            )}</p>
-            <p>Current language: {currentLanguage}</p>
-            {languages.length > 1 && <button onClick={cycleLanguage}>Toggle language</button>}
+            <button onClick={returnToGameMenu}>Return to menu</button>
+            {languages.length > 1 && <p>Languages available: {languages.map(language =>
+                <button onClick={() => setCurrentLanguage(language)} key={language}>{language.toUpperCase()}</button>
+            )}</p>}
         </>
     );
 }
