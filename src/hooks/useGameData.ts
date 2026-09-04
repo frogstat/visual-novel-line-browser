@@ -9,12 +9,13 @@ export function useGameData(game: string) {
     useEffect(() =>{
 
          function loadGame(){
-             const base = `/${encodeURIComponent(game)}`;
+             const linesJsonFile = `/${encodeURIComponent(game)}/lines.json`;
 
-             loadJson(base + "/lines.json").then(linesData => {
+             loadJson(linesJsonFile).then(linesData => {
                  setLines(linesData)
              }).catch(e => {
-                 throw Error(e);
+                 console.error("FAILED TO READ " + linesJsonFile + "\n" + e)
+                 setLines([])
              });
         }
 
