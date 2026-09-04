@@ -25,8 +25,9 @@ export function useGameData(game: string) {
 
              loadJson(charactersJsonFile).then(charactersData => {
                  setCharacters(charactersData)
-                 for (let char of charactersData){
-                     console.log(char)
+                 const keys = Object.keys(charactersData)
+                 for(let key of keys){
+                     console.log(charactersData[key].name_jp)
                  }
              }).catch(e => {
                  console.error("FAILED TO READ " + charactersJsonFile + "\n" + e)
@@ -39,8 +40,7 @@ export function useGameData(game: string) {
 
         }
 
-        loadLines();
-         loadCharacters()
+        loadLines();loadCharacters()
 
     },[game])
 
