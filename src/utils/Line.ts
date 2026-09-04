@@ -1,5 +1,5 @@
 export type Line = {
-    speaker_jp?: string,
-    text_jp?: string,
+    speaker_ja?: string,
+    text_ja?: string,
     voice_file?: string
 }

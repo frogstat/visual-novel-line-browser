@@ -30,8 +30,8 @@ export function createListOfMatches(lines: Line[], query: string, characters: an
         // It's not guaranteed that speaker_en exists, and it should be possible to add speaker_ch if so desired.
         matches.push({
             index: i,
-            speaker: resolveCharacterNameFromCode(lines[i].voice_file, characters, codeLength) ?? lines[i].speaker_jp,
-            text: lines[i].text_jp,
+            speaker: resolveCharacterNameFromCode(lines[i].voice_file, characters, codeLength) ?? lines[i].speaker_ja,
+            text: lines[i].text_ja,
             voiceFile: lines[i].voice_file
         })
 
@@ -49,8 +49,8 @@ function lineMatchesQuery(line: Line, query: string): boolean {
         return true;
     }
 
-    if (line.speaker_jp?.toLowerCase().includes(query) ||
-        line.text_jp?.toLowerCase().includes(query)) {
+    if (line.speaker_ja?.toLowerCase().includes(query) ||
+        line.text_ja?.toLowerCase().includes(query)) {
         return true;
     }
     return false;

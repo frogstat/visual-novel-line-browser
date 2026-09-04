@@ -14,7 +14,7 @@ export function resolveCharacterNameFromCode(voiceFile: string | undefined, char
 
     if (characterCode in characters) {
         //TODO: Allow this to be language agnostic
-        return characters[characterCode].name_jp;
+        return characters[characterCode].name_ja;
     }
 
     return null;
