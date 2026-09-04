@@ -28,9 +28,13 @@ function ResultList({results, playVoice}: ResultListProps) {
     }
 
     return (
-        <div className="results-container" style={{border: "5px solid black"}}>
-            {handleResultsDisplay()}
-        </div>
+        <>
+            <p>Results: {results?.length}</p>
+            <div className="results-container" style={{border: "5px solid black"}}>
+
+                {handleResultsDisplay()}
+            </div>
+        </>
     );
 }
 

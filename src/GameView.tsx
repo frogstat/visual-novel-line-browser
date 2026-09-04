@@ -39,8 +39,8 @@ function GameView({game, unselectGame}: GameViewProps) {
         if (!lines) {
             return null;
         }
-        return createListOfMatches(lines, query, characters, codeLength, currentLanguage);
-    }, [lines, query, characters, codeLength, currentLanguage]);
+        return createListOfMatches(lines, query, characters, codeLength, currentLanguage, languages);
+    }, [lines, query, characters, codeLength, currentLanguage, languages]);
 
     return (
         <>

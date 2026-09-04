@@ -1,4 +1,5 @@
 import type {Match} from "../utils/types.ts";
+import {formatVoiceFile} from "../utils/lineParser.ts";
 
 type ResultCardProp = {
     line: Match
@@ -7,16 +8,6 @@ type ResultCardProp = {
 }
 
 function ResultCard({line, playVoice}: ResultCardProp) {
-
-    function formatVoiceFile(voiceFile: string) {
-        const extensionIndex = voiceFile.lastIndexOf(".");
-
-        if (extensionIndex === -1) {
-            return voiceFile;
-        }
-
-        return voiceFile.substring(0, extensionIndex);
-    }
 
     return (
         <div style={{border: "1px solid red"}} className="result">

@@ -1,15 +1,14 @@
-import type {Line, Match} from "./types.ts";
+import type {Languages, Line, Match} from "./types.ts";
 import {
+    formatVoiceFile,
     resolveSpeaker,
     resolveTextFromLanguage
 } from "./lineParser.ts";
 
 
-
-export function createListOfMatches(lines: Line[], query: string, characters: any, codeLength: number, language:string): Match[] {
+export function createListOfMatches(lines: Line[], query: string, characters: any, codeLength: number, language: string, languages: Languages): Match[] {
 
     const q = query.trim().toLowerCase();
-
     const matches = [];
 
     for (let i = 0; i < lines.length; i++) {
@@ -17,7 +16,7 @@ export function createListOfMatches(lines: Line[], query: string, characters: an
         //TODO: Add more match conditions like character matching, voice file matching.
 
 
-        if (!lineMatchesQuery(lines[i], q)) {
+        if (!lineMatchesQuery(lines[i], q, languages)) {
             continue;
         }
 
@@ -43,15 +42,44 @@ export function createListOfMatches(lines: Line[], query: string, characters: an
 }
 
 
-function lineMatchesQuery(line: Line, query: string): boolean {
+function lineMatchesQuery(line: Line, query: string, languages: Languages): boolean {
+
     // Lack of search query means that everything matches.
     if (!query) {
         return true;
     }
 
-    if (line.speaker_ja?.toLowerCase().includes(query) ||
-        line.text_ja?.toLowerCase().includes(query)) {
+    // Direct matches for voice lines should always show.
+    const voiceFile = line.voice_file?.toLowerCase()
+    if (voiceFile && formatVoiceFile(voiceFile) === query) {
         return true;
     }
+
+    // Allow the user to search in all languages regardless of current language.
+    // Mainly to prevent search results from changing when swapping languages, but is also convenient.
+    for (const language of languages) {
+        const text = line[`text_${language}`];
+
+        if (!text) {
+            continue;
+        }
+
+        if (language === "en" ?
+            matchEnglishQuery(query, text)
+            : text.toLowerCase().includes(query)) {
+            return true;
+        }
+    }
+
     return false;
+}
+
+function matchEnglishQuery(query: string, text: string): boolean {
+    const escaped = escapeRegex(query);
+    const pattern = new RegExp(`(?<![a-zA-Z0-9'])${escaped}(?![a-zA-Z0-9'])`, "i");
+    return pattern.test(text);
+}
+
+function escapeRegex(text: string): string {
+    return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
