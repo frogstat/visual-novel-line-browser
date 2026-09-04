@@ -1,23 +1,18 @@
 import {useEffect, useState} from "react";
+import {loadJson} from "../utils/loadJson.ts";
 
 export function useGameManifest(): string[] | null {
     const [games, setGames] = useState<string[] | null>(null);
     useEffect(() => {
-        loadManifest()
-            .then(setGames)
-            .catch(console.error);
+        loadJson("/manifest.json")
+            .then((data) => {
+                setGames(data.games ?? []);
+            })
+            .catch((e:Error) => {
+                console.error("MANIFEST LOAD ERROR:", e);
+                setGames([]);
+            });
     }, []);
 
     return games;
-}
-
-
-async function loadManifest():Promise<string[]> {
-    const response = await fetch("/manifest.json");
-    if (!response.ok) {
-        throw new Error("Failed to load manifest.json");
-    }
-
-    const data = await response.json();
-    return data.games ?? []
 }
