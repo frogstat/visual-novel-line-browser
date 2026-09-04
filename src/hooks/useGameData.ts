@@ -27,7 +27,7 @@ export function useGameData(game: string) {
                  setCharacters(charactersData)
                  const keys = Object.keys(charactersData)
                  for(let key of keys){
-                     console.log(charactersData[key].name_jp)
+                     console.log(charactersData[key].name_en)
                  }
              }).catch(e => {
                  console.error("FAILED TO READ " + charactersJsonFile + "\n" + e)
