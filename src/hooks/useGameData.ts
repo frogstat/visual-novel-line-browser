@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import type {Line} from "../utils/Line.ts";
+import {loadJson} from "../utils/loadJson.ts";
 
 export function useGameData(game: string) {
     const [lines, setLines] = useState<Line[] | null>(null);
@@ -7,24 +8,17 @@ export function useGameData(game: string) {
 
     useEffect(() =>{
 
-        async function loadGame(){
-            try {
-                const base = `/${encodeURIComponent(game)}`;
-                const linesResponse = await fetch(base + "/lines.json");
+         function loadGame(){
+             const base = `/${encodeURIComponent(game)}`;
 
-                if (!linesResponse.ok) {
-                    throw new Error(`Could not load ${base}/lines.json`);
-                }
-
-                const linesData = await linesResponse.json();
-                setLines(linesData)
-            } catch (error){
-                console.error(error)
-            }
+             loadJson(base + "/lines.json").then(linesData => {
+                 setLines(linesData)
+             }).catch(e => {
+                 throw Error(e);
+             });
         }
 
         loadGame();
-
 
     },[game])
 
