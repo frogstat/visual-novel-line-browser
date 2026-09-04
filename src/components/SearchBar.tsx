@@ -1,13 +1,13 @@
 type SearchBarProps = {
-    setSearchText: (searchText: string) => void;
+    setQuery: (searchText: string) => void;
 };
 
-function SearchBar({setSearchText}: SearchBarProps) {
+function SearchBar({setQuery}: SearchBarProps) {
 
     return (
         <input
             type="text"
-            onChange={(e) => setSearchText(e.target.value)}
+            onChange={(e) => setQuery(e.target.value)}
         />
     )
 

@@ -1,4 +1,4 @@
-export async function loadJson(jsonPath: string) {
+export async function loadJson<T>(jsonPath: string):Promise<T> {
     const response = await fetch(jsonPath);
 
     if (!response.ok) {

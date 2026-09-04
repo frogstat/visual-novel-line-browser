@@ -4,7 +4,7 @@ export function useGameView() {
     const [searchText, setSearchText] = useState('');
 
     return {
-        searchText,
-        setSearchText
+        query: searchText,
+        setQuery: setSearchText
     };
 }

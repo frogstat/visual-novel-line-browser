@@ -1,8 +1,8 @@
-import type {Line} from "../utils/Line.ts";
+import type {Match} from "../utils/search.ts";
 import ResultCard from "./ResultCard.tsx";
 
 type ResultListProps = {
-    results:Line[] | null
+    results:Match[] | null
     playVoice:(voiceFile: string | undefined) => void
 }
 
@@ -18,12 +18,12 @@ function ResultList({results, playVoice}: ResultListProps) {
     }
 
     return (
-        results.map((result: Line, index:number) =>
+        results.map((result: Match, index:number) =>
             <ResultCard
                 key={index}
-                speaker={result.speaker_jp}
-                text={result.text_jp}
-                   voice_file={result.voice_file}
+                speaker={result.speaker}
+                text={result.text}
+                   voice_file={result.voiceFile}
                 playVoice={playVoice}
             />
         ))

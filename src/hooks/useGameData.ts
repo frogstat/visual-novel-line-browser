@@ -6,47 +6,46 @@ export function useGameData(game: string) {
     const [lines, setLines] = useState<Line[] | null>(null);
     const [characters, setCharacters] = useState(null);
     const voiceBasePath: string = `/${encodeURIComponent(game)}/voice`;
+    const codeLength = characters
+        ? Object.keys(characters)[0]?.length ?? 0
+        : 0;
 
-    useEffect(() =>{
+    useEffect(() => {
 
-         function loadLines(){
-             const linesJsonFile = `/${encodeURIComponent(game)}/lines.json`;
+        function loadLines() {
+            const linesJsonFile = `/${encodeURIComponent(game)}/lines.json`;
 
-             loadJson(linesJsonFile).then(linesData => {
-                 setLines(linesData)
-             }).catch(e => {
-                 console.error("FAILED TO READ " + linesJsonFile + "\n" + e)
-                 setLines([])
-             });
+            loadJson<Line[]>(linesJsonFile).then(linesData => {
+                setLines(linesData)
+            }).catch(e => {
+                console.error("FAILED TO READ " + linesJsonFile + "\n" + e)
+                setLines([])
+            });
         }
 
-        function loadCharacters(){
-             const charactersJsonFile = `/${encodeURIComponent(game)}/characters.json`;
+        function loadCharacters() {
+            const charactersJsonFile = `/${encodeURIComponent(game)}/characters.json`;
 
-             loadJson(charactersJsonFile).then(charactersData => {
-                 setCharacters(charactersData)
-                 const keys = Object.keys(charactersData)
-                 for(let key of keys){
-                     console.log(charactersData[key].name_en)
-                 }
-             }).catch(e => {
-                 console.error("FAILED TO READ " + charactersJsonFile + "\n" + e)
-                 setCharacters([])
-             })
-
-
-
+            loadJson<any>(charactersJsonFile).then(charactersData => {
+                setCharacters(charactersData)
+            }).catch(e => {
+                console.error("FAILED TO READ " + charactersJsonFile + "\n" + e)
+            })
 
 
         }
 
-        loadLines();loadCharacters()
+        loadLines();
+        loadCharacters()
 
-    },[game])
+    }, [game])
+
 
     return {
         lines,
-        voiceBasePath
+        voiceBasePath,
+        characters,
+        codeLength,
     }
 }
 

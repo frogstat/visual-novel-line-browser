@@ -4,7 +4,7 @@ import SearchBar from "./components/SearchBar.tsx";
 import {useGameView} from "./hooks/useGameView.ts";
 import {useGameData} from "./hooks/useGameData.ts";
 import {useMemo} from "react";
-import {getFilteredList} from "./utils/search.ts";
+import {createListOfMatches} from "./utils/search.ts";
 import {useAudioPlayer} from "./hooks/useAudioPlayer.ts";
 
 type GameViewProps = {
@@ -16,12 +16,14 @@ function GameView({game, unselectGame}: GameViewProps) {
 
     const {
         lines,
-        voiceBasePath
+        voiceBasePath,
+        characters,
+        codeLength
     } = useGameData(game);
 
     const {
-        searchText,
-        setSearchText
+        query,
+        setQuery
     } = useGameView();
 
     const playVoice = useAudioPlayer(voiceBasePath);
@@ -32,8 +34,8 @@ function GameView({game, unselectGame}: GameViewProps) {
         if (!lines) {
             return null;
         }
-        return getFilteredList(lines, searchText);
-    }, [lines, searchText]);
+        return createListOfMatches(lines, query, characters, codeLength);
+    }, [lines, query, characters, codeLength]);
 
     return (
         <>
@@ -43,7 +45,7 @@ function GameView({game, unselectGame}: GameViewProps) {
             />
 
             <SearchBar
-                setSearchText={setSearchText}
+                setQuery={setQuery}
             />
 
             <ResultList
