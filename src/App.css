@@ -40,54 +40,6 @@ input {
     color: black;
 }
 
-
-/**-----------GAME-BOX-------------*/
-
-.game-box {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(2px);
-    background-color: var(--background-light);
-    color: rgb(255 255 255 / 0.79);
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
-    padding: 10px;
-    border-radius: 15px;
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-
-}
-
-/**-----------HEADER----------*/
-
-.header {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-
-    justify-items: start;
-    align-items: start;
-    margin-bottom: 20px;
-
-    .button {
-        justify-self: start;
-        align-self: start;
-    }
-
-    p {
-        margin: 0;
-        font-size: 40px;
-        justify-self: start;
-        align-self: end;
-        font-style: italic;
-    }
-
-    .language-selector-wrapper {
-        justify-self: end;
-        align-self: end;
-    }
-}
-
-
 /** ----------GAME SELECTOR------------------ */
 
 .game-selector-container {
@@ -119,6 +71,55 @@ input {
 }
 
 
+/**-----------GAME-BOX-------------*/
+
+.game-box {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(2px);
+    background-color: var(--background-light);
+    color: rgb(255 255 255 / 0.79);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+    padding: 10px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+
+}
+
+/**-----------HEADER----------*/
+
+.header {
+    background-color: rgb(0 0 0 / 0.2);
+    padding: 10px;
+    border-radius: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+
+    justify-items: start;
+    align-items: start;
+    margin-bottom: 20px;
+
+    .button {
+        justify-self: start;
+        align-self: start;
+    }
+
+    p {
+        margin: 0;
+        font-size: 40px;
+        justify-self: start;
+        align-self: end;
+        font-style: italic;
+    }
+
+    .language-selector-wrapper {
+        justify-self: end;
+        align-self: end;
+    }
+}
+
 /** ----------LANGUAGE SELECTOR---------- */
 .language-selector-container {
 
@@ -149,6 +150,15 @@ input {
 
 .language-tag-active {
     background-color: rgb(73 82 103 / 0.64)
+}
+
+
+/** -----------SEARCH QUERY -----------*/
+
+.search-query-bar{
+    border: none;
+    border-radius: 9999px;
+    padding: 5px 15px 5px 15px;
 }
 
 /** ----------RESULT CARD---------- */

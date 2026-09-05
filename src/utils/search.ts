@@ -37,7 +37,7 @@ export function createListOfMatches(lines: Line[], query: string, characters: an
     }
 
     // TODO: Include all matches for paging, and slice somewhere else
-    return matches.slice(0, 100);
+    return matches;
 
 }
 

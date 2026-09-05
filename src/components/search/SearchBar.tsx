@@ -6,6 +6,7 @@ function SearchBar({setQuery}: SearchBarProps) {
 
     return (
         <input
+            className="search-query-bar"
             type="text"
             placeholder="Search quote..."
             onChange={(e) => setQuery(e.target.value)}
