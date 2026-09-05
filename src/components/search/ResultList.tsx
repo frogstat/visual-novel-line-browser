@@ -1,4 +1,4 @@
-import type {Match} from "../utils/types.ts";
+import type {Match} from "../../utils/types.ts";
 import ResultCard from "./ResultCard.tsx";
 
 type ResultListProps = {
@@ -30,7 +30,7 @@ function ResultList({results, playVoice}: ResultListProps) {
     return (
         <>
             <p>Results: {results?.length}</p>
-            <div className="results-container" style={{border: "5px solid black"}}>
+            <div className="results-container">
 
                 {handleResultsDisplay()}
             </div>

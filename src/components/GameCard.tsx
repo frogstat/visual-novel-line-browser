@@ -11,14 +11,14 @@ const coverStyle = {
     marginTop:10
 }
 
-function GameGrid({game, selectGame}: GameGridProps) {
+function GameCard({game, selectGame}: GameGridProps) {
 
     function resolveGameCover() {
         return `/${encodeURIComponent(game)}/cover.png`
     }
 
     return (
-        <div onClick={selectGame} style={{backgroundColor: "darkcyan", cursor:"pointer", width:"220px",display:"flex", flexDirection:"column", alignItems:"center"}} className="game-grid-container">
+        <div onClick={selectGame} className="game-card">
             <img
                 style={coverStyle}
                 src={resolveGameCover()}
@@ -34,4 +34,4 @@ function GameGrid({game, selectGame}: GameGridProps) {
 
 }
 
-export default GameGrid;
+export default GameCard;

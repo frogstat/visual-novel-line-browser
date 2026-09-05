@@ -1,6 +1,6 @@
 import Header from "./components/Header.tsx";
-import ResultList from "./components/ResultList.tsx";
-import SearchBar from "./components/SearchBar.tsx";
+import ResultList from "./components/search/ResultList.tsx";
+import SearchBar from "./components/search/SearchBar.tsx";
 import {useGameView} from "./hooks/useGameView.ts";
 import {useGameData} from "./hooks/useGameData.ts";
 import {useMemo} from "react";
@@ -43,11 +43,12 @@ function GameView({game, unselectGame}: GameViewProps) {
     }, [lines, query, characters, codeLength, currentLanguage, languages]);
 
     return (
-        <>
+        <div className="game-box">
             <Header
                 returnToGameMenu={unselectGame}
                 gameName={game}
                 languages={languages}
+                currentLanguage={currentLanguage}
                 setCurrentLanguage={setCurrentLanguage}
             />
 
@@ -59,9 +60,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                 results={results}
                 playVoice={playVoice}
             />
-
-
-        </>
+        </div>
     )
 }
 

@@ -1,19 +1,28 @@
+import LanguageSelector from "./LanguageSelector.tsx";
+
 type HeaderProps = {
     returnToGameMenu: () => void;
     gameName: string,
     languages: string[],
+    currentLanguage: string
     setCurrentLanguage: (language: string) => void,
 };
 
-function Header({returnToGameMenu, gameName, languages, setCurrentLanguage}: HeaderProps) {
+function Header({returnToGameMenu, gameName, languages, currentLanguage, setCurrentLanguage}: HeaderProps) {
     return (
-        <>
-            <h1>{gameName}</h1>
-            <button onClick={returnToGameMenu}>Return to menu</button>
-            {languages.length > 1 && <p>Languages available: {languages.map(language =>
-                <button onClick={() => setCurrentLanguage(language)} key={language}>{language.toUpperCase()}</button>
-            )}</p>}
-        </>
+        <div className="header">
+            <button onClick={returnToGameMenu}>← Return to menu</button>
+            <div/>
+            <p>{gameName}</p>
+            {languages.length > 1 &&
+                <div className="language-selector-wrapper">
+                    <LanguageSelector
+                        languages={languages}
+                        currentLanguage={currentLanguage}
+                        setCurrentLanguage={setCurrentLanguage}
+                    />
+                </div>}
+        </div>
     );
 }
 

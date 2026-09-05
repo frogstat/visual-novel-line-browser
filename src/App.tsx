@@ -2,7 +2,7 @@ import './App.css'
 import GameView from "./GameView.tsx";
 import {useState} from "react";
 import {useGameManifest} from "./hooks/useGameManifest.ts"
-import GameGrid from "./components/GameGrid.tsx";
+import GameCard from "./components/GameCard.tsx";
 
 function App() {
     const [game, setGame] = useState<string | null>(null)
@@ -20,27 +20,25 @@ function App() {
         } else {
             return games.map(currentGame =>
                 //
-                <GameGrid selectGame={() => setGame(currentGame)} key={currentGame} game={currentGame}/>
+                <GameCard selectGame={() => setGame(currentGame)} key={currentGame} game={currentGame}/>
             );
         }
     }
 
     if (game) {
         return (
-            <GameView
-                game={game}
-                unselectGame={unselectGame}
-            />
+            <main className="app">
+                <GameView
+                    game={game}
+                    unselectGame={unselectGame}
+                />
+            </main>
         )
     } else {
         return (
             <main className="app">
-                <h1>Line Browser</h1>
-                <div style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, 220px)",
-                    gap: "20px",
-                }} className="container">
+                <h1 style={{textAlign:"center"}}>Line Browser</h1>
+                <div className="game-selector-container">
                     {resolveGameSelectorScreen()}
                 </div>
             </main>
