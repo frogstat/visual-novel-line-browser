@@ -36,6 +36,10 @@ button:active {
     background-color: var(--background-light);
 }
 
+input {
+    color: black;
+}
+
 
 /**-----------GAME-BOX-------------*/
 
