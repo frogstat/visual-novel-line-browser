@@ -4,6 +4,7 @@ import {loadJson} from "../utils/loadJson.ts";
 const DEFAULT_VOLUME: number = 0.3;
 
 export function useMusicPlayer(baseMusicPath: string) {
+
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [tracks, setTracks] = useState<string[]>([]);
     const [currentTrack, setCurrentTrack] = useState<string | undefined>();
@@ -12,14 +13,23 @@ export function useMusicPlayer(baseMusicPath: string) {
 
     // 1. Load the manifest whenever the music path changes.
     useEffect(() => {
+        let cancelled = false;
+
         setTracks([]);
         setCurrentTrack(undefined);
         setIsPlaying(false);
 
         loadJson<string[]>(`${baseMusicPath}/manifest.json`)
-            .then(setTracks)
+            .then(musicData => {
+                if (!cancelled) {
+                    setTracks(musicData);
+                }
+            })
             .catch(console.error);
 
+        return () => {
+            cancelled = true;
+        };
     }, [baseMusicPath]);
 
     // 2. Once tracks arrive, kick off playback with a random track.
@@ -40,11 +50,10 @@ export function useMusicPlayer(baseMusicPath: string) {
         audio.volume = volume;
         audioRef.current = audio;
 
-        const playNext = () => setCurrentTrack(prev => pickRandomTrack(tracks, prev));
-        audio.addEventListener("ended", playNext);
+        audio.addEventListener("ended", playNextTrack);
 
         return () => {
-            audio.removeEventListener("ended", playNext);
+            audio.removeEventListener("ended", playNextTrack);
             audio.pause();
             audio.currentTime = 0;
             if (audioRef.current === audio) {
@@ -78,6 +87,7 @@ export function useMusicPlayer(baseMusicPath: string) {
         }
     }, [volume]);
 
+    // GUESS WHAT THIS DOES
     function togglePause() {
         setIsPlaying(current => !current);
     }
