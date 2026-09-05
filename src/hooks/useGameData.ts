@@ -9,6 +9,8 @@ export function useGameData(game: string) {
     const [currentLanguage, setCurrentLanguage] = useState<string>("");
 
     const voiceBasePath: string = `/${encodeURIComponent(game)}/voice`;
+    const musicBasePath: string = `/${encodeURIComponent(game)}/music`;
+
     const codeLength = characters
         ? Object.keys(characters)[0]?.length ?? 0
         : 0;
@@ -66,6 +68,7 @@ export function useGameData(game: string) {
     return {
         lines,
         voiceBasePath,
+        musicBasePath,
         characters,
         codeLength,
         languages,

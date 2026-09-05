@@ -6,6 +6,7 @@ import {useGameData} from "./hooks/useGameData.ts";
 import {useMemo} from "react";
 import {createListOfMatches} from "./utils/search.ts";
 import {useAudioPlayer} from "./hooks/useAudioPlayer.ts";
+import {useMusicPlayer} from "./hooks/useMusicPlayer.ts";
 
 
 type GameViewProps = {
@@ -18,6 +19,7 @@ function GameView({game, unselectGame}: GameViewProps) {
     const {
         lines,
         voiceBasePath,
+        musicBasePath,
         characters,
         codeLength,
         languages,
@@ -25,14 +27,21 @@ function GameView({game, unselectGame}: GameViewProps) {
         setCurrentLanguage
     } = useGameData(game);
 
-    //const cycleLanguage = useCycleLanguage(currentLanguage, setCurrentLanguage, languages)
-
     const {
         query,
         setQuery
     } = useGameView();
 
     const playVoice = useAudioPlayer(voiceBasePath);
+
+    const {
+        currentTrack,
+        volume,
+        setVolume,
+        isPlaying,
+        togglePause,
+        playNextTrack
+    } = useMusicPlayer(musicBasePath);
 
 
     const results = useMemo(() => {
@@ -43,6 +52,7 @@ function GameView({game, unselectGame}: GameViewProps) {
     }, [lines, query, characters, codeLength, currentLanguage, languages]);
 
     return (
+
         <div className="game-box">
             <Header
                 returnToGameMenu={unselectGame}
@@ -50,6 +60,14 @@ function GameView({game, unselectGame}: GameViewProps) {
                 languages={languages}
                 currentLanguage={currentLanguage}
                 setCurrentLanguage={setCurrentLanguage}
+                musicProps={{
+                    currentTrack,
+                    volume,
+                    setVolume,
+                    isPlaying,
+                    togglePause,
+                    playNextTrack
+                }}
             />
 
             <SearchBar
