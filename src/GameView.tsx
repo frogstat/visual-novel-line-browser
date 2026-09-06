@@ -20,8 +20,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         lines,
         voiceBasePath,
         musicBasePath,
-        characters,
-        codeLength,
+        //characters,
         languages,
         currentLanguage,
         setCurrentLanguage
@@ -45,12 +44,12 @@ function GameView({game, unselectGame}: GameViewProps) {
     } = useMusicPlayer(musicBasePath);
 
 
-    const results = useMemo(() => {
+    const resultIndices: number[] | null = useMemo(() => {
         if (!lines) {
             return null;
         }
-        return createListOfMatches(lines, query, characters, codeLength, currentLanguage, languages);
-    }, [lines, query, characters, codeLength, currentLanguage, languages]);
+        return createListOfMatches(lines, query, languages);
+    }, [lines, query, languages]);
 
     return (
 
@@ -77,7 +76,9 @@ function GameView({game, unselectGame}: GameViewProps) {
             />
 
             <ResultList
-                results={results}
+                resultIndices={resultIndices}
+                lines={lines}
+                currentLanguage={currentLanguage}
                 playVoice={playVoice}
             />
         </div>

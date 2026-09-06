@@ -1,15 +1,12 @@
-import type {Languages, Line, Match} from "./types.ts";
-import {
-    resolveSpeaker,
-    resolveTextFromLanguage
-} from "./lineParser.ts";
+import type {Line} from "./types.ts";
 import {getFileWithoutExtension} from "./generalUtils.ts";
 
 
-export function createListOfMatches(lines: Line[], query: string, characters: any, codeLength: number, language: string, languages: Languages): Match[] {
+export function createListOfMatches(lines: Line[], query: string, languages: String[]): number[] {
+
 
     const q = query.trim().toLowerCase();
-    const matches = [];
+    const matches: number[] = [];
 
     for (let i = 0; i < lines.length; i++) {
 
@@ -27,12 +24,7 @@ export function createListOfMatches(lines: Line[], query: string, characters: an
         // It's not guaranteed that speaker_en exists, and it should be possible to add speaker_ch if so desired.
 
 
-        matches.push({
-            index: i,
-            speaker: resolveSpeaker(lines[i].voice_file, characters, codeLength, language, lines[i]) ?? null,
-            text: resolveTextFromLanguage(lines[i], language) ?? null,
-            voiceFile: lines[i].voice_file ?? null,
-        })
+        matches.push(i)
 
     }
 
@@ -42,7 +34,7 @@ export function createListOfMatches(lines: Line[], query: string, characters: an
 }
 
 
-function lineMatchesQuery(line: Line, query: string, languages: Languages): boolean {
+function lineMatchesQuery(line: Line, query: string, languages: String[]): boolean {
 
     // Lack of search query means that everything matches.
     if (!query) {

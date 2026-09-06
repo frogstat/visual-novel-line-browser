@@ -4,11 +4,8 @@ export type Line = {
     voice_file: string | null | undefined;
 };
 
-export type Match = {
-    index: number;
-    speaker: string | null;
-    text: string | null;
-    voiceFile: string | null;
-}
+export type Character = {
+    [key: `name_${string}`]: string | null | undefined;
+};
 
-export type Languages = string[];
+export type Characters = Record<string, Character>;

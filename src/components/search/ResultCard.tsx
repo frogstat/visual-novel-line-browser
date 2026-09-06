@@ -1,52 +1,35 @@
-import type {Match} from "../../utils/types.ts";
-
 import {getFileWithoutExtension} from "../../utils/generalUtils.ts";
+import type {Line} from "../../utils/types.ts";
 
 type ResultCardProp = {
-    line: Match
-    playVoice: (voiceFile: string | null | undefined) => void
-
+    line: Line,
+    playVoice: (voiceFile: string | null | undefined) => void,
+    currentLanguage: string
 }
 
-function ResultCard({line, playVoice}: ResultCardProp) {
+function ResultCard({line, playVoice, currentLanguage}: ResultCardProp) {
+
+
 
     return (
         <div className="result-card">
             <div className="result-card-header">
-                <p>{line.speaker || ""}</p>
+                <p>{line[`speaker_${currentLanguage}`] || ""}</p>
                 <div className="result-card-actions">
-                    {line.voiceFile && (
+                    {line.voice_file && (
                         <>
-                            <p>{getFileWithoutExtension(line.voiceFile)}</p>
-                            <button onClick={() => playVoice(line.voiceFile)}>Play</button>
+                            <p>{getFileWithoutExtension(line.voice_file)}</p>
+                            <button onClick={() => playVoice(line.voice_file)}>Play</button>
                         </>
                     )}
                     <button>Context</button>
                 </div>
             </div>
             <div className="result-card-line">
-                <p>{line.text  || ""}</p>
+                <p>{line[`text_${currentLanguage}`] || ""}</p>
             </div>
         </div>
     );
-
-    // return (
-    //     <div className="result-card">
-    //         <div className="result-card-quote">
-    //             <p>{line.speaker || ""}</p>
-    //             <p>{line.text  || "f"}</p>
-    //         </div>
-    //         <div className="result-card-actions">
-    //             {line.voiceFile && (
-    //                 <>
-    //                     <p>{getFileWithoutExtension(line.voiceFile)}</p>
-    //                     <button onClick={() => playVoice(line.voiceFile)}>Play</button>
-    //                 </>
-    //             )}
-    //         </div>
-    //     </div>
-    // );
-
 
 }
 
