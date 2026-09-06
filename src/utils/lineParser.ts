@@ -44,12 +44,3 @@ export function resolveSpeaker(voiceFile: string | undefined | null, characters:
         ?? resolveSpeakerFromLine(line, language);
 }
 
-export function formatVoiceFile(voiceFile: string) {
-    const extensionIndex = voiceFile.lastIndexOf(".");
-
-    if (extensionIndex === -1) {
-        return voiceFile;
-    }
-
-    return voiceFile.substring(0, extensionIndex);
-}

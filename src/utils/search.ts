@@ -1,9 +1,9 @@
 import type {Languages, Line, Match} from "./types.ts";
 import {
-    formatVoiceFile,
     resolveSpeaker,
     resolveTextFromLanguage
 } from "./lineParser.ts";
+import {getFileWithoutExtension} from "./generalUtils.ts";
 
 
 export function createListOfMatches(lines: Line[], query: string, characters: any, codeLength: number, language: string, languages: Languages): Match[] {
@@ -51,7 +51,7 @@ function lineMatchesQuery(line: Line, query: string, languages: Languages): bool
 
     // Direct matches for voice lines should always show.
     const voiceFile = line.voice_file?.toLowerCase()
-    if (voiceFile && formatVoiceFile(voiceFile) === query) {
+    if (voiceFile && getFileWithoutExtension(voiceFile) === query) {
         return true;
     }
 

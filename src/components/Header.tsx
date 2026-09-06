@@ -43,7 +43,7 @@ function Header({
         <div className="header">
             <button onClick={returnToGameMenu}>← Return to menu</button>
             {resolveColumn()}
-            <p>{gameName}</p>
+            <p className="game-title">{gameName}</p>
             {languages.length > 1 &&
                 <div className="language-selector-wrapper">
                     <LanguageSelector

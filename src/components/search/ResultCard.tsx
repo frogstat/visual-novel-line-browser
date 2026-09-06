@@ -1,5 +1,6 @@
 import type {Match} from "../../utils/types.ts";
-import {formatVoiceFile} from "../../utils/lineParser.ts";
+
+import {getFileWithoutExtension} from "../../utils/generalUtils.ts";
 
 type ResultCardProp = {
     line: Match
@@ -18,7 +19,7 @@ function ResultCard({line, playVoice}: ResultCardProp) {
             <div className="result-card-actions">
                 {line.voiceFile && (
                     <>
-                        <p>{formatVoiceFile(line.voiceFile)}</p>
+                        <p>{getFileWithoutExtension(line.voiceFile)}</p>
                         <button onClick={() => playVoice(line.voiceFile)}>Play</button>
                     </>
                 )}

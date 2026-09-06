@@ -22,7 +22,6 @@ body {
 button {
     color: black;
     border: none;
-    border-radius: 10px;
     padding: 5px;
     background-color: var(--background-heavy);
 }
@@ -34,6 +33,7 @@ button:hover {
 
 button:active {
     background-color: var(--background-light);
+    transform: translateY(1px);
 }
 
 input {
@@ -106,7 +106,7 @@ input {
         align-self: start;
     }
 
-    p {
+    .game-title {
         margin: 0;
         font-size: 40px;
         justify-self: start;
@@ -125,6 +125,60 @@ input {
     }
 }
 
+/** ----------AUDIO PLAYER-----------------*/
+
+.audio-player-container{
+    background-color: var(--background-medium);
+    padding: 10px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 220px;
+    box-sizing: border-box;
+}
+
+.track-title{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    text-align: right;
+    font-size: 12px;
+    margin: 0 0 8px;
+}
+
+.audio-controls {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.buttons {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.audio-player-button {
+    height: 24px;
+    width: 24px;
+    padding: 0;
+    border-radius: 5px;
+    margin-right: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.audio-player-button img {
+    width: 14px;
+    height: 14px;
+}
+
+.volume-slider {
+    margin: 0;
+    width: 100%;
+}
+
 /** ----------LANGUAGE SELECTOR---------- */
 .language-selector-container {
 
@@ -133,7 +187,7 @@ input {
     padding: 5px;
     gap: 10px;
     border-radius: 25px;
-    border: 1px solid black;
+
     background: var(--background-heavy);
 }
 
@@ -142,7 +196,7 @@ input {
     background: transparent;
     border: 0;
     border-radius: 15px;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
     width: 60px;
     transition: background 120ms ease, color 120ms ease;
@@ -164,6 +218,21 @@ input {
     border: none;
     border-radius: 9999px;
     padding: 5px 15px 5px 15px;
+}
+
+/** ----------RESULT LIST-----------*/
+
+.result-list-info{
+    display: flex;
+    justify-content: space-between;
+}
+
+.result-list-info-buttons{
+    button{
+        width: 100px;
+        margin-right: 10px;
+        border-radius: 9999px;
+    }
 }
 
 /** ----------RESULT CARD---------- */

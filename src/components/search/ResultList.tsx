@@ -6,11 +6,11 @@ type ResultListProps = {
     playVoice: (voiceFile: string | null | undefined) => void
 }
 
-const maxResults:number = 50;
+const maxResults: number = 50;
 
 function ResultList({results, playVoice}: ResultListProps) {
 
-    function handleResultsDisplay() {
+    function getResultList() {
         if (results === null) {
             return <p>Loading...</p>
         }
@@ -20,7 +20,7 @@ function ResultList({results, playVoice}: ResultListProps) {
         }
 
         return (
-            results.slice(0,maxResults).map((result: Match) =>
+            results.slice(0, maxResults).map((result: Match) =>
                 <ResultCard
                     key={result.index}
                     line={result}
@@ -30,13 +30,17 @@ function ResultList({results, playVoice}: ResultListProps) {
     }
 
     return (
-        <>
-            <p>Results: {results ? results.length : 0}</p>
-            <div className="results-container">
-
-                {handleResultsDisplay()}
+        <div className="results-container">
+            <div className="result-list-info">
+                <p>Results: {results ? results.length : 0}</p>
+                <div className="result-list-info-buttons">
+                    <button>Previous</button>
+                    <button>Next</button>
+                </div>
             </div>
-        </>
+            {getResultList()}
+        </div>
+
     );
 }
 
