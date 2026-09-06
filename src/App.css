@@ -241,7 +241,6 @@ input {
 }
 
 .result-list-info{
-    border: solid rgb(255 0 0 / 0.18) 1px;
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
@@ -250,10 +249,13 @@ input {
 
 .result-list-info-buttons{
     display: flex;
+    flex-direction: row;
+
     button{
-        width: 100px;
-        height: 30px;
-        border-radius: 9999px;
+        padding: 0;
+        width: 40px;
+        height: 25px;
+        border-radius: 7px;
     }
     p{
         margin: 0 10px;
@@ -264,9 +266,6 @@ input {
 /** ----------RESULT CARD---------- */
 
 .result-card {
-    display: flex;
-    justify-content: space-between;
-
     border-radius: 10px;
     margin-bottom: 5px;
     padding: 10px;
@@ -283,6 +282,12 @@ input {
 .result-card:hover {
     background-color: var(--background-medium);
     transition: 120ms ease;
+}
+
+.result-card-header{
+    min-height: 50%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .result-card-actions {

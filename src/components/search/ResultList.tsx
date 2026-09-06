@@ -43,9 +43,9 @@ function ResultList({results, playVoice}: ResultListProps) {
             <div className="result-list-info">
                 <p>{(results?.length ?? 0) === 0 ? 0 : currentPageStartIndex + 1} - {currentPageEndIndex} of {results?.length ?? 0}</p>
                 <div className="result-list-info-buttons">
-                    <button onClick={goToPreviousPage}>Previous</button>
+                    <button onClick={goToPreviousPage}>←</button>
                     <p>page {currentPage} of {totalPages}</p>
-                    <button onClick={goToNextPage}>Next</button>
+                    <button onClick={goToNextPage}>→</button>
                 </div>
             </div>
             <div className={"result-list " + (!results || results.length === 0 ? "result-list-closed" : "")}>

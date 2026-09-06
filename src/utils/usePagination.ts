@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-const MAX_RESULTS_PER_PAGE = 10;
+const MAX_RESULTS_PER_PAGE = 30;
 
 export function usePagination(numberOfResults: number) {
     const [currentPage, setCurrentPage] = useState(1);
