@@ -1,14 +1,38 @@
 import type {Match} from "../../utils/types.ts";
 import ResultCard from "./ResultCard.tsx";
+import {useEffect, useState} from "react";
 
 type ResultListProps = {
     results: Match[] | null
     playVoice: (voiceFile: string | null | undefined) => void
 }
 
-const maxResults: number = 50;
+const maxResults: number = 10;
 
 function ResultList({results, playVoice}: ResultListProps) {
+
+    const [currentStartIndex, setCurrentStartIndex] = useState(0);
+
+    useEffect(() => {
+        setCurrentStartIndex(0);
+    }, [results]);
+
+    function nextPage() {
+        if (!results) {
+            return;
+        }
+        if (currentStartIndex + maxResults > results.length - 1) {
+            return;
+        }
+        setCurrentStartIndex(prevState => prevState + maxResults)
+    }
+
+    function previousPage() {
+        if (currentStartIndex === 0) {
+            return;
+        }
+        setCurrentStartIndex(prevState => prevState - maxResults)
+    }
 
     function getResultList() {
         if (results === null) {
@@ -20,7 +44,7 @@ function ResultList({results, playVoice}: ResultListProps) {
         }
 
         return (
-            results.slice(0, maxResults).map((result: Match) =>
+            results.slice(currentStartIndex, currentStartIndex + maxResults).map((result: Match) =>
                 <ResultCard
                     key={result.index}
                     line={result}
@@ -32,10 +56,14 @@ function ResultList({results, playVoice}: ResultListProps) {
     return (
         <div className="results-container">
             <div className="result-list-info">
-                <p>Results: {results ? results.length : 0}</p>
+                <p>
+                    {results ? `${currentStartIndex + 1} - ${currentStartIndex + maxResults} of ${results.length + 1} results` : ""}
+                </p>
                 <div className="result-list-info-buttons">
-                    <button>Previous</button>
-                    <button>Next</button>
+                    <button onClick={previousPage}>Previous</button>
+                    {results &&
+                        <p>page {currentStartIndex / maxResults + 1} of {Math.floor(results.length / maxResults + 1)}</p>}
+                    <button onClick={nextPage}>Next</button>
                 </div>
             </div>
             {getResultList()}
