@@ -7,14 +7,26 @@ type HeaderProps = {
     languages: string[],
     currentLanguage: string
     setCurrentLanguage: (language: string) => void,
-    musicProps: any
-
+    musicProps: any,
+    tracks: string[]
 };
 
-function Header({returnToGameMenu, gameName, languages, currentLanguage, setCurrentLanguage, musicProps}: HeaderProps) {
-    return (
-        <div className="header">
-            <button onClick={returnToGameMenu}>← Return to menu</button>
+function Header({
+                    returnToGameMenu,
+                    gameName,
+                    languages,
+                    currentLanguage,
+                    setCurrentLanguage,
+                    musicProps,
+                    tracks
+                }: HeaderProps) {
+
+    function resolveColumn() {
+        if (!tracks || tracks.length === 0) {
+            return <div/>
+        }
+
+        return (
             <AudioPlayer
                 currentTrack={musicProps.currentTrack}
                 volume={musicProps.volume}
@@ -23,6 +35,14 @@ function Header({returnToGameMenu, gameName, languages, currentLanguage, setCurr
                 playNextTrack={musicProps.playNextTrack}
                 togglePause={musicProps.togglePause}
             />
+        )
+    }
+
+
+    return (
+        <div className="header">
+            <button onClick={returnToGameMenu}>← Return to menu</button>
+            {resolveColumn()}
             <p>{gameName}</p>
             {languages.length > 1 &&
                 <div className="language-selector-wrapper">

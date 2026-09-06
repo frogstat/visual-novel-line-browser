@@ -35,6 +35,7 @@ function GameView({game, unselectGame}: GameViewProps) {
     const playVoice = useAudioPlayer(voiceBasePath);
 
     const {
+        tracks,
         currentTrack,
         volume,
         setVolume,
@@ -60,6 +61,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                 languages={languages}
                 currentLanguage={currentLanguage}
                 setCurrentLanguage={setCurrentLanguage}
+                tracks={tracks}
                 musicProps={{
                     currentTrack,
                     volume,

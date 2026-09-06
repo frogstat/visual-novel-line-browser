@@ -118,6 +118,11 @@ input {
         justify-self: end;
         align-self: end;
     }
+
+    .audio-player-container{
+        justify-self: end;
+        align-self: start;
+    }
 }
 
 /** ----------LANGUAGE SELECTOR---------- */

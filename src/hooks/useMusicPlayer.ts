@@ -7,6 +7,8 @@ export function useMusicPlayer(baseMusicPath: string) {
 
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [tracks, setTracks] = useState<string[]>([]);
+    const [failedTracks, setFailedTracks] = useState<string[]>([]);
+
     const [currentTrack, setCurrentTrack] = useState<string | undefined>();
     const [volume, setVolume] = useState<number>(DEFAULT_VOLUME);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -16,6 +18,7 @@ export function useMusicPlayer(baseMusicPath: string) {
         let cancelled = false;
 
         setTracks([]);
+        setFailedTracks([]);
         setCurrentTrack(undefined);
         setIsPlaying(false);
 
@@ -25,7 +28,7 @@ export function useMusicPlayer(baseMusicPath: string) {
                     setTracks(musicData);
                 }
             })
-            .catch(console.error);
+            .catch(() => console.log("No music found"));
 
         return () => {
             cancelled = true;
@@ -37,7 +40,7 @@ export function useMusicPlayer(baseMusicPath: string) {
         if (tracks.length === 0) {
             return;
         }
-        setCurrentTrack(pickRandomTrack(tracks, undefined));
+        playRandomTrack();
         setIsPlaying(true);
     }, [tracks]);
 
@@ -46,14 +49,17 @@ export function useMusicPlayer(baseMusicPath: string) {
         if (!currentTrack) {
             return;
         }
+
         const audio = new Audio(`${baseMusicPath}/${currentTrack}`);
         audio.volume = volume;
         audioRef.current = audio;
 
-        audio.addEventListener("ended", playNextTrack);
+        audio.addEventListener("ended", playRandomTrack);
+        audio.addEventListener("error", handleError);
 
         return () => {
-            audio.removeEventListener("ended", playNextTrack);
+            audio.removeEventListener("ended", playRandomTrack);
+            audio.removeEventListener("error", handleError);
             audio.pause();
             audio.currentTime = 0;
             if (audioRef.current === audio) {
@@ -61,6 +67,14 @@ export function useMusicPlayer(baseMusicPath: string) {
             }
         };
     }, [currentTrack, baseMusicPath]);
+
+    function handleError() {
+        console.error(`Failed to load track: ${currentTrack}`)
+        if (currentTrack) {
+            setFailedTracks(prev => [...prev, currentTrack]);
+        }
+        playRandomTrack();
+    }
 
 
     // 4. Single source of truth for actually playing/pausing.
@@ -87,34 +101,55 @@ export function useMusicPlayer(baseMusicPath: string) {
         }
     }, [volume]);
 
+    // 6. All failed tracks will be treated as no tracks, and the same code for no music works to remove the player.
+    useEffect(() => {
+        if (failedTracks.length === 0 || tracks.length === 0) {
+            return;
+        }
+        if (failedTracks.length === tracks.length) {
+            setTracks([]);
+        }
+    }, [failedTracks, tracks]);
+
     // GUESS WHAT THIS DOES
     function togglePause() {
         setIsPlaying(current => !current);
     }
 
-    function playNextTrack() {
-        setCurrentTrack(prev => pickRandomTrack(tracks, prev));
+    function playRandomTrack() {
+        setCurrentTrack(prev => {
+            try {
+                return pickRandomTrack(tracks, prev, failedTracks)
+            } catch (error) {
+                console.error("Couldn't find valid track");
+                setIsPlaying(false);
+                return undefined;
+            }
+        });
     }
 
+
     return {
+        tracks,
         currentTrack,
         volume,
         setVolume,
         isPlaying,
         togglePause,
-        playNextTrack
+        playNextTrack: playRandomTrack
     };
 }
 
-function pickRandomTrack(tracks: string[], excludeTrack: string | undefined): string {
-    if (tracks.length === 0) {
-        throw new Error("Cannot pick a track from an empty list.");
+function pickRandomTrack(tracks: string[], excludeTrack: string | undefined, failedTracks: string[]): string {
+    const candidates = tracks.filter(track => track !== excludeTrack && !failedTracks.includes(track));
+
+    if (candidates.length === 0) {
+        throw new Error("Could not find any valid tracks.");
     }
-    if (tracks.length === 1) {
-        return tracks[0];
+
+    if (candidates.length === 1) {
+        return candidates[0];
     }
-    const candidates = excludeTrack === undefined
-        ? tracks
-        : tracks.filter(track => track !== excludeTrack);
+
     return candidates[Math.floor(Math.random() * candidates.length)];
 }
