@@ -203,7 +203,7 @@ input {
     font-size: 16px;
     font-weight: 500;
     width: 60px;
-    transition: background 120ms ease, color 120ms ease;
+    transition: 320ms ease;
     text-align: center;
 }
 
@@ -212,7 +212,8 @@ input {
 }
 
 .language-tag-active {
-    background-color: rgb(73 82 103 / 0.64)
+    background-color: rgb(73 82 103 / 0.64);
+    transition: 500ms ease;
 }
 
 
@@ -225,6 +226,19 @@ input {
 }
 
 /** ----------RESULT LIST-----------*/
+.result-list{
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 500ms ease;
+}
+
+.result-list-closed{
+    grid-template-rows: 0fr;
+}
+
+.result-list-content{
+    overflow: hidden;
+}
 
 .result-list-info{
     border: solid rgb(255 0 0 / 0.18) 1px;

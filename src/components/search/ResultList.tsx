@@ -1,16 +1,23 @@
 import type {Match} from "../../utils/types.ts";
 import ResultCard from "./ResultCard.tsx";
+import {usePagination} from "../../utils/usePagination.ts";
 
 type ResultListProps = {
     results: Match[] | null
     playVoice: (voiceFile: string | null | undefined) => void
 }
 
-const maxResults: number = 10;
 
 function ResultList({results, playVoice}: ResultListProps) {
 
-
+    const {
+        goToNextPage,
+        goToPreviousPage,
+        currentPage,
+        totalPages,
+        currentPageStartIndex,
+        currentPageEndIndex
+    } = usePagination(results?.length ?? 0);
 
     function getResultList() {
         if (results === null) {
@@ -22,7 +29,7 @@ function ResultList({results, playVoice}: ResultListProps) {
         }
 
         return (
-            results.slice(0, maxResults).map((result: Match) =>
+            results.slice(currentPageStartIndex, currentPageEndIndex).map((result: Match) =>
                 <ResultCard
                     key={result.index}
                     line={result}
@@ -34,17 +41,18 @@ function ResultList({results, playVoice}: ResultListProps) {
     return (
         <div className="results-container">
             <div className="result-list-info">
-                <p>
-                    {results ? `fake - fake of i don't know what I'm doing results` : ""}
-                </p>
+                <p>{(results?.length ?? 0) === 0 ? 0 : currentPageStartIndex + 1} - {currentPageEndIndex} of {results?.length ?? 0}</p>
                 <div className="result-list-info-buttons">
-                    <button>Previous</button>
-                    {results &&
-                        <p>page fake of {Math.floor(results.length / maxResults + 1)}</p>}
-                    <button>Next</button>
+                    <button onClick={goToPreviousPage}>Previous</button>
+                    <p>page {currentPage} of {totalPages}</p>
+                    <button onClick={goToNextPage}>Next</button>
                 </div>
             </div>
-            {getResultList()}
+            <div className={"result-list " + (!results || results.length === 0 ? "result-list-closed" : "")}>
+                <div className="result-list-content">
+                    {getResultList()}
+                </div>
+            </div>
         </div>
 
     );
