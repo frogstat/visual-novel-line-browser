@@ -1,20 +1,20 @@
 import {getFileWithoutExtension} from "../../utils/generalUtils.ts";
 import type {Line} from "../../utils/types.ts";
 
-type ResultCardProp = {
-    lineIndex: number;
-    line: Line,
-    playVoice: (voiceFile: string | null | undefined) => void,
+type ContextCardProps = {
+    line: Line
+    isCurrent: boolean,
     currentLanguage: string,
-    showContextView: (originIndex: number) => void,
+    playVoice: (voiceFile: string | null | undefined) => void,
+    originLineRef: any
 }
 
-function ResultCard({lineIndex, line, playVoice, currentLanguage, showContextView}: ResultCardProp, ) {
-
-
+function ContextCard({line, isCurrent, currentLanguage, playVoice, originLineRef}: ContextCardProps) {
 
     return (
-        <div className="result-card">
+        <div
+            ref={isCurrent ? originLineRef : null}
+            className={"result-card" + (isCurrent ? " context-line-current" : "")}>
             <div className="result-card-left">
                 <p>{line[`speaker_${currentLanguage}`] || ""}</p>
                 <p>{line[`text_${currentLanguage}`] || ""}</p>
@@ -27,11 +27,9 @@ function ResultCard({lineIndex, line, playVoice, currentLanguage, showContextVie
                         <button onClick={() => playVoice(line.voice_file)}>Play</button>
                     </>
                 )}
-                <button onClick={() => showContextView(lineIndex)}>Context</button>
             </div>
         </div>
     );
-
 }
 
-export default ResultCard
+export default ContextCard;

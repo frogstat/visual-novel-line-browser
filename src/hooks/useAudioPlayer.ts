@@ -15,7 +15,9 @@ export function useAudioPlayer(voiceBasePath:string){
 
         const audio = new Audio(`${voiceBasePath}/${voiceFile}`);
         currentAudio.current = audio;
-        audio.play().catch(error => {
+        audio.play().then(() => {
+            console.log("[VOICE] playing " + voiceFile );
+        }).catch(error => {
             console.error(`Failed to play ${voiceBasePath}/${voiceFile}:`, error);
         });
 

@@ -30,6 +30,11 @@ button {
     background-color: var(--background-heavy);
 }
 
+button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
 button:hover {
     background-color: var(--background-medium);
     cursor: pointer;
@@ -268,17 +273,27 @@ input {
 /** ----------RESULT CARD---------- */
 
 .result-card {
-    border-radius: 10px;
-    margin-bottom: 5px;
-    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    padding: 10px 12px;
     flex-direction: row;
     background-color: var(--background-light);
     transition: 120ms ease;
+
 
     p {
         margin: 0;
         color: #f4feff;
     }
+}
+
+.result-card-left{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
 }
 
 .result-card:hover {
@@ -307,5 +322,74 @@ input {
     }
 }
 
-/** ----------RESULT CARD END---------- */
+/** ----------CONTEXT PANEL---------- */
 
+.context-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.context-panel {
+    width: 100%;
+    max-width: 80vw;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    background: #222222;
+    border: 1px solid #292929;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.context-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+}
+
+.context-panel-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.context-close {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: #333;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.context-close:hover {
+    background: #444;
+}
+
+.context-panel-lines {
+    overflow-y: scroll;
+    padding: 10px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.context-line-current{
+    background-color: rgb(173 255 47 / 0.23);
+}

@@ -7,11 +7,12 @@ type ResultListProps = {
     lines: Line[] | null,
     currentLanguage: string,
     playVoice: (voiceFile: string | null | undefined) => void,
-    error: string | null
+    error: string | null,
+    showContextView: (originIndex: number) => void,
 }
 
 
-function ResultList({resultIndices, lines, currentLanguage, playVoice, error}: ResultListProps) {
+function ResultList({resultIndices, lines, currentLanguage, playVoice, error, showContextView}: ResultListProps) {
 
     const {
         goToNextPage,
@@ -42,11 +43,13 @@ function ResultList({resultIndices, lines, currentLanguage, playVoice, error}: R
                     {resultIndices.slice(currentPageStartIndex, currentPageEndIndex).map((resultIndex: number) =>
                         <ResultCard
                             key={resultIndex}
+                            lineIndex={resultIndex}
                             line={lines[resultIndex]}
                             currentLanguage={currentLanguage}
                             playVoice={playVoice}
+                            showContextView={showContextView}
                         />
-                    )};
+                    )}
                 </div>
             </div>
         );

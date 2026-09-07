@@ -1,12 +1,16 @@
 import Header from "./components/Header.tsx";
 import ResultList from "./components/search/ResultList.tsx";
 import SearchBar from "./components/search/SearchBar.tsx";
+import ContextPanel from "./components/search/ContextPanel.tsx";
 import {useGameView} from "./hooks/useGameView.ts";
 import {useGameData} from "./hooks/useGameData.ts";
 import {useMemo} from "react";
 import {createListOfMatches} from "./utils/search.ts";
 import {useAudioPlayer} from "./hooks/useAudioPlayer.ts";
 import {useMusicPlayer} from "./hooks/useMusicPlayer.ts";
+import {useContextView} from "./hooks/useContextView.ts";
+
+
 
 
 type GameViewProps = {
@@ -44,6 +48,15 @@ function GameView({game, unselectGame}: GameViewProps) {
         playNextTrack
     } = useMusicPlayer(musicBasePath);
 
+    const {
+        contextView,
+        showContextView,
+        closeContext,
+        navigateContextView,
+        originLineRef,
+        contextMenuRef
+    } = useContextView(lines?.length ?? 0);
+
 
     const resultIndices: number[] | null = useMemo(() => {
         if (!lines) {
@@ -53,37 +66,54 @@ function GameView({game, unselectGame}: GameViewProps) {
     }, [lines, query, languages]);
 
     return (
+        <main className="app">
+            <div className="game-box">
+                <Header
+                    returnToGameMenu={unselectGame}
+                    gameName={game}
+                    languages={languages}
+                    currentLanguage={currentLanguage}
+                    setCurrentLanguage={setCurrentLanguage}
+                    tracks={tracks}
+                    musicProps={{
+                        currentTrack,
+                        volume,
+                        setVolume,
+                        isPlaying,
+                        togglePause,
+                        playNextTrack
+                    }}
+                />
 
-        <div className="game-box">
-            <Header
-                returnToGameMenu={unselectGame}
-                gameName={game}
-                languages={languages}
-                currentLanguage={currentLanguage}
-                setCurrentLanguage={setCurrentLanguage}
-                tracks={tracks}
-                musicProps={{
-                    currentTrack,
-                    volume,
-                    setVolume,
-                    isPlaying,
-                    togglePause,
-                    playNextTrack
-                }}
-            />
+                <SearchBar
+                    setQuery={setQuery}
+                />
 
-            <SearchBar
-                setQuery={setQuery}
-            />
+                <ResultList
+                    resultIndices={resultIndices}
+                    lines={lines}
+                    currentLanguage={currentLanguage}
+                    playVoice={playVoice}
+                    error={error}
+                    showContextView={showContextView}
+                />
+            </div>
 
-            <ResultList
-                resultIndices={resultIndices}
-                lines={lines}
-                currentLanguage={currentLanguage}
-                playVoice={playVoice}
-                error={error}
-            />
-        </div>
+            {contextView && (
+                <ContextPanel
+                    lines={lines ?? []}
+                    contextView={contextView}
+                    closeContext={closeContext}
+                    navigateContextView={navigateContextView}
+                    languages={languages}
+                    currentLanguage={currentLanguage}
+                    setCurrentLanguage={setCurrentLanguage}
+                    playVoice={playVoice}
+                    originLineRef={originLineRef}
+                    contextMenuRef={contextMenuRef}
+                />
+            )}
+        </main>
     )
 }
 

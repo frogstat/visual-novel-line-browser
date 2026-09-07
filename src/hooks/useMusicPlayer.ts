@@ -40,8 +40,8 @@ export function useMusicPlayer(baseMusicPath: string) {
         if (tracks.length === 0) {
             return;
         }
-        playRandomTrack();
-        setIsPlaying(true);
+        loadRandomTrack();
+        setIsPlaying(false);
     }, [tracks]);
 
     // 3. Create/destroy the Audio element for the current track.
@@ -54,11 +54,11 @@ export function useMusicPlayer(baseMusicPath: string) {
         audio.volume = volume;
         audioRef.current = audio;
 
-        audio.addEventListener("ended", playRandomTrack);
+        audio.addEventListener("ended", loadRandomTrack);
         audio.addEventListener("error", handleError);
 
         return () => {
-            audio.removeEventListener("ended", playRandomTrack);
+            audio.removeEventListener("ended", loadRandomTrack);
             audio.removeEventListener("error", handleError);
             audio.pause();
             audio.currentTime = 0;
@@ -73,7 +73,7 @@ export function useMusicPlayer(baseMusicPath: string) {
         if (currentTrack) {
             setFailedTracks(prev => [...prev, currentTrack]);
         }
-        playRandomTrack();
+        loadRandomTrack();
     }
 
 
@@ -85,7 +85,9 @@ export function useMusicPlayer(baseMusicPath: string) {
             return;
         }
         if (isPlaying) {
-            audio.play().catch(error => {
+            audio.play().then(() =>{
+              console.log("[MUSIC] Playing " + currentTrack);
+            }).catch(error => {
                 console.error(error);
                 setIsPlaying(false);
             });
@@ -116,7 +118,7 @@ export function useMusicPlayer(baseMusicPath: string) {
         setIsPlaying(current => !current);
     }
 
-    function playRandomTrack() {
+    function loadRandomTrack() {
         setCurrentTrack(prev => {
             try {
                 return pickRandomTrack(tracks, prev, failedTracks)
@@ -136,7 +138,7 @@ export function useMusicPlayer(baseMusicPath: string) {
         setVolume,
         isPlaying,
         togglePause,
-        playNextTrack: playRandomTrack
+        playNextTrack: loadRandomTrack
     };
 }
 

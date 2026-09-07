@@ -27,17 +27,15 @@ function App() {
 
     if (game) {
         return (
-            <main className="app">
-                <GameView
-                    game={game}
-                    unselectGame={unselectGame}
-                />
-            </main>
+            <GameView
+                game={game}
+                unselectGame={unselectGame}
+            />
         )
     } else {
         return (
             <main className="app">
-                <h1 style={{textAlign:"center"}}>Line Browser</h1>
+                <h1 style={{textAlign: "center"}}>Line Browser</h1>
                 <div className="game-selector-container">
                     {resolveGameSelectorScreen()}
                 </div>

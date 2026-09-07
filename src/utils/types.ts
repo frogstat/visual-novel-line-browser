@@ -9,3 +9,9 @@ export type Character = {
 };
 
 export type Characters = Record<string, Character>;
+
+export type ContextView = {
+    originIndex: number,
+    centerIndex: number,
+    results: number[]
+}
