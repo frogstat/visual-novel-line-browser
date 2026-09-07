@@ -1,8 +1,10 @@
 import fallback from "../assets/fallback.png"
 import {useState} from "react";
+import type {Game} from "../utils/types.ts";
+
 
 type GameGridProps = {
-    game: string,
+    game: Game,
     selectGame: () => void
 }
 
@@ -17,7 +19,7 @@ function GameCard({game, selectGame}: GameGridProps) {
     const [imageSrc, setImageSrc] = useState(resolveGameCover());
 
     function resolveGameCover() {
-        return `/${encodeURIComponent(game)}/cover.png`
+        return `/${encodeURIComponent(game.folderName)}/cover.png`
     }
 
     return (
@@ -31,7 +33,7 @@ function GameCard({game, selectGame}: GameGridProps) {
                         setImageSrc(fallback);
                     }
                 }}/>
-            <p>{game}</p>
+            <p>{game.title}</p>
         </div>
 
     );

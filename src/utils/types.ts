@@ -15,3 +15,8 @@ export type ContextView = {
     centerIndex: number,
     results: number[]
 }
+
+export type Game = {
+    folderName: string,
+    title: string
+}

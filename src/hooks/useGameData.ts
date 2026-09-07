@@ -3,17 +3,26 @@ import type {Characters, Line} from "../utils/types.ts";
 import {loadJson} from "../utils/loadJson.ts";
 import {resolveSpeaker} from "../utils/lineParser.ts";
 
-export function useGameData(game: string) {
+function resolveAudioFolder(gameFolder: string): string {
+    if (gameFolder.endsWith(" ALTFOLDER")) {
+        return gameFolder.slice(0, -" ALTFOLDER".length);
+    }
+
+    return gameFolder;
+}
+
+export function useGameData(gameFolder: string) {
     const [lines, setLines] = useState<Line[] | null>(null);
     const [characters, setCharacters] = useState<Characters | null>(null);
     const [languages, setLanguages] = useState<string[]>([]);
     const [currentLanguage, setCurrentLanguage] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
 
-    const voiceBasePath: string = `/${encodeURIComponent(game)}/voice`;
-    const musicBasePath: string = `/${encodeURIComponent(game)}/music`;
+    const audioFolder = encodeURIComponent(resolveAudioFolder(gameFolder));
+    const voiceBasePath: string = `/${audioFolder}/voice`;
+    const musicBasePath: string = `/${audioFolder}/music`;
 
-    const gamePath: string = encodeURIComponent(game)
+    const gamePath: string = encodeURIComponent(gameFolder)
 
     useEffect(() => {
         setLines(null);
@@ -58,7 +67,7 @@ export function useGameData(game: string) {
 
         loadData();
 
-    }, [game])
+    }, [gameFolder])
 
 
     return {

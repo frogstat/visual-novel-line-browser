@@ -9,12 +9,14 @@ import {createListOfMatches} from "./utils/search.ts";
 import {useAudioPlayer} from "./hooks/useAudioPlayer.ts";
 import {useMusicPlayer} from "./hooks/useMusicPlayer.ts";
 import {useContextView} from "./hooks/useContextView.ts";
+import type {Game} from "./utils/types.ts";
+
 
 
 
 
 type GameViewProps = {
-    game: string;
+    game: Game;
     unselectGame: () => void
 };
 
@@ -29,7 +31,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         currentLanguage,
         setCurrentLanguage,
         error
-    } = useGameData(game);
+    } = useGameData(game.folderName);
 
     const {
         query,
@@ -70,7 +72,7 @@ function GameView({game, unselectGame}: GameViewProps) {
             <div className="game-box">
                 <Header
                     returnToGameMenu={unselectGame}
-                    gameName={game}
+                    gameName={game.title}
                     languages={languages}
                     currentLanguage={currentLanguage}
                     setCurrentLanguage={setCurrentLanguage}
