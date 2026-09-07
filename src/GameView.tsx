@@ -23,7 +23,8 @@ function GameView({game, unselectGame}: GameViewProps) {
         //characters,
         languages,
         currentLanguage,
-        setCurrentLanguage
+        setCurrentLanguage,
+        error
     } = useGameData(game);
 
     const {
@@ -80,6 +81,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                 lines={lines}
                 currentLanguage={currentLanguage}
                 playVoice={playVoice}
+                error={error}
             />
         </div>
     )

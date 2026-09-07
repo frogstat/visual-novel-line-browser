@@ -4,13 +4,14 @@ import {usePagination} from "../../hooks/usePagination.ts";
 
 type ResultListProps = {
     resultIndices: number[] | null,
-    lines:Line[] | null,
-    currentLanguage:string,
-    playVoice: (voiceFile: string | null | undefined) => void
+    lines: Line[] | null,
+    currentLanguage: string,
+    playVoice: (voiceFile: string | null | undefined) => void,
+    error: string | null
 }
 
 
-function ResultList({resultIndices, lines, currentLanguage, playVoice}: ResultListProps) {
+function ResultList({resultIndices, lines, currentLanguage, playVoice, error}: ResultListProps) {
 
     const {
         goToNextPage,
@@ -22,6 +23,10 @@ function ResultList({resultIndices, lines, currentLanguage, playVoice}: ResultLi
     } = usePagination(resultIndices?.length ?? 0);
 
     function getResultList() {
+        if(error){
+            return <p style={{color: "yellow"}}>{error}</p>
+        }
+
         if (resultIndices === null || lines === null) {
             return <p>Loading...</p>
         }
@@ -31,14 +36,20 @@ function ResultList({resultIndices, lines, currentLanguage, playVoice}: ResultLi
         }
 
         return (
-            resultIndices.slice(currentPageStartIndex, currentPageEndIndex).map((resultIndex:number) =>
-                <ResultCard
-                    key={resultIndex}
-                    line={lines[resultIndex]}
-                    currentLanguage={currentLanguage}
-                    playVoice={playVoice}
-                />
-            ));
+            <div
+                className={"result-list " + (!resultIndices || resultIndices.length === 0 ? "result-list-closed" : "")}>
+                <div className="result-list-content">
+                    {resultIndices.slice(currentPageStartIndex, currentPageEndIndex).map((resultIndex: number) =>
+                        <ResultCard
+                            key={resultIndex}
+                            line={lines[resultIndex]}
+                            currentLanguage={currentLanguage}
+                            playVoice={playVoice}
+                        />
+                    )};
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -51,11 +62,9 @@ function ResultList({resultIndices, lines, currentLanguage, playVoice}: ResultLi
                     <button onClick={goToNextPage}>→</button>
                 </div>
             </div>
-            <div className={"result-list " + (!resultIndices || resultIndices.length === 0 ? "result-list-closed" : "")}>
-                <div className="result-list-content">
-                    {getResultList()}
-                </div>
-            </div>
+
+            {getResultList()}
+
         </div>
 
     );

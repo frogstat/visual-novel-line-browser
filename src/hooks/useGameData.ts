@@ -8,6 +8,7 @@ export function useGameData(game: string) {
     const [characters, setCharacters] = useState<Characters | null>(null);
     const [languages, setLanguages] = useState<string[]>([]);
     const [currentLanguage, setCurrentLanguage] = useState<string>("");
+    const [error, setError] = useState<string | null>(null);
 
     const voiceBasePath: string = `/${encodeURIComponent(game)}/voice`;
     const musicBasePath: string = `/${encodeURIComponent(game)}/music`;
@@ -46,7 +47,8 @@ export function useGameData(game: string) {
                 setLines(normalizedLinesData)
 
 
-            } catch (Error) {
+            } catch (Error: Error | any) {
+                setError(Error.toString());
                 console.error(Error);
                 setLines([]);
                 setCharacters(null);
@@ -66,7 +68,8 @@ export function useGameData(game: string) {
         characters,
         languages,
         currentLanguage,
-        setCurrentLanguage
+        setCurrentLanguage,
+        error
     }
 }
 
