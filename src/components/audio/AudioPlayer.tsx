@@ -7,13 +7,13 @@ import {getFileWithoutExtension} from "../../utils/generalUtils.ts";
 type AudioPlayerProps = {
     currentTrack: string
     volume: number,
-    setVolume: (volume: number) => void,
+    changeVolume: (volume: number) => void,
     playNextTrack: () => void,
     isPlaying: boolean,
     togglePause: () => void
 }
 
-function AudioPlayer({currentTrack, volume, setVolume, playNextTrack, isPlaying, togglePause}: AudioPlayerProps) {
+function AudioPlayer({currentTrack, volume, changeVolume, playNextTrack, isPlaying, togglePause}: AudioPlayerProps) {
     return (
         <div className="audio-player-container">
             <p className="track-title">{currentTrack && getFileWithoutExtension(currentTrack)}</p>
@@ -29,7 +29,7 @@ function AudioPlayer({currentTrack, volume, setVolume, playNextTrack, isPlaying,
                     </button>
                 </div>
 
-                <AudioSlider volume={volume} setVolume={setVolume}/>
+                <AudioSlider volume={volume} changeVolume={changeVolume}/>
             </div>
         </div>
     )

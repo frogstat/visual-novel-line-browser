@@ -1,26 +1,32 @@
 import {useEffect, useRef, useState} from "react";
 import {loadJson} from "../utils/loadJson.ts";
 
-const DEFAULT_VOLUME: number = 0.3;
+
 
 export function useMusicPlayer(baseMusicPath: string) {
+
 
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [tracks, setTracks] = useState<string[]>([]);
     const [failedTracks, setFailedTracks] = useState<string[]>([]);
 
-    const [currentTrack, setCurrentTrack] = useState<string | undefined>();
-    const [volume, setVolume] = useState<number>(DEFAULT_VOLUME);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentTrack, setCurrentTrack] = useState<string>("");
+
+    const [volume, setVolume] = useState<number>(() => {
+        const storedVolume = Number(localStorage.getItem("volume"));
+        return Number.isFinite(storedVolume) ? storedVolume : 0.3;
+    });
+
+    const [isPlaying, setIsPlaying] = useState(() => {
+        return localStorage.getItem("playMusic") !== "false";
+    });
 
     // 1. Load the manifest whenever the music path changes.
     useEffect(() => {
         let cancelled = false;
-
         setTracks([]);
         setFailedTracks([]);
-        setCurrentTrack(undefined);
-        setIsPlaying(false);
+        setCurrentTrack("");
 
         loadJson<string[]>(`${baseMusicPath}/manifest.json`)
             .then(musicData => {
@@ -41,7 +47,6 @@ export function useMusicPlayer(baseMusicPath: string) {
             return;
         }
         loadRandomTrack();
-        setIsPlaying(false);
     }, [tracks]);
 
     // 3. Create/destroy the Audio element for the current track.
@@ -115,7 +120,16 @@ export function useMusicPlayer(baseMusicPath: string) {
 
     // GUESS WHAT THIS DOES
     function togglePause() {
-        setIsPlaying(current => !current);
+        setIsPlaying(current => {
+            const newState = !current;
+            localStorage.setItem("playMusic", newState.toString());
+            return newState;
+        });
+    }
+
+    function changeVolume(newVolume: number) {
+        localStorage.setItem("volume", newVolume.toString());
+        setVolume(newVolume);
     }
 
     function loadRandomTrack() {
@@ -125,7 +139,7 @@ export function useMusicPlayer(baseMusicPath: string) {
             } catch (error) {
                 console.error("Couldn't find valid track");
                 setIsPlaying(false);
-                return undefined;
+                return "";
             }
         });
     }
@@ -135,7 +149,7 @@ export function useMusicPlayer(baseMusicPath: string) {
         tracks,
         currentTrack,
         volume,
-        setVolume,
+        changeVolume,
         isPlaying,
         togglePause,
         playNextTrack: loadRandomTrack

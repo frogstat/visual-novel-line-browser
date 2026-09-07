@@ -44,7 +44,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         tracks,
         currentTrack,
         volume,
-        setVolume,
+        changeVolume,
         isPlaying,
         togglePause,
         playNextTrack
@@ -80,7 +80,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                     musicProps={{
                         currentTrack,
                         volume,
-                        setVolume,
+                        changeVolume,
                         isPlaying,
                         togglePause,
                         playNextTrack

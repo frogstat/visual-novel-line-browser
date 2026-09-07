@@ -30,7 +30,7 @@ function Header({
             <AudioPlayer
                 currentTrack={musicProps.currentTrack}
                 volume={musicProps.volume}
-                setVolume={musicProps.setVolume}
+                changeVolume={musicProps.changeVolume}
                 isPlaying={musicProps.isPlaying}
                 playNextTrack={musicProps.playNextTrack}
                 togglePause={musicProps.togglePause}

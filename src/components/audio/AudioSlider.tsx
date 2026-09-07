@@ -1,17 +1,17 @@
 type AudioSliderProps = {
     volume: number,
-    setVolume(volume: number): void
+    changeVolume(volume: number): void
 }
 
 
-function AudioSlider({volume, setVolume}: AudioSliderProps) {
+function AudioSlider({volume, changeVolume}: AudioSliderProps) {
 
     return (
         <input className="volume-slider"
                onChange={e =>
-                   setVolume(Number(e.target.value))
+                   changeVolume(Number(e.target.value))
                }
-               defaultValue={volume}
+               value={volume}
                min="0"
                max="1"
                step="0.01"
