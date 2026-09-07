@@ -26,7 +26,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         lines,
         voiceBasePath,
         musicBasePath,
-        //characters,
+        characters,
         languages,
         currentLanguage,
         setCurrentLanguage,
@@ -89,6 +89,8 @@ function GameView({game, unselectGame}: GameViewProps) {
 
                 <SearchBar
                     setQuery={setQuery}
+                    characters={characters ?? {}}
+                    currentLanguage={currentLanguage}
                 />
 
                 <ResultList

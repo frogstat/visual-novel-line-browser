@@ -18,7 +18,6 @@ export function createListOfMatches(lines: Line[], query: string, languages: Str
         }
 
 
-        // TODO: eventually resolve speaker and text through the selected language.
         // TODO: Match character name by resolving it through character code.
         // Creating a separate match type from line might be needed because language is dynamic.
         // It's not guaranteed that speaker_en exists, and it should be possible to add speaker_ch if so desired.
@@ -28,7 +27,6 @@ export function createListOfMatches(lines: Line[], query: string, languages: Str
 
     }
 
-    // TODO: Include all matches for paging, and slice somewhere else
     return matches;
 
 }
