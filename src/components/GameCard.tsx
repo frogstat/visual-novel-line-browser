@@ -1,4 +1,5 @@
 import fallback from "../assets/fallback.png"
+import {useState} from "react";
 
 type GameGridProps = {
     game: string,
@@ -13,6 +14,8 @@ const coverStyle = {
 
 function GameCard({game, selectGame}: GameGridProps) {
 
+    const [imageSrc, setImageSrc] = useState(resolveGameCover());
+
     function resolveGameCover() {
         return `/${encodeURIComponent(game)}/cover.png`
     }
@@ -21,10 +24,12 @@ function GameCard({game, selectGame}: GameGridProps) {
         <div onClick={selectGame} className="game-card">
             <img
                 style={coverStyle}
-                src={resolveGameCover()}
+                src={imageSrc}
                 alt="cover"
-                onError={(e) => {
-                    e.currentTarget.src = fallback;
+                onError={() => {
+                    if (imageSrc !== fallback) {
+                        setImageSrc(fallback);
+                    }
                 }}/>
             <p>{game}</p>
         </div>
