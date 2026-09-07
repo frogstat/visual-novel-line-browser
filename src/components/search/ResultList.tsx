@@ -1,6 +1,6 @@
 import type {Line} from "../../utils/types.ts";
 import ResultCard from "./ResultCard.tsx";
-import {usePagination} from "../../utils/usePagination.ts";
+import {usePagination} from "../../hooks/usePagination.ts";
 
 type ResultListProps = {
     resultIndices: number[] | null,
