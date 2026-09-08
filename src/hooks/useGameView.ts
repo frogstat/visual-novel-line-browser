@@ -1,21 +1,36 @@
 import {type ChangeEvent, useState} from "react";
-import type {SelectedCharacter} from "../utils/types.ts";
+import type {Character, Characters, SelectedCharacter} from "../utils/types.ts";
 
 
-export function useGameView() {
+export function useGameView(characters:Characters, languages:string[]) {
     const [searchText, setSearchText] = useState('');
     const [selectedCharacter, setSelectedCharacter] = useState<SelectedCharacter | null>(null);
 
     function selectCharacter(e: ChangeEvent<HTMLSelectElement>) {
         const option = e.target.selectedOptions[0];
-
         const id = option.value;
-        const name = option.text;
 
-        if(!id || !name){
+        if (!id) {
+            setSelectedCharacter(null);
+            return;
+        }
+
+
+        const character: Character = characters[id];
+        const names:string[] = [];
+
+        for (const language of languages) {
+            const name = character?.[`name_${language}`];
+
+            if (name) {
+                names.push(name);
+            }
+        }
+
+        if(!names.length){
             setSelectedCharacter(null);
         } else {
-            setSelectedCharacter({ id, name })
+            setSelectedCharacter({ id, names })
         }
     }
 

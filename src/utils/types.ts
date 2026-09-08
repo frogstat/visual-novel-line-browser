@@ -23,5 +23,5 @@ export type Game = {
 
 export type SelectedCharacter = {
     id: string,
-    name: string
+    names: string[]
 }

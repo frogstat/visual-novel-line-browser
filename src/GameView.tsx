@@ -36,7 +36,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         setQuery,
         selectedCharacter,
         selectCharacter
-    } = useGameView();
+    } = useGameView(characters ?? {}, languages);
 
     const playVoice = useAudioPlayer(voiceBasePath);
 
@@ -64,7 +64,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         if (!lines) {
             return null;
         }
-        return createListOfMatches(lines, query, languages, currentLanguage, selectedCharacter, codeLength);
+        return createListOfMatches(lines, query, languages, selectedCharacter, codeLength);
     }, [lines, query, languages, selectedCharacter, codeLength]);
 
     return (

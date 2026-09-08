@@ -6,8 +6,7 @@ import {getCharacterCodeFromVoiceLine} from "./lineParser.ts";
 export function createListOfMatches(
     lines: Line[],
     query: string,
-    languages: String[],
-    currentLanguage: string,
+    languages: string[],
     selectedCharacter: SelectedCharacter | null,
     codeLength: number): number[] {
 
@@ -19,7 +18,7 @@ export function createListOfMatches(
 
         //TODO: Add more match conditions like character matching, voice file matching.
 
-        if (selectedCharacter && !lineMatchesSelectedCharacter(selectedCharacter, lines[i], codeLength, currentLanguage)) {
+        if (selectedCharacter && !lineMatchesSelectedCharacter(selectedCharacter, lines[i], codeLength, languages)) {
             continue;
         }
 
@@ -41,7 +40,7 @@ export function createListOfMatches(
 
 }
 
-function lineMatchesSelectedCharacter(selectedCharacter: SelectedCharacter, line: Line, codeLength: number, currentLanguage: string): boolean {
+function lineMatchesSelectedCharacter(selectedCharacter: SelectedCharacter, line: Line, codeLength: number, languages: string[]): boolean {
     //First, I check for a matching characterID
     if (line.voice_file && codeLength) {
         const voiceLineCharacterId = getCharacterCodeFromVoiceLine(line.voice_file, codeLength);
@@ -50,7 +49,14 @@ function lineMatchesSelectedCharacter(selectedCharacter: SelectedCharacter, line
         }
     }
 
-    return !!(line[`speaker_${currentLanguage}`] && selectedCharacter.name === line[`speaker_${currentLanguage}`]);
+    for (const language of languages) {
+        const speaker = line[`speaker_${language}`]
+        if(speaker && selectedCharacter.names.includes(speaker)){
+            return true;
+        }
+
+    }
+    return false;
 }
 
 function lineMatchesQuery(line: Line, query: string, languages: String[]): boolean {
