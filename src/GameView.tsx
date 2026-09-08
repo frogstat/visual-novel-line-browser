@@ -12,9 +12,6 @@ import {useContextView} from "./hooks/useContextView.ts";
 import type {Game} from "./utils/types.ts";
 
 
-
-
-
 type GameViewProps = {
     game: Game;
     unselectGame: () => void
@@ -67,7 +64,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         if (!lines) {
             return null;
         }
-        return createListOfMatches(lines, query, languages, selectedCharacter, codeLength);
+        return createListOfMatches(lines, query, languages, currentLanguage, selectedCharacter, codeLength);
     }, [lines, query, languages, selectedCharacter, codeLength]);
 
     return (

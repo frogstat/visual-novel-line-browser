@@ -3,7 +3,13 @@ import {getFileWithoutExtension} from "./generalUtils.ts";
 import {getCharacterCodeFromVoiceLine} from "./lineParser.ts";
 
 
-export function createListOfMatches(lines: Line[], query: string, languages: String[], selectedCharacter: SelectedCharacter | null, codeLength: number): number[] {
+export function createListOfMatches(
+    lines: Line[],
+    query: string,
+    languages: String[],
+    currentLanguage: string,
+    selectedCharacter: SelectedCharacter | null,
+    codeLength: number): number[] {
 
 
     const q = query.trim().toLowerCase();
@@ -13,7 +19,7 @@ export function createListOfMatches(lines: Line[], query: string, languages: Str
 
         //TODO: Add more match conditions like character matching, voice file matching.
 
-        if (selectedCharacter && !lineMatchesSelectedCharacter(selectedCharacter, lines[i], codeLength)) {
+        if (selectedCharacter && !lineMatchesSelectedCharacter(selectedCharacter, lines[i], codeLength, currentLanguage)) {
             continue;
         }
 
@@ -44,11 +50,7 @@ function lineMatchesSelectedCharacter(selectedCharacter: SelectedCharacter, line
         }
     }
 
-    if (line[`speaker_${currentLanguage}`] && selectedCharacter.name === line[`speaker_${currentLanguage}`]) {
-        return true;
-    }
-
-    return false;
+    return !!(line[`speaker_${currentLanguage}`] && selectedCharacter.name === line[`speaker_${currentLanguage}`]);
 }
 
 function lineMatchesQuery(line: Line, query: string, languages: String[]): boolean {
