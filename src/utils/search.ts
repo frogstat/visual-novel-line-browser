@@ -54,8 +54,8 @@ function lineMatchesSelectedCharacter(selectedCharacter: SelectedCharacter, line
         if(speaker && selectedCharacter.names.includes(speaker)){
             return true;
         }
-
     }
+
     return false;
 }
 
