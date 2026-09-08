@@ -30,12 +30,15 @@ function GameView({game, unselectGame}: GameViewProps) {
         languages,
         currentLanguage,
         setCurrentLanguage,
-        error
+        error,
+        codeLength
     } = useGameData(game.folderName);
 
     const {
         query,
-        setQuery
+        setQuery,
+        selectedCharacter,
+        selectCharacter
     } = useGameView();
 
     const playVoice = useAudioPlayer(voiceBasePath);
@@ -64,8 +67,8 @@ function GameView({game, unselectGame}: GameViewProps) {
         if (!lines) {
             return null;
         }
-        return createListOfMatches(lines, query, languages);
-    }, [lines, query, languages]);
+        return createListOfMatches(lines, query, languages, selectedCharacter, codeLength);
+    }, [lines, query, languages, selectedCharacter, codeLength]);
 
     return (
         <main className="app">
@@ -90,6 +93,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                 <SearchBar
                     setQuery={setQuery}
                     characters={characters ?? {}}
+                    selectCharacter={selectCharacter}
                     currentLanguage={currentLanguage}
                 />
 

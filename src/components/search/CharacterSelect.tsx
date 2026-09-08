@@ -1,11 +1,13 @@
 import type {Character, Characters} from "../../utils/types.ts";
+import type {ChangeEvent} from "react";
 
 type CharacterSelectProps = {
     characters: Characters,
+    selectCharacter: (e: ChangeEvent<HTMLSelectElement>) => void,
     currentLanguage: string
 }
 
-function CharacterSelect({characters, currentLanguage}: CharacterSelectProps) {
+function CharacterSelect({characters, currentLanguage, selectCharacter}: CharacterSelectProps) {
 
 
     function createCharacterOption(characterCode: string, character: Character) {
@@ -14,12 +16,13 @@ function CharacterSelect({characters, currentLanguage}: CharacterSelectProps) {
             return;
         }
         return (
-            <option value={characterName} key={characterCode}>{characterName}</option>
+            <option value={characterCode} key={characterCode}>{characterName}</option>
         )
     }
 
     return (
-        <select style={{color:"black", width:"200px"}}>
+        <select style={{color:"black", width:"200px"}} onChange={selectCharacter}>
+            <option value=""></option>
             {Object.entries(characters).map(([characterCode, character]) =>
                 createCharacterOption(characterCode, character)
             )}

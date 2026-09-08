@@ -1,4 +1,4 @@
-import type {Line} from "./types.ts";
+import type {Characters, Line} from "./types.ts";
 
 
 /**
@@ -17,13 +17,13 @@ export function resolveTextFromLanguage(line: Line, language: string): string | 
  * @param characters - A list of character codes and their matching character names.
  * @param codeLength - How many chars in the voice file name are the code. (e.g. MAK_COMMON_033.ogg will have a code length of 3)
  */
-function resolveCharacterNameFromCode(voiceFile: string | undefined | null, characters: any, codeLength: number, language: string) {
+function resolveCharacterNameFromCode(voiceFile: string | undefined | null, characters: Characters, codeLength: number, language: string) {
 
     if (!voiceFile || !codeLength) {
         return null;
     }
 
-    const characterCode: string = voiceFile.slice(0, codeLength);
+    const characterCode: string = getCharacterCodeFromVoiceLine(voiceFile, codeLength);
     if (characterCode in characters) {
         return characters[characterCode]?.[`name_${language}`];
     }
@@ -42,5 +42,9 @@ export function resolveSpeaker(voiceFile: string | undefined | null, characters:
 
     return resolveCharacterNameFromCode(voiceFile, characters, codeLength, language)
         ?? resolveSpeakerFromLine(line, language);
+}
+
+export function getCharacterCodeFromVoiceLine(voiceFile: string, codeLength: number) {
+    return voiceFile.slice(0, codeLength);
 }
 

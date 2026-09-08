@@ -20,3 +20,8 @@ export type Game = {
     folderName: string,
     title: string
 }
+
+export type SelectedCharacter = {
+    id: string,
+    name: string
+}

@@ -24,6 +24,10 @@ export function useGameData(gameFolder: string) {
 
     const gamePath: string = encodeURIComponent(gameFolder)
 
+    const codeLength = characters
+        ? Object.keys(characters)[0]?.length ?? 0
+        : 0;
+
     useEffect(() => {
         setLines(null);
         setCharacters(null);
@@ -51,7 +55,8 @@ export function useGameData(gameFolder: string) {
                     normalizeSpeakerNameFromVoiceLine(
                         linesData,
                         languagesData,
-                        charactersData);
+                        charactersData,
+                        codeLength);
 
                 setLines(normalizedLinesData)
 
@@ -78,20 +83,19 @@ export function useGameData(gameFolder: string) {
         languages,
         currentLanguage,
         setCurrentLanguage,
-        error
+        error,
+        codeLength
     }
 }
 
 // Will change speaker names to be based off voice lines instead of the speaker tag in the JSON.
 // If no such resolution is possible, the existing tag will be used.
-function normalizeSpeakerNameFromVoiceLine(jsonLines: Line[], languages: string[], characters: Characters): Line[] {
+function normalizeSpeakerNameFromVoiceLine(jsonLines: Line[], languages: string[], characters: Characters, codeLength:number): Line[] {
     if (!jsonLines || !languages || !characters) {
         return jsonLines;
     }
 
-    const codeLength = characters
-        ? Object.keys(characters)[0]?.length ?? 0
-        : 0;
+
 
     if (codeLength === 0) {
         return jsonLines;
