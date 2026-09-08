@@ -50,8 +50,9 @@ export function useGameData(gameFolder: string) {
                 setCurrentLanguage(languagesData[0])
 
                 setCharacters(charactersData)
+                const codeLength = Object.keys(charactersData)[0]?.length ?? 0;
 
-                const normalizedLinesData=
+                const normalizedLinesData =
                     normalizeSpeakerNameFromVoiceLine(
                         linesData,
                         languagesData,
@@ -90,17 +91,15 @@ export function useGameData(gameFolder: string) {
 
 // Will change speaker names to be based off voice lines instead of the speaker tag in the JSON.
 // If no such resolution is possible, the existing tag will be used.
-function normalizeSpeakerNameFromVoiceLine(jsonLines: Line[], languages: string[], characters: Characters, codeLength:number): Line[] {
+function normalizeSpeakerNameFromVoiceLine(jsonLines: Line[], languages: string[], characters: Characters, codeLength: number): Line[] {
     if (!jsonLines || !languages || !characters) {
         return jsonLines;
     }
 
 
-
     if (codeLength === 0) {
         return jsonLines;
     }
-
     return jsonLines.map((jsonLine) => {
         if (!jsonLine.voice_file) {
             return jsonLine;
@@ -115,6 +114,7 @@ function normalizeSpeakerNameFromVoiceLine(jsonLines: Line[], languages: string[
                 codeLength,
                 language,
                 jsonLine);
+
         }
         return normalizedLine;
     })
