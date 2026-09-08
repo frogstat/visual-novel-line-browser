@@ -1,5 +1,5 @@
 import type {Character, Characters} from "../../utils/types.ts";
-import type {ChangeEvent} from "react";
+import {type ChangeEvent} from "react";
 
 type CharacterSelectProps = {
     characters: Characters,
@@ -8,7 +8,6 @@ type CharacterSelectProps = {
 }
 
 function CharacterSelect({characters, currentLanguage, selectCharacter}: CharacterSelectProps) {
-
 
     function createCharacterOption(characterCode: string, character: Character) {
         const characterName = character[`name_${currentLanguage}`];
@@ -21,8 +20,8 @@ function CharacterSelect({characters, currentLanguage, selectCharacter}: Charact
     }
 
     return (
-        <select style={{color:"black", width:"200px"}} onChange={selectCharacter}>
-            <option value=""></option>
+        <select className="character-select-dropdown" onChange={selectCharacter}>
+            <option value="">No character</option>
             {Object.entries(characters).map(([characterCode, character]) =>
                 createCharacterOption(characterCode, character)
             )}

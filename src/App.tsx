@@ -49,10 +49,13 @@ function App() {
     } else {
         return (
             <main className="app">
-                <h1 style={{textAlign: "center"}}>Line Browser</h1>
-                <div className="game-selector-container">
-                    {resolveGameSelectorScreen()}
+                <div className="game-selector-screen">
+                    <h1 style={{textAlign: "center"}}>Line Browser</h1>
+                    <div className="game-selector-container">
+                        {resolveGameSelectorScreen()}
+                    </div>
                 </div>
+
             </main>
         );
     }

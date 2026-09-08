@@ -1,6 +1,5 @@
 * {
     font-family: sans-serif;
-    color: white;
 }
 
 :root {
@@ -19,7 +18,7 @@ body {
     padding: 15px;
 }
 
-p{
+p {
     margin: 0;
 }
 
@@ -50,6 +49,9 @@ input {
 }
 
 /** ----------GAME SELECTOR------------------ */
+.game-selector-screen {
+    color: white;
+}
 
 .game-selector-container {
     margin: auto;
@@ -66,10 +68,11 @@ input {
     display: flex;
     flex-direction: column;
     align-items: center;
-    img{
-        border-radius: 10px;
-    }
     transition: 120ms ease;
+
+    p {
+        margin: 15px;
+    }
 }
 
 .game-card:hover {
@@ -77,6 +80,13 @@ input {
     box-shadow: 0 0 30px 1px #404040;
     transform: translateY(-2px);
     transition: 120ms ease;
+}
+
+.game-card-image {
+    height: 300px;
+    width: 200px;
+    margin-top: 10px;
+    border-radius: 10px;
 }
 
 
@@ -93,8 +103,8 @@ input {
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
-
 }
+
 
 /**-----------HEADER----------*/
 
@@ -128,7 +138,7 @@ input {
         align-self: end;
     }
 
-    .audio-player-container{
+    .audio-player-container {
         justify-self: end;
         align-self: start;
     }
@@ -136,7 +146,7 @@ input {
 
 /** ----------AUDIO PLAYER-----------------*/
 
-.audio-player-container{
+.audio-player-container {
     background-color: var(--background-medium);
     padding: 10px;
     border-radius: 15px;
@@ -145,7 +155,7 @@ input {
     box-sizing: border-box;
 }
 
-.track-title{
+.track-title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -226,45 +236,59 @@ input {
 
 /** -----------SEARCH QUERY -----------*/
 
-.search-query-bar{
+.search-bar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-query-bar {
     border: none;
     border-radius: 9999px;
     padding: 5px 15px 5px 15px;
+    width: 55%;
+}
+
+.character-select-dropdown {
+    width: 30%;
+    border-radius: 9999px;
+    padding-left: 5px;
+
 }
 
 /** ----------RESULT LIST-----------*/
-.result-list{
+.result-list {
     display: grid;
     grid-template-rows: 1fr;
     transition: grid-template-rows 500ms ease;
 }
 
-.result-list-closed{
+.result-list-closed {
     grid-template-rows: 0fr;
 }
 
-.result-list-content{
+.result-list-content {
     overflow: hidden;
 }
 
-.result-list-info{
+.result-list-info {
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
     padding: 0 10px;
 }
 
-.result-list-info-buttons{
+.result-list-info-buttons {
     display: flex;
     flex-direction: row;
 
-    button{
+    button {
         padding: 0;
         width: 40px;
         height: 25px;
         border-radius: 7px;
     }
-    p{
+
+    p {
         margin: 0 10px;
     }
 
@@ -289,7 +313,7 @@ input {
     }
 }
 
-.result-card-left{
+.result-card-left {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -301,7 +325,7 @@ input {
     transition: 120ms ease;
 }
 
-.result-card-header{
+.result-card-header {
     min-height: 50%;
     display: flex;
     justify-content: space-between;
@@ -311,6 +335,7 @@ input {
     display: flex;
     width: 200px;
     justify-content: end;
+
     button {
         height: 30px;
         margin-left: 15px;
@@ -324,7 +349,7 @@ input {
 
 /** ----------CONTEXT PANEL---------- */
 
-.context-overlay{
+.context-overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.65);
@@ -390,6 +415,6 @@ input {
     gap: 8px;
 }
 
-.context-line-current{
+.context-line-current {
     background-color: rgb(173 255 47 / 0.23);
 }

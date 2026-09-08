@@ -47,6 +47,7 @@ function lineMatchesSelectedCharacter(selectedCharacter: SelectedCharacter, line
         if (voiceLineCharacterId === selectedCharacter.id) {
             return true;
         }
+
     }
 
     for (const language of languages) {
@@ -55,7 +56,6 @@ function lineMatchesSelectedCharacter(selectedCharacter: SelectedCharacter, line
             return true;
         }
     }
-
     return false;
 }
 

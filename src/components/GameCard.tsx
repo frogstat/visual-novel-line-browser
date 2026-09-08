@@ -8,12 +8,6 @@ type GameGridProps = {
     selectGame: () => void
 }
 
-const coverStyle = {
-    height: 300,
-    width: 200,
-    marginTop:10
-}
-
 function GameCard({game, selectGame}: GameGridProps) {
 
     const [imageSrc, setImageSrc] = useState(resolveGameCover());
@@ -25,7 +19,7 @@ function GameCard({game, selectGame}: GameGridProps) {
     return (
         <div onClick={selectGame} className="game-card">
             <img
-                style={coverStyle}
+                className="game-card-image"
                 src={imageSrc}
                 alt="cover"
                 onError={() => {
