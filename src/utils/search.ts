@@ -1,4 +1,4 @@
-import type {Line, SelectedCharacter} from "./types.ts";
+import type {Line, SelectedCharacter, VoiceFilter} from "./types.ts";
 import {getFileWithoutExtension} from "./generalUtils.ts";
 import {getCharacterCodeFromVoiceLine} from "./lineParser.ts";
 
@@ -10,16 +10,23 @@ export function createListOfMatches(
     selectedCharacter: SelectedCharacter | null,
     codeLength: number,
     favorites: number[],
-    favoritesOnly: boolean): number[] {
+    favoritesOnly: boolean,
+    voiceFilter:VoiceFilter): number[] {
 
 
     const q = query.trim().toLowerCase();
     const matches: number[] = [];
 
     for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
 
-        //TODO: Add more match conditions like character matching, voice file matching.
         if (favoritesOnly && !favorites.includes(i)) {
+            continue;
+        }
+
+        if(
+            (voiceFilter == "voiced only" && !line.voice_file) ||
+            (voiceFilter == "unvoiced only" && line.voice_file)) {
             continue;
         }
 
@@ -27,18 +34,11 @@ export function createListOfMatches(
             continue;
         }
 
-        if (!lineMatchesQuery(lines[i], q, languages)) {
+        if (!lineMatchesQuery(line, q, languages)) {
             continue;
         }
 
-
-        // TODO: Match character name by resolving it through character code.
-        // Creating a separate match type from line might be needed because language is dynamic.
-        // It's not guaranteed that speaker_en exists, and it should be possible to add speaker_ch if so desired.
-
-
         matches.push(i)
-
     }
 
     return matches;

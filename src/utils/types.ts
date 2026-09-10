@@ -25,3 +25,5 @@ export type SelectedCharacter = {
     id: string,
     names: string[]
 }
+
+export type VoiceFilter = "any" | "voiced only" | "unvoiced only"

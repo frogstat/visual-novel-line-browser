@@ -1,6 +1,6 @@
 import Header from "./components/Header.tsx";
 import ResultList from "./components/search/ResultList.tsx";
-import SearchBar from "./components/search/SearchBar.tsx";
+import SearchTools from "./components/search/SearchTools.tsx";
 import ContextPanel from "./components/search/ContextPanel.tsx";
 import {useGameView} from "./hooks/useGameView.ts";
 import {useGameData} from "./hooks/useGameData.ts";
@@ -11,6 +11,7 @@ import {useMusicPlayer} from "./hooks/useMusicPlayer.ts";
 import {useContextView} from "./hooks/useContextView.ts";
 import type {Game} from "./utils/types.ts";
 import {useFavorites} from "./hooks/useFavorites.ts";
+import {useSearch} from "./hooks/useSearch.ts";
 
 
 type GameViewProps = {
@@ -67,6 +68,10 @@ function GameView({game, unselectGame}: GameViewProps) {
         toggleFavoritesOnly,
     } = useFavorites(game.folderName);
 
+    const {
+        voiceFilter,
+        setVoiceFilter
+    } = useSearch();
 
     const resultIndices: number[] | null = useMemo(() => {
         if (!lines) {
@@ -79,8 +84,9 @@ function GameView({game, unselectGame}: GameViewProps) {
             selectedCharacter,
             codeLength,
             favorites,
-            favoritesOnly);
-    }, [lines, query, languages, selectedCharacter, codeLength, favorites, favoritesOnly]);
+            favoritesOnly,
+            voiceFilter);
+    }, [lines, query, languages, selectedCharacter, codeLength, favoritesOnly, voiceFilter]);
 
     return (
         <main className="app">
@@ -102,13 +108,15 @@ function GameView({game, unselectGame}: GameViewProps) {
                     }}
                 />
 
-                <SearchBar
+                <SearchTools
                     setQuery={setQuery}
                     characters={characters ?? {}}
                     selectCharacter={selectCharacter}
                     currentLanguage={currentLanguage}
                     favoritesOnly={favoritesOnly}
                     toggleFavoritesOnly={toggleFavoritesOnly}
+                    voiceFilter={voiceFilter}
+                    setVoiceFilter={setVoiceFilter}
                 />
 
                 <ResultList
