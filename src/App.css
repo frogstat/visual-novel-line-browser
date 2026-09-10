@@ -162,10 +162,10 @@ input {
     text-overflow: ellipsis;
     font-style: italic;
     opacity: 70%;
-
     text-align: right;
     font-size: 12px;
     margin: 0 0 8px;
+    padding-right: 4px;
 }
 
 .audio-controls {
@@ -364,6 +364,9 @@ input {
     flex-direction: column;
     justify-content: center;
     gap: 5px;
+    p{
+        margin: 0;
+    }
 }
 
 .result-card:hover {

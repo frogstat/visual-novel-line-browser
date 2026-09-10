@@ -2,15 +2,12 @@ import Header from "./components/Header.tsx";
 import ResultList from "./components/search/ResultList.tsx";
 import SearchTools from "./components/search/SearchTools.tsx";
 import ContextPanel from "./components/search/ContextPanel.tsx";
-import {useGameView} from "./hooks/useGameView.ts";
 import {useGameData} from "./hooks/useGameData.ts";
-import {useMemo} from "react";
-import {createListOfMatches} from "./utils/search.ts";
 import {useAudioPlayer} from "./hooks/useAudioPlayer.ts";
 import {useMusicPlayer} from "./hooks/useMusicPlayer.ts";
 import {useContextView} from "./hooks/useContextView.ts";
 import type {Game} from "./utils/types.ts";
-import {useSearchToggles} from "./hooks/useSearchToggles.ts";
+import {useSearch} from "./hooks/useSearch.ts";
 
 
 type GameViewProps = {
@@ -31,13 +28,6 @@ function GameView({game, unselectGame}: GameViewProps) {
         error,
         codeLength,
     } = useGameData(game.folderName);
-
-    const {
-        query,
-        setQuery,
-        selectedCharacter,
-        selectCharacter
-    } = useGameView(characters ?? {}, languages);
 
     const playVoice = useAudioPlayer(voiceBasePath);
 
@@ -64,25 +54,14 @@ function GameView({game, unselectGame}: GameViewProps) {
         voiceFilter,
         setVoiceFilter,
         favorites,
-        favoritesOnly,
         toggleFavorite,
+        favoritesOnly,
         toggleFavoritesOnly,
-    } = useSearchToggles(game.folderName);
+        setQuery,
+        selectCharacter,
+        resultIndices
+    } = useSearch(game.folderName, characters ?? {}, languages, codeLength, lines);
 
-    const resultIndices: number[] | null = useMemo(() => {
-        if (!lines) {
-            return null;
-        }
-        return createListOfMatches(
-            lines,
-            query,
-            languages,
-            selectedCharacter,
-            codeLength,
-            favorites,
-            favoritesOnly,
-            voiceFilter);
-    }, [lines, query, languages, selectedCharacter, codeLength, favoritesOnly, voiceFilter]);
 
     return (
         <main className="app">

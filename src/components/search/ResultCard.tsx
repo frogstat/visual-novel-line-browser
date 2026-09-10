@@ -43,7 +43,7 @@ function ResultCard({
         <div className={`result-card ${isCurrent && originLineRef ? "context-card-current" : ""}`}
              ref={isCurrent ? originLineRef : null}>
             <div className="result-card-left">
-                <p>{line[`speaker_${currentLanguage}`] || ""}</p>
+                {line[`speaker_${currentLanguage}`] && (<p>{line[`speaker_${currentLanguage}`]}</p>)}
                 <p>{line[`text_${currentLanguage}`] || ""}</p>
             </div>
 
