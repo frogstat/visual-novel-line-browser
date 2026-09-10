@@ -10,8 +10,7 @@ import {useAudioPlayer} from "./hooks/useAudioPlayer.ts";
 import {useMusicPlayer} from "./hooks/useMusicPlayer.ts";
 import {useContextView} from "./hooks/useContextView.ts";
 import type {Game} from "./utils/types.ts";
-import {useFavorites} from "./hooks/useFavorites.ts";
-import {useSearch} from "./hooks/useSearch.ts";
+import {useSearchToggles} from "./hooks/useSearchToggles.ts";
 
 
 type GameViewProps = {
@@ -62,16 +61,13 @@ function GameView({game, unselectGame}: GameViewProps) {
     } = useContextView(lines?.length ?? 0);
 
     const {
+        voiceFilter,
+        setVoiceFilter,
         favorites,
         favoritesOnly,
         toggleFavorite,
         toggleFavoritesOnly,
-    } = useFavorites(game.folderName);
-
-    const {
-        voiceFilter,
-        setVoiceFilter
-    } = useSearch();
+    } = useSearchToggles(game.folderName);
 
     const resultIndices: number[] | null = useMemo(() => {
         if (!lines) {

@@ -1,11 +1,12 @@
+
 import {useEffect, useState} from "react";
+import type {VoiceFilter} from "../utils/types.ts";
 
-export function useFavorites(gameFolder: string) {
 
-
+export function useSearchToggles(gameFolder: string) {
+    const [voiceFilter, setVoiceFilter] = useState<VoiceFilter>("any");
     const [favorites, setFavorites] = useState<number[]>([]);
     const [favoritesOnly, setFavoritesOnly] = useState<boolean>(false);
-
 
     useEffect(() => {
         setFavorites(JSON.parse(localStorage.getItem(`${gameFolder}-favorites`) || "[]"))
@@ -29,10 +30,11 @@ export function useFavorites(gameFolder: string) {
     }
 
     return {
+        voiceFilter,
+        setVoiceFilter,
         favorites,
         toggleFavorite,
         favoritesOnly,
         toggleFavoritesOnly
     }
-
 }
