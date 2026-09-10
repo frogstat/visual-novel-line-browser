@@ -7,7 +7,7 @@ type ContextPanelProps = {
     lines: Line[],
     contextView: ContextView
     closeContext: () => void,
-    navigateContextView: (delta: number) => void,
+    navigateContextView: (forward:boolean) => void,
     languages: string[],
     currentLanguage: string
     setCurrentLanguage: (language: string) => void,
@@ -35,6 +35,7 @@ function ContextPanel({
                       }: ContextPanelProps) {
 
 
+
     return (
         <div onClick={closeContext} className="context-overlay">
             <div onClick={e => e.stopPropagation()} className="context-panel">
@@ -44,7 +45,7 @@ function ContextPanel({
                     <button
                         className="context-nav-button"
                         disabled={contextView.results.includes(0)}
-                        onClick={() => navigateContextView(-99)}>
+                        onClick={() => navigateContextView(false)}>
                         ←
                     </button>
 
@@ -59,7 +60,7 @@ function ContextPanel({
 
                         <button
                             className="context-nav-button"
-                            onClick={() => navigateContextView(99)}
+                            onClick={() => navigateContextView(true)}
                             disabled={contextView.results.includes(lines.length - 1)}>
                             →
                         </button>

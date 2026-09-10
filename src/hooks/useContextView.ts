@@ -13,7 +13,6 @@ export function useContextView(linesLength: number) {
     const contextMenuRef = useRef<HTMLDivElement>(null);
 
 
-
     function showContextView(originIndex: number) {
         setContextView({
             originIndex: originIndex,
@@ -22,12 +21,20 @@ export function useContextView(linesLength: number) {
         });
     }
 
-    function navigateContextView(delta: number) {
+    function navigateContextView(forward: boolean) {
         if (!contextView) {
             return;
         }
 
-        const newCenterView = contextView.centerIndex + delta;
+        let newCenterView;
+        if (forward) {
+            const lastItemInCurrentView = contextView.results[contextView.results.length - 1];
+            newCenterView = lastItemInCurrentView + after - 1;
+        } else {
+            const firstItemInCurrentView = contextView.results[0];
+            newCenterView = firstItemInCurrentView - before;
+        }
+
 
         const newContextView: ContextView = {
             originIndex: contextView.originIndex,
