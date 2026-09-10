@@ -143,6 +143,8 @@ function GameView({game, unselectGame}: GameViewProps) {
                     playVoice={playVoice}
                     originLineRef={originLineRef}
                     contextMenuRef={contextMenuRef}
+                    favorites={favorites}
+                    toggleFavorite={toggleFavorite}
                 />
             )}
         </main>

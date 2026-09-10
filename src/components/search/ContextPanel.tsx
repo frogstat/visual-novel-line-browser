@@ -1,7 +1,7 @@
 import type {Line} from "../../utils/types.ts";
 import type {ContextView} from "../../utils/types.ts";
 import LanguageSelector from "../LanguageSelector.tsx";
-import ContextCard from "./ContextCard.tsx";
+import ResultCard from "./ResultCard.tsx";
 
 type ContextPanelProps = {
     lines: Line[],
@@ -13,7 +13,9 @@ type ContextPanelProps = {
     setCurrentLanguage: (language: string) => void,
     playVoice: (voiceFile: string | null | undefined) => void,
     originLineRef: any,
-    contextMenuRef: any
+    contextMenuRef: any,
+    favorites: number[],
+    toggleFavorite: (favoriteIndex: number) => void,
 }
 
 
@@ -27,7 +29,9 @@ function ContextPanel({
                           currentLanguage,
                           playVoice,
                           originLineRef,
-                          contextMenuRef
+                          contextMenuRef,
+                          favorites,
+                          toggleFavorite,
                       }: ContextPanelProps) {
 
 
@@ -72,13 +76,17 @@ function ContextPanel({
                 <div className="context-panel-lines" ref={contextMenuRef}>
 
                     {lines.length && contextView && contextView.results.map((currentIndex: number) =>
-                        <ContextCard
+                        <ResultCard
                             key={currentIndex}
+                            lineIndex={currentIndex}
                             line={lines[currentIndex]}
                             isCurrent={currentIndex === contextView.originIndex}
                             currentLanguage={currentLanguage}
                             playVoice={playVoice}
                             originLineRef={originLineRef}
+                            showContextView={null}
+                            favorites={favorites}
+                            toggleFavorite={toggleFavorite}
                         />
                     )}
                 </div>

@@ -25,8 +25,8 @@ export function createListOfMatches(
         }
 
         if(
-            (voiceFilter == "voiced only" && !line.voice_file) ||
-            (voiceFilter == "unvoiced only" && line.voice_file)) {
+            (voiceFilter == "voiced" && !line.voice_file) ||
+            (voiceFilter == "unvoiced" && line.voice_file)) {
             continue;
         }
 

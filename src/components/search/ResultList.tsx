@@ -61,6 +61,8 @@ function ResultList({
                             showContextView={showContextView}
                             favorites={favorites}
                             toggleFavorite={toggleFavorite}
+                            isCurrent={null}
+                            originLineRef={null}
                         />
                     )}
                 </div>
