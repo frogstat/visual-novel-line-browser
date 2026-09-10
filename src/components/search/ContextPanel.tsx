@@ -16,6 +16,7 @@ type ContextPanelProps = {
     contextMenuRef: any,
     favorites: number[],
     toggleFavorite: (favoriteIndex: number) => void,
+    voiceBasePath: string,
 }
 
 
@@ -32,6 +33,7 @@ function ContextPanel({
                           contextMenuRef,
                           favorites,
                           toggleFavorite,
+                          voiceBasePath
                       }: ContextPanelProps) {
 
 
@@ -88,6 +90,7 @@ function ContextPanel({
                             showContextView={null}
                             favorites={favorites}
                             toggleFavorite={toggleFavorite}
+                            voiceBasePath={voiceBasePath}
                         />
                     )}
                 </div>

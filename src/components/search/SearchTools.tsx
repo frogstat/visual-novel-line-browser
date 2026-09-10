@@ -1,6 +1,7 @@
 import type {Characters, VoiceFilter} from "../../utils/types.ts";
 import CharacterSelect from "./CharacterSelect.tsx";
 import type {ChangeEvent} from "react";
+import {getUIName} from "../../utils/uiLocale.ts";
 
 type SearchBarProps = {
     setQuery: (searchText: string) => void;
@@ -29,16 +30,16 @@ function SearchTools({
             <div className="search-tools-top">
                 <div className="voice-filter">
                     <button className={voiceFilter === "voiced" ? "button-active" : ""}
-                            onClick={() => setVoiceFilter("voiced")}>Voiced Only
+                            onClick={() => setVoiceFilter("voiced")}>{getUIName(currentLanguage, "voicedOnly")}
                     </button>
                     <button className={voiceFilter === "unvoiced" ? "button-active" : ""}
-                            onClick={() => setVoiceFilter("unvoiced")}>Unvoiced Only
+                            onClick={() => setVoiceFilter("unvoiced")}>{getUIName(currentLanguage, "unvoicedOnly")}
                     </button>
                     <button className={voiceFilter === "any" ? "button-active" : ""}
-                            onClick={() => setVoiceFilter("any")}>Any
+                            onClick={() => setVoiceFilter("any")}>{getUIName(currentLanguage, "voicedAny")}
                     </button>
                 </div>
-                <button className={favoritesOnly ? "button-active" : ""} onClick={toggleFavoritesOnly}>Favorites Only</button>
+                <button className={favoritesOnly ? "button-active" : ""} onClick={toggleFavoritesOnly}>{getUIName(currentLanguage, "favoritesOnly")}</button>
             </div>
 
             <div className="search-bar">
@@ -46,7 +47,7 @@ function SearchTools({
                 <input
                     className="search-query-bar"
                     type="text"
-                    placeholder="Search quote..."
+                    placeholder={getUIName(currentLanguage, "searchQuote")}
                     onChange={(e) => setQuery(e.target.value)}
                 />
 

@@ -1,5 +1,6 @@
 import type {Character, Characters} from "../../utils/types.ts";
 import {type ChangeEvent} from "react";
+import {getUIName} from "../../utils/uiLocale.ts";
 
 type CharacterSelectProps = {
     characters: Characters,
@@ -21,7 +22,7 @@ function CharacterSelect({characters, currentLanguage, selectCharacter}: Charact
 
     return (
         <select className="character-select-dropdown" onChange={selectCharacter}>
-            <option value="">No character</option>
+            <option value="">{getUIName(currentLanguage, "noCharacters")}</option>
             {Object.entries(characters).map(([characterCode, character]) =>
                 createCharacterOption(characterCode, character)
             )}

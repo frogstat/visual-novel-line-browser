@@ -1,5 +1,6 @@
 import LanguageSelector from "./LanguageSelector.tsx";
 import AudioPlayer from "./audio/AudioPlayer.tsx";
+import {getUIName} from "../utils/uiLocale.ts";
 
 type HeaderProps = {
     returnToGameMenu: () => void;
@@ -41,7 +42,7 @@ function Header({
 
     return (
         <div className="header">
-            <button onClick={returnToGameMenu}>← Return to menu</button>
+            <button onClick={returnToGameMenu}>← {getUIName(currentLanguage, "returnToMenu")}</button>
             {resolveColumn()}
             <p className="game-title">{gameName}</p>
             {languages.length > 1 &&

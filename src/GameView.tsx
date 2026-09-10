@@ -103,6 +103,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                     showContextView={showContextView}
                     favorites={favorites}
                     toggleFavorite={toggleFavorite}
+                    voiceBasePath={voiceBasePath}
                 />
             </div>
 
@@ -120,6 +121,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                     contextMenuRef={contextMenuRef}
                     favorites={favorites}
                     toggleFavorite={toggleFavorite}
+                    voiceBasePath={voiceBasePath}
                 />
             )}
         </main>

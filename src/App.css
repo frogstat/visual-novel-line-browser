@@ -364,7 +364,8 @@ input {
     flex-direction: column;
     justify-content: center;
     gap: 5px;
-    p{
+
+    p {
         margin: 0;
     }
 }
@@ -382,6 +383,7 @@ input {
 
 .result-card-actions {
     display: flex;
+    align-items: start;
     justify-content: end;
     gap: 10px;
 
@@ -389,11 +391,19 @@ input {
         height: 28px;
         min-width: 28px;
     }
+}
 
-    p {
-        opacity: 50%;
-        font-size: 10px;
-    }
+.voice-file-link {
+    color: white;
+    text-decoration: none;
+    outline: none;
+    opacity: 50%;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.voice-file-link:hover {
+    opacity: 1;
 }
 
 .card-button {

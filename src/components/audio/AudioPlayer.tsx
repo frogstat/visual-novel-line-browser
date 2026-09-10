@@ -33,8 +33,6 @@ function AudioPlayer({currentTrack, volume, changeVolume, playNextTrack, isPlayi
             </div>
         </div>
     )
-
-
 }
 
 export default AudioPlayer;

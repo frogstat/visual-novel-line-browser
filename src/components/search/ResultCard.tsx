@@ -13,7 +13,8 @@ type LineCardProps = {
     playVoice: (voiceFile: string | null | undefined) => void,
     currentLanguage: string,
     favorites: number[],
-    toggleFavorite: (favoriteIndex: number) => void
+    toggleFavorite: (favoriteIndex: number) => void,
+    voiceBasePath: string,
 
     // Result Card only
     showContextView: ((originIndex: number) => void) | null;
@@ -32,7 +33,9 @@ function ResultCard({
                         lineIndex,
                         showContextView,
                         isCurrent,
-                        originLineRef
+                        originLineRef,
+                        voiceBasePath
+
                     }: LineCardProps) {
 
     function isFavorited() {
@@ -50,7 +53,11 @@ function ResultCard({
             <div className="result-card-actions">
                 {line.voice_file && (
                     <>
-                        <p>{getFileWithoutExtension(line.voice_file)}</p>
+                        <a className="voice-file-link"
+                           href={`${voiceBasePath}/${line.voice_file}`}
+                           download={line.voice_file.replaceAll("/", "_")}>
+                            {getFileWithoutExtension(line.voice_file)}
+                        </a>
                         <button className="card-button" onClick={() => playVoice(line.voice_file)}>
                             <img src={playIcon} alt="Play"/>
                         </button>
