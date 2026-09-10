@@ -7,9 +7,22 @@ type SearchBarProps = {
     characters: Characters;
     selectCharacter: (e: ChangeEvent<HTMLSelectElement>) => void;
     currentLanguage: string;
+    favoritesOnly: boolean;
+    toggleFavoritesOnly: () => void;
 };
 
-function SearchBar({setQuery, characters, selectCharacter, currentLanguage}: SearchBarProps) {
+const enabled = {
+    backgroundColor: "green",
+    color: "white",
+}
+
+const disabled = {
+    backgroundColor: "red",
+    color: "white",
+}
+
+
+function SearchBar({setQuery, characters, selectCharacter, currentLanguage, favoritesOnly, toggleFavoritesOnly}: SearchBarProps) {
 
     return (
         <div className="search-bar">
@@ -19,6 +32,7 @@ function SearchBar({setQuery, characters, selectCharacter, currentLanguage}: Sea
                 placeholder="Search quote..."
                 onChange={(e) => setQuery(e.target.value)}
             />
+            <button style={favoritesOnly ? enabled : disabled} onClick={toggleFavoritesOnly}>Favorites Only</button>
             <CharacterSelect
                 characters={characters}
                 currentLanguage={currentLanguage}

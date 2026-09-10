@@ -9,10 +9,21 @@ type ResultListProps = {
     playVoice: (voiceFile: string | null | undefined) => void,
     error: string | null,
     showContextView: (originIndex: number) => void,
+    favorites: number[],
+    toggleFavorite: (favoriteIndex: number) => void,
 }
 
 
-function ResultList({resultIndices, lines, currentLanguage, playVoice, error, showContextView}: ResultListProps) {
+function ResultList({
+                        resultIndices,
+                        lines,
+                        currentLanguage,
+                        playVoice,
+                        error,
+                        showContextView,
+                        favorites,
+                        toggleFavorite
+                    }: ResultListProps,) {
 
     const {
         goToNextPage,
@@ -20,11 +31,11 @@ function ResultList({resultIndices, lines, currentLanguage, playVoice, error, sh
         currentPage,
         totalPages,
         currentPageStartIndex,
-        currentPageEndIndex
+        currentPageEndIndex,
     } = usePagination(resultIndices?.length ?? 0);
 
     function getResultList() {
-        if(error){
+        if (error) {
             return <p style={{color: "yellow"}}>{error}</p>
         }
 
@@ -48,6 +59,8 @@ function ResultList({resultIndices, lines, currentLanguage, playVoice, error, sh
                             currentLanguage={currentLanguage}
                             playVoice={playVoice}
                             showContextView={showContextView}
+                            favorites={favorites}
+                            toggleFavorite={toggleFavorite}
                         />
                     )}
                 </div>

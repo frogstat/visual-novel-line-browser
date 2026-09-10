@@ -61,7 +61,6 @@ export function useGameData(gameFolder: string) {
 
                 setLines(normalizedLinesData)
 
-
             } catch (Error: Error | any) {
                 setError(Error.toString());
                 console.error(Error);
@@ -85,7 +84,7 @@ export function useGameData(gameFolder: string) {
         currentLanguage,
         setCurrentLanguage,
         error,
-        codeLength
+        codeLength,
     }
 }
 

@@ -16,6 +16,7 @@ export function resolveTextFromLanguage(line: Line, language: string): string | 
  * @param voiceFile - The voice file for the line (e.g. HAY45666.ogg where HAY stands for Hayato)
  * @param characters - A list of character codes and their matching character names.
  * @param codeLength - How many chars in the voice file name are the code. (e.g. MAK_COMMON_033.ogg will have a code length of 3)
+ * @param language - The current language
  */
 function resolveCharacterNameFromCode(voiceFile: string | undefined | null, characters: Characters, codeLength: number, language: string) {
 

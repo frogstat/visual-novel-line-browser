@@ -10,6 +10,7 @@ import {useAudioPlayer} from "./hooks/useAudioPlayer.ts";
 import {useMusicPlayer} from "./hooks/useMusicPlayer.ts";
 import {useContextView} from "./hooks/useContextView.ts";
 import type {Game} from "./utils/types.ts";
+import {useFavorites} from "./hooks/useFavorites.ts";
 
 
 type GameViewProps = {
@@ -28,7 +29,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         currentLanguage,
         setCurrentLanguage,
         error,
-        codeLength
+        codeLength,
     } = useGameData(game.folderName);
 
     const {
@@ -59,13 +60,27 @@ function GameView({game, unselectGame}: GameViewProps) {
         contextMenuRef
     } = useContextView(lines?.length ?? 0);
 
+    const {
+        favorites,
+        favoritesOnly,
+        toggleFavorite,
+        toggleFavoritesOnly,
+    } = useFavorites(game.folderName);
+
 
     const resultIndices: number[] | null = useMemo(() => {
         if (!lines) {
             return null;
         }
-        return createListOfMatches(lines, query, languages, selectedCharacter, codeLength);
-    }, [lines, query, languages, selectedCharacter, codeLength]);
+        return createListOfMatches(
+            lines,
+            query,
+            languages,
+            selectedCharacter,
+            codeLength,
+            favorites,
+            favoritesOnly);
+    }, [lines, query, languages, selectedCharacter, codeLength, favorites, favoritesOnly]);
 
     return (
         <main className="app">
@@ -92,6 +107,8 @@ function GameView({game, unselectGame}: GameViewProps) {
                     characters={characters ?? {}}
                     selectCharacter={selectCharacter}
                     currentLanguage={currentLanguage}
+                    favoritesOnly={favoritesOnly}
+                    toggleFavoritesOnly={toggleFavoritesOnly}
                 />
 
                 <ResultList
@@ -101,6 +118,8 @@ function GameView({game, unselectGame}: GameViewProps) {
                     playVoice={playVoice}
                     error={error}
                     showContextView={showContextView}
+                    favorites={favorites}
+                    toggleFavorite={toggleFavorite}
                 />
             </div>
 

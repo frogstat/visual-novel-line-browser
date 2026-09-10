@@ -7,11 +7,19 @@ type ResultCardProp = {
     playVoice: (voiceFile: string | null | undefined) => void,
     currentLanguage: string,
     showContextView: (originIndex: number) => void,
+    favorites: number[],
+    toggleFavorite: (favoriteIndex: number) => void,
 }
 
-function ResultCard({lineIndex, line, playVoice, currentLanguage, showContextView}: ResultCardProp, ) {
-
-
+function ResultCard({
+                        lineIndex,
+                        line,
+                        playVoice,
+                        currentLanguage,
+                        showContextView,
+                        favorites,
+                        toggleFavorite
+                    }: ResultCardProp,) {
 
     return (
         <div className="result-card">
@@ -27,6 +35,9 @@ function ResultCard({lineIndex, line, playVoice, currentLanguage, showContextVie
                         <button onClick={() => playVoice(line.voice_file)}>Play</button>
                     </>
                 )}
+                <button onClick={() => toggleFavorite(lineIndex)}>
+                    {favorites.includes(lineIndex) ? "♥" : "♡"}
+                </button>
                 <button onClick={() => showContextView(lineIndex)}>Context</button>
             </div>
         </div>

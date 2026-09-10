@@ -8,7 +8,9 @@ export function createListOfMatches(
     query: string,
     languages: string[],
     selectedCharacter: SelectedCharacter | null,
-    codeLength: number): number[] {
+    codeLength: number,
+    favorites: number[],
+    favoritesOnly: boolean): number[] {
 
 
     const q = query.trim().toLowerCase();
@@ -17,6 +19,9 @@ export function createListOfMatches(
     for (let i = 0; i < lines.length; i++) {
 
         //TODO: Add more match conditions like character matching, voice file matching.
+        if (favoritesOnly && !favorites.includes(i)) {
+            continue;
+        }
 
         if (selectedCharacter && !lineMatchesSelectedCharacter(selectedCharacter, lines[i], codeLength, languages)) {
             continue;
@@ -52,7 +57,7 @@ function lineMatchesSelectedCharacter(selectedCharacter: SelectedCharacter, line
 
     for (const language of languages) {
         const speaker = line[`speaker_${language}`]
-        if(speaker && selectedCharacter.names.includes(speaker)){
+        if (speaker && selectedCharacter.names.includes(speaker)) {
             return true;
         }
     }
