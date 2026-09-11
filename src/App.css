@@ -3,19 +3,29 @@
 }
 
 :root {
-    --background-light: rgb(159 173 216 / 0.44);
-    --background-medium: rgb(159 173 216 / 0.64);
-    --background-heavy: rgb(159 173 216 / 0.84);
+    --background-color: #111111;
+    --element-background-color: #181818;
+    --element-background-color-hover: #232323;
+    --element-border-color: #292929;
+
+    --text-color: #EEEEEE;
+
+    --button-color: #555555;
+    --button-color-hover: #666666;
+    --button-color-active: #777777;
+    --button-color-disabled: #1E1E1E;
+
 }
 
 body {
     margin: 0;
     padding: 0;
-    background-color: #252525;
+    background-color: var(--background-color);
 }
 
 .app {
     padding: 15px;
+    color: var(--text-color);
 }
 
 p {
@@ -23,25 +33,25 @@ p {
 }
 
 button {
-    color: black;
     border: none;
     padding: 5px;
-    background-color: var(--background-heavy);
+    background-color: var(--button-color);
+    color: var(--text-color);
     border-radius: 5px;
 }
 
 button:disabled {
-    opacity: 0.4;
+    background-color: var(--button-color-disabled);
     cursor: default;
 }
 
 button:hover {
-    background-color: var(--background-medium);
+    background-color: var(--button-color-hover);
     cursor: pointer;
 }
 
 button:active {
-    background-color: var(--background-light);
+    background-color: var(--button-color-active);
     transform: translateY(1px);
 }
 
@@ -51,7 +61,7 @@ input {
 
 /** ----------GAME SELECTOR------------------ */
 .game-selector-screen {
-    color: white;
+    color: var(--text-color);
 }
 
 .game-selector-container {
@@ -94,10 +104,9 @@ input {
 /**-----------GAME-BOX-------------*/
 
 .game-box {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+    /*box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);*/
+    /*background-color: var(--background-light);*/
     backdrop-filter: blur(2px);
-    background-color: var(--background-light);
-    color: rgb(255 255 255 / 0.79);
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
     padding: 10px;
     border-radius: 15px;
@@ -110,7 +119,8 @@ input {
 /**-----------HEADER----------*/
 
 .header {
-    background-color: rgb(0 0 0 / 0.2);
+    background-color: var(--element-background-color);
+    border: solid 2px var(--element-border-color);
     padding: 10px;
     border-radius: 15px;
     display: grid;
@@ -124,6 +134,7 @@ input {
     .button {
         justify-self: start;
         align-self: start;
+
     }
 
     .game-title {
@@ -148,7 +159,6 @@ input {
 /** ----------AUDIO PLAYER-----------------*/
 
 .audio-player-container {
-    background-color: var(--background-medium);
     padding: 10px;
     border-radius: 15px;
     width: 100%;
@@ -210,11 +220,10 @@ input {
     gap: 10px;
     border-radius: 25px;
 
-    background: var(--background-heavy);
+    background: var(--background-color);
 }
 
 .language-tag {
-    color: white;
     background: transparent;
     border: 0;
     border-radius: 15px;
@@ -238,11 +247,11 @@ input {
 /** -----------SEARCH TOOLS -----------*/
 
 .button-active {
-    background-color: rgb(0 255 0 / 0.77);
+    background-color: rgb(0 255 0 / 0.3);
 }
 
 .button-active:hover {
-    background-color: rgb(0 255 0 / 0.66);
+    background-color: rgb(0 255 0 / 0.4);
 }
 
 .search-tools-top {
@@ -348,13 +357,13 @@ input {
     margin-bottom: 6px;
     padding: 10px 12px;
     flex-direction: row;
-    background-color: var(--background-light);
+    background-color: var(--element-background-color);
     transition: 120ms ease;
+    border: 1px solid var(--element-border-color);
 
 
     p {
         margin: 0;
-        color: #f4feff;
     }
 }
 
@@ -371,7 +380,7 @@ input {
 }
 
 .result-card:hover {
-    background-color: var(--background-medium);
+    background-color: var(--element-background-color-hover);
     transition: 120ms ease;
 }
 
@@ -470,7 +479,6 @@ input {
     border: 0;
     border-radius: 6px;
     background: #333;
-    color: #fff;
     cursor: pointer;
     font-size: 14px;
 }
