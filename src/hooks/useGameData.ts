@@ -74,6 +74,25 @@ export function useGameData(gameFolder: string) {
 
     }, [gameFolder])
 
+    useEffect(() => {
+        const theme = document.createElement("link");
+
+        theme.rel = "stylesheet";
+        theme.href = `/${encodeURIComponent(gameFolder)}/theme.css`;
+        theme.dataset.gameTheme = "true";
+
+        theme.onerror = () => {
+            console.log("Custom theme not found. Using default.")
+            theme.remove();
+        };
+
+        document.head.appendChild(theme);
+
+        return () => {
+            theme.remove();
+        };
+    }, [gameFolder]);
+
 
     return {
         lines,

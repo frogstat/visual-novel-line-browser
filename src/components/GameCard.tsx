@@ -8,12 +8,29 @@ type GameGridProps = {
     selectGame: () => void
 }
 
+
 function GameCard({game, selectGame}: GameGridProps) {
 
     const [imageSrc, setImageSrc] = useState(resolveGameCover());
 
+
     function resolveGameCover() {
         return `/${encodeURIComponent(game.folderName)}/cover.png`
+    }
+
+    const basePath = `/${encodeURIComponent(game.folderName)}`;
+    const png = `${basePath}/cover.png`;
+    const jpg = `${basePath}/cover.jpg`;
+    const jpeg = `${basePath}/cover.jpeg`;
+
+    function handleImageError() {
+        if (imageSrc === png) {
+            setImageSrc(jpg);
+        } else if (imageSrc === jpg) {
+            setImageSrc(jpeg);
+        } else {
+            setImageSrc(fallback);
+        }
     }
 
     return (
@@ -22,11 +39,7 @@ function GameCard({game, selectGame}: GameGridProps) {
                 className="game-card-image"
                 src={imageSrc}
                 alt="cover"
-                onError={() => {
-                    if (imageSrc !== fallback) {
-                        setImageSrc(fallback);
-                    }
-                }}/>
+                onError={handleImageError}/>
             <p>{game.title}</p>
         </div>
 

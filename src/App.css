@@ -390,6 +390,18 @@ input {
     justify-content: space-between;
 }
 
+.result-card-right{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.result-index {
+    margin-top: 3px;
+    font-size: 10px;
+    opacity: 50%;
+}
+
 .result-card-actions {
     display: flex;
     align-items: start;

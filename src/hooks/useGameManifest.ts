@@ -8,9 +8,14 @@ export function useGameManifest(): GameData | null {
     useEffect(() => {
         loadJson<GameData>("/manifest.json")
             .then((data) => {
-                setGames(data);
+
+                const sorted = Object.fromEntries(
+                    Object.entries(data).sort(([a], [b]) => a.localeCompare(b))
+                );
+
+                setGames(sorted);
             })
-            .catch((e:Error) => {
+            .catch((e: Error) => {
                 console.error("MANIFEST LOAD ERROR:", e);
                 setGames({});
             });

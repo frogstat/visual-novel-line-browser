@@ -50,34 +50,38 @@ function ResultCard({
                 <p>{line[`text_${currentLanguage}`] || ""}</p>
             </div>
 
-            <div className="result-card-actions">
-                {line.voice_file && (
-                    <>
-                        <a className="voice-file-link"
-                           href={`${voiceBasePath}/${line.voice_file}`}
-                           download={line.voice_file.replaceAll("/", "_")}>
-                            {getFileWithoutExtension(line.voice_file)}
-                        </a>
-                        <button className="card-button" onClick={() => playVoice(line.voice_file)}>
-                            <img src={playIcon} alt="Play"/>
-                        </button>
-                    </>
-                )}
+            <div className="result-card-right">
+                <div className="result-card-actions">
+                    {line.voice_file && (
+                        <>
+                            <a className="voice-file-link"
+                               href={`${voiceBasePath}/${line.voice_file}`}
+                               download={line.voice_file.replaceAll("/", "_")}>
+                                {getFileWithoutExtension(line.voice_file)}
+                            </a>
+                            <button className="card-button" onClick={() => playVoice(line.voice_file)}>
+                                <img src={playIcon} alt="Play"/>
+                            </button>
+                        </>
+                    )}
 
-                <button className="card-button" onClick={() => toggleFavorite(lineIndex)}>
-                    <img
-                        alt={isFavorited() ? "favorite" : "unfavorite"}
-                        src={isFavorited() ? favoriteIcon : notFavoritedIcon}/>
-                </button>
-
-                {showContextView && (
-                    <button className="card-button" onClick={() => showContextView(lineIndex)}>
-                        <img src={searchIcon} alt="Search"/>
+                    <button className="card-button" onClick={() => toggleFavorite(lineIndex)}>
+                        <img
+                            alt={isFavorited() ? "favorite" : "unfavorite"}
+                            src={isFavorited() ? favoriteIcon : notFavoritedIcon}/>
                     </button>
-                )}
+
+                    {showContextView && (
+                        <button className="card-button" onClick={() => showContextView(lineIndex)}>
+                            <img src={searchIcon} alt="Search"/>
+                        </button>
+                    )}
 
 
+                </div>
+                <span className="result-index">{lineIndex + 1}</span>
             </div>
+
         </div>
     );
 }
