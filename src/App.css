@@ -354,8 +354,8 @@ input {
     justify-content: space-between;
     gap: 20px;
     border-radius: 6px;
-    margin-bottom: 6px;
     padding: 10px 12px;
+    margin-bottom: 6px;
     flex-direction: row;
     background-color: var(--element-background-color);
     transition: 120ms ease;
@@ -390,7 +390,7 @@ input {
     justify-content: space-between;
 }
 
-.result-card-right{
+.result-card-right {
     display: flex;
     flex-direction: column;
     align-items: end;
@@ -515,3 +515,222 @@ input {
     background-color: rgb(180 255 74 / 0.35);
 }
 
+@media (min-height: 1200px) {
+    @media (min-width: 980px) {
+        .game-box {
+            max-width: 1400px;
+
+            img {
+                scale: 1.5;
+            }
+        }
+
+        button {
+            padding: 8px;
+        }
+
+        .game-card {
+            border-radius: 25px;
+
+            p {
+                font-size: 18px;
+                margin: 25px;
+            }
+        }
+
+        .context-panel {
+            width: 1425px;
+        }
+
+        .game-selector-container {
+            grid-template-columns: repeat(auto-fill, 320px);
+            gap: 30px;
+            max-width: 1800px;
+        }
+
+        .game-card-image {
+            height: 450px;
+            width: 300px;
+
+        }
+
+        .audio-player-container {
+            max-width: 330px;
+        }
+
+        .track-title {
+            font-size: 18px;
+        }
+
+        .audio-player-button {
+            height: 36px;
+            width: 36px;
+        }
+
+        .result-card {
+            font-size: 22px;
+            margin-bottom: 10px;
+            border-radius: 9px;
+            padding: 15px 18px;
+        }
+
+        .result-card-actions button {
+            height: 42px;
+            min-width: 42px;
+
+            img {
+                width: 42px;
+            }
+        }
+
+        .result-index {
+            margin-top: 6px;
+            font-size: 15px;
+        }
+
+        .voice-file-link {
+            font-size: 16px;
+        }
+
+        .header,
+        .search-tools,
+        .result-list-info {
+            font-size: 20px;
+
+            button {
+                font-size: 20px;
+            }
+
+            input {
+                font-size: 20px;
+            }
+        }
+
+        .search-tools button {
+            width: 250px;
+            gap: 30px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .result-list-info button {
+            width: 40px;
+            height: 30px;
+        }
+
+        .header .game-title{
+            font-size: 60px;
+        }
+
+    }
+}
+
+@media (min-height: 1900px) {
+    @media (min-width: 1700px) {
+        .game-box {
+            max-width: 2500px;
+
+            img {
+                scale: 2;
+            }
+        }
+
+        .game-card {
+            border-radius: 30px;
+
+            p {
+                font-size: 26px;
+                margin: 35px;
+            }
+        }
+
+        .context-panel {
+            width: 2600px;
+        }
+
+
+
+        .game-selector-container {
+            grid-template-columns: repeat(auto-fill, 460px);
+            gap: 45px;
+            max-width: 2600px;
+        }
+
+        .game-card-image {
+            height: 600px;
+            width: 400px;
+
+        }
+
+        .audio-player-container {
+            max-width: 440px;
+        }
+
+        .track-title {
+            font-size: 30px;
+        }
+
+        .audio-player-button {
+            height: 54px;
+            width: 54px;
+            margin-right: 20px;
+        }
+
+        .result-card {
+            font-size: 36px;
+            margin-bottom: 14px;
+            border-radius: 12px;
+            padding: 20px 26px;
+        }
+
+        .result-card-actions button {
+            height: 56px;
+            min-width: 56px;
+
+            img {
+                width: 52px;
+            }
+        }
+
+        .result-index {
+            margin-top: 9px;
+            font-size: 20px;
+        }
+
+        .voice-file-link {
+            font-size: 22px;
+        }
+
+        .header,
+        .search-tools,
+        .result-list-info {
+            font-size: 36px;
+
+            button {
+                font-size: 36px;
+
+            }
+
+            input {
+                font-size: 36px;
+            }
+        }
+
+        .search-tools button {
+            width: 450px;
+            gap: 30px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .result-list-info button {
+            width: 70px;
+            height: 60px;
+        }
+
+        .header .game-title{
+            font-size: 80px;
+        }
+
+    }
+}
