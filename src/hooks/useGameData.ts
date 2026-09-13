@@ -80,13 +80,12 @@ export function useGameData(gameFolder: string) {
         theme.rel = "stylesheet";
         theme.href = `/${encodeURIComponent(gameFolder)}/theme.css`;
         theme.dataset.gameTheme = "true";
+        document.head.appendChild(theme);
 
         theme.onerror = () => {
             console.log("Custom theme not found. Using default.")
             theme.remove();
         };
-
-        document.head.appendChild(theme);
 
         return () => {
             theme.remove();

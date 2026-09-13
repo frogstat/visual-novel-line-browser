@@ -78,7 +78,7 @@ function ContextPanel({
 
                 <div className="context-panel-lines" ref={contextMenuRef}>
 
-                    {lines.length && contextView && contextView.results.map((currentIndex: number) =>
+                    {lines.length > 0 && contextView && contextView.results.map((currentIndex: number) =>
                         <ResultCard
                             key={currentIndex}
                             lineIndex={currentIndex}
