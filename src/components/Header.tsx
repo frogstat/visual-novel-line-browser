@@ -42,7 +42,7 @@ function Header({
 
     return (
         <div className="header">
-            <button onClick={returnToGameMenu}>← {getUIName(currentLanguage, "returnToMenu")}</button>
+            <button className="return-button" onClick={returnToGameMenu}>← {getUIName(currentLanguage, "returnToMenu")}</button>
             {resolveColumn()}
             <p className="game-title">{gameName}</p>
             {languages.length > 1 &&

@@ -29,13 +29,13 @@ function SearchTools({
         <div className="search-tools">
             <div className="search-tools-top">
                 <div className="voice-filter">
-                    <button className={voiceFilter === "voiced" ? "button-active" : ""}
+                    <button className={"voice-filter-button " + (voiceFilter === "voiced" ? "button-active" : "")}
                             onClick={() => setVoiceFilter("voiced")}>{getUIName(currentLanguage, "voicedOnly")}
                     </button>
-                    <button className={voiceFilter === "unvoiced" ? "button-active" : ""}
+                    <button className={"voice-filter-button " + (voiceFilter === "unvoiced" ? "button-active" : "")}
                             onClick={() => setVoiceFilter("unvoiced")}>{getUIName(currentLanguage, "unvoicedOnly")}
                     </button>
-                    <button className={voiceFilter === "any" ? "button-active" : ""}
+                    <button className={"voice-filter-button " + (voiceFilter === "any" ? "button-active" : "")}
                             onClick={() => setVoiceFilter("any")}>{getUIName(currentLanguage, "voicedAny")}
                     </button>
                 </div>
