@@ -4,6 +4,7 @@ import playIcon from "../../assets/play-icon.svg"
 import searchIcon from "../../assets/search-icon.svg"
 import favoriteIcon from "../../assets/favorited.svg"
 import notFavoritedIcon from "../../assets/not-favorited.svg"
+import {getLineValue} from "../../utils/lineParser.ts";
 
 
 type LineCardProps = {
@@ -46,8 +47,9 @@ function ResultCard({
         <div className={`result-card ${isCurrent && originLineRef ? "context-card-current" : ""}`}
              ref={isCurrent ? originLineRef : null}>
             <div className="result-card-left">
-                {line[`speaker_${currentLanguage}`] && (<p>{line[`speaker_${currentLanguage}`]}</p>)}
-                <p>{line[`text_${currentLanguage}`] || ""}</p>
+                {getLineValue(line, "speaker", currentLanguage) && (
+                    <p>{getLineValue(line, "speaker", currentLanguage)}</p>)}
+                <p>{getLineValue(line, "text", currentLanguage)}</p>
             </div>
 
             <div className="result-card-right">

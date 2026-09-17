@@ -31,10 +31,13 @@ export function useMusicPlayer(baseMusicPath: string) {
         loadJson<string[]>(`${baseMusicPath}/manifest.json`)
             .then(musicData => {
                 if (!cancelled) {
-                    setTracks(musicData);
+                    if (musicData){
+                        setTracks(musicData);
+                    } else {
+                        console.log("No music found");
+                    }
                 }
             })
-            .catch(() => console.log("No music found"));
 
         return () => {
             cancelled = true;

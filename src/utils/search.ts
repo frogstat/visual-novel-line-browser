@@ -1,6 +1,6 @@
 import type {Line, SelectedCharacter, VoiceFilter} from "./types.ts";
 import {getFileWithoutExtension} from "./generalUtils.ts";
-import {getCharacterCodeFromVoiceLine} from "./lineParser.ts";
+import {getCharacterCodeFromVoiceLine, getLineValue} from "./lineParser.ts";
 
 
 export function createListOfMatches(
@@ -56,7 +56,7 @@ function lineMatchesSelectedCharacter(selectedCharacter: SelectedCharacter, line
     }
 
     for (const language of languages) {
-        const speaker = line[`speaker_${language}`]
+        const speaker = getLineValue(line, "speaker", language);
         if (speaker && selectedCharacter.names.includes(speaker)) {
             return true;
         }
@@ -64,7 +64,7 @@ function lineMatchesSelectedCharacter(selectedCharacter: SelectedCharacter, line
     return false;
 }
 
-function lineMatchesQuery(line: Line, query: string, languages: String[]): boolean {
+function lineMatchesQuery(line: Line, query: string, languages: string[]): boolean {
 
     // Lack of search query means that everything matches.
     if (!query) {
@@ -80,15 +80,13 @@ function lineMatchesQuery(line: Line, query: string, languages: String[]): boole
     // Allow the user to search in all languages regardless of current language.
     // Mainly to prevent search results from changing when swapping languages, but is also convenient.
     for (const language of languages) {
-        const text = line[`text_${language}`];
+        const text = getLineValue(line, "text", language);
 
         if (!text) {
             continue;
         }
 
-        if (language === "en" ?
-            matchEnglishQuery(query, text)
-            : text.toLowerCase().includes(query)) {
+        if (text.toLowerCase().includes(query)) {
             return true;
         }
     }
@@ -96,12 +94,3 @@ function lineMatchesQuery(line: Line, query: string, languages: String[]): boole
     return false;
 }
 
-function matchEnglishQuery(query: string, text: string): boolean {
-    const escaped = escapeRegex(query);
-    const pattern = new RegExp(`(?<![a-zA-Z0-9'])${escaped}(?![a-zA-Z0-9'])`, "i");
-    return pattern.test(text);
-}
-
-function escapeRegex(text: string): string {
-    return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}

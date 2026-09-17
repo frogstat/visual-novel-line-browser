@@ -1,4 +1,4 @@
-import type {Characters, Line} from "./types.ts";
+import type {Character, Characters, Line} from "./types.ts";
 
 
 /**
@@ -26,14 +26,14 @@ function resolveCharacterNameFromCode(voiceFile: string | undefined | null, char
 
     const characterCode: string = getCharacterCodeFromVoiceLine(voiceFile, codeLength);
     if (characterCode in characters) {
-        return characters[characterCode]?.[`name_${language}`];
+        return getCharacterName(characters, characterCode, language);
     }
 
     return null;
 }
 
 function resolveSpeakerFromLine(line: Line, language: string): string | null | undefined {
-    return line[`speaker_${language}`];
+    return getLineValue(line, "speaker", language)
 }
 
 export function resolveSpeaker(voiceFile: string | undefined | null, characters: any, codeLength: number, language: string, line: Line) {
@@ -47,5 +47,30 @@ export function resolveSpeaker(voiceFile: string | undefined | null, characters:
 
 export function getCharacterCodeFromVoiceLine(voiceFile: string, codeLength: number) {
     return voiceFile.slice(0, codeLength);
+}
+
+
+export function getLineValue(line: Line, key: string, currentLanguage: string): string {
+    const newKey = key as keyof Line;
+    let value;
+    if (!currentLanguage) {
+        value = line[newKey];
+    } else {
+        value = line[`${newKey}_${currentLanguage}` as keyof Line];
+    }
+
+    if (!value) {
+        return "";
+    }
+    return value;
+}
+
+function getCharacterName(characters: Characters, key: string, currentLanguage: string): string {
+    if (!currentLanguage) {
+        return characters[key] as string;
+    }
+    const character = characters[key] as Character;
+    return character[`name_${currentLanguage}`] as string;
+
 }
 

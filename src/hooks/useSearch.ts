@@ -50,11 +50,18 @@ export function useSearch(gameFolder: string, characters: Characters, languages:
         }
 
 
-        const character: Character = characters[id];
+
         const names: string[] = [];
 
         for (const language of languages) {
-            const name = character?.[`name_${language}`];
+            let name;
+            if (!language){
+                name = characters[id] as string
+
+            } else {
+                const character = characters[id] as Character;
+                name = character?.[`name_${language}`];
+            }
 
             if (name) {
                 names.push(name);

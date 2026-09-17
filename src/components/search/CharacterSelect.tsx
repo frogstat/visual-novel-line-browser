@@ -11,7 +11,13 @@ type CharacterSelectProps = {
 function CharacterSelect({characters, currentLanguage, selectCharacter}: CharacterSelectProps) {
 
     function createCharacterOption(characterCode: string, character: Character) {
-        const characterName = character[`name_${currentLanguage}`];
+        let characterName;
+        if(currentLanguage) {
+            characterName = character[`name_${currentLanguage}`];
+        } else {
+            characterName = characters[characterCode] as string;
+        }
+
         if (!characterName) {
             return;
         }

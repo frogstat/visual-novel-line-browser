@@ -42,20 +42,25 @@ export function useGameData(gameFolder: string) {
                     loadJson<string[]>(`/${gamePath}/languages.json`)
                 ]);
 
-                if (languagesData.length === 0) {
-                    throw new Error("No languages found.");
+                if (!linesData || !charactersData) {
+                    throw new Error("Line or Character data missing!");
+                }
+                if (!languagesData){
+                    console.log("No languages found. Disabling language feature.");
                 }
 
-                setLanguages(languagesData)
-                setCurrentLanguage(languagesData[0])
+                setLanguages(languagesData && languagesData.length > 0 ? languagesData : [""])
+                setCurrentLanguage(languagesData && languagesData.length > 0 ? languagesData[0] : "")
 
                 setCharacters(charactersData)
+
+
                 const codeLength = Object.keys(charactersData)[0]?.length ?? 0;
 
                 const normalizedLinesData =
                     normalizeSpeakerNameFromVoiceLine(
                         linesData,
-                        languagesData,
+                        languagesData && languagesData.length > 0 ? languagesData : [""],
                         charactersData,
                         codeLength);
 
@@ -92,7 +97,6 @@ export function useGameData(gameFolder: string) {
         };
     }, [gameFolder]);
 
-
     return {
         lines,
         voiceBasePath,
@@ -125,7 +129,14 @@ function normalizeSpeakerNameFromVoiceLine(jsonLines: Line[], languages: string[
         const normalizedLine = {...jsonLine};
 
         for (const language of languages) {
-            normalizedLine[`speaker_${language}`] = resolveSpeaker(
+            let speaker_key = "";
+            if (!language) {
+                speaker_key = "speaker";
+            } else {
+                speaker_key = `speaker_${language}`
+            }
+
+            normalizedLine[speaker_key as keyof Line] = resolveSpeaker(
                 jsonLine.voice_file,
                 characters,
                 codeLength,

@@ -6,9 +6,9 @@ export type Line = {
 
 export type Character = {
     [key: `name_${string}`]: string | null | undefined;
-};
+}
 
-export type Characters = Record<string, Character>;
+export type Characters = Record<string, Character> | Record<string, string>;
 
 export type ContextView = {
     originIndex: number,
