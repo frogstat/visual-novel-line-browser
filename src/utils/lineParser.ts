@@ -1,4 +1,4 @@
-import type {Character, Characters, Line} from "./types.ts";
+import type {Characters, Line} from "./types.ts";
 
 
 /**
@@ -50,27 +50,24 @@ export function getCharacterCodeFromVoiceLine(voiceFile: string, codeLength: num
 }
 
 
-export function getLineValue(line: Line, key: string, currentLanguage: string): string {
-    const newKey = key as keyof Line;
-    let value;
-    if (!currentLanguage) {
-        value = line[newKey];
-    } else {
-        value = line[`${newKey}_${currentLanguage}` as keyof Line];
-    }
-
-    if (!value) {
-        return "";
-    }
-    return value;
+export function getLineValue(line: Line, key: "speaker" | "text",  language?: string): string {
+    const value = language
+        ? line[`${key}_${language}` as keyof Line]
+        : line[key];
+    return value ? value : "";
 }
 
-function getCharacterName(characters: Characters, key: string, currentLanguage: string): string {
-    if (!currentLanguage) {
-        return characters[key] as string;
-    }
-    const character = characters[key] as Character;
-    return character[`name_${currentLanguage}`] as string;
+export function getCharacterName(characters: Characters, characterCode: string, language?: string): string {
+    const character = characters[characterCode];
 
+    if (typeof character === "string") {
+        return character;
+    }
+
+    if (!language) {
+        return "";
+    }
+
+    return character?.[`name_${language}`] ?? "";
 }
 

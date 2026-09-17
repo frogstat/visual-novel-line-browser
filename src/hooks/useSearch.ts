@@ -1,6 +1,7 @@
 import {type ChangeEvent, useEffect, useMemo, useState} from "react";
-import type {Character, Characters, Line, SelectedCharacter, VoiceFilter} from "../utils/types.ts";
+import type {Characters, Line, SelectedCharacter, VoiceFilter} from "../utils/types.ts";
 import {createListOfMatches} from "../utils/search.ts";
+import {getCharacterName} from "../utils/lineParser.ts";
 
 
 export function useSearch(gameFolder: string, characters: Characters, languages: string[], codeLength: number, lines: Line[] | null) {
@@ -54,14 +55,7 @@ export function useSearch(gameFolder: string, characters: Characters, languages:
         const names: string[] = [];
 
         for (const language of languages) {
-            let name;
-            if (!language){
-                name = characters[id] as string
-
-            } else {
-                const character = characters[id] as Character;
-                name = character?.[`name_${language}`];
-            }
+            const name = getCharacterName(characters, id, language);
 
             if (name) {
                 names.push(name);

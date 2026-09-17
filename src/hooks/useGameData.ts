@@ -15,7 +15,7 @@ export function useGameData(gameFolder: string) {
     const [lines, setLines] = useState<Line[] | null>(null);
     const [characters, setCharacters] = useState<Characters | null>(null);
     const [languages, setLanguages] = useState<string[]>([]);
-    const [currentLanguage, setCurrentLanguage] = useState<string>("");
+    const [currentLanguage, setCurrentLanguage] = useState<string | undefined>(undefined);
     const [error, setError] = useState<string | null>(null);
 
     const audioFolder = encodeURIComponent(resolveAudioFolder(gameFolder));
@@ -36,31 +36,33 @@ export function useGameData(gameFolder: string) {
 
         async function loadData() {
             try {
-                const [linesData, charactersData, languagesData] = await Promise.all([
+                const [linesData, charactersData] = await Promise.all([
                     loadJson<Line[]>(`/${gamePath}/lines.json`),
                     loadJson<Characters>(`/${gamePath}/characters.json`),
-                    loadJson<string[]>(`/${gamePath}/languages.json`)
                 ]);
 
                 if (!linesData || !charactersData) {
                     throw new Error("Line or Character data missing!");
                 }
-                if (!languagesData){
+
+                let languagesData: string[];
+                try{
+                    languagesData = await loadJson<string[]>(`/${gamePath}/languages.json`);
+                } catch (Error){
                     console.log("No languages found. Disabling language feature.");
+                    languagesData = []
                 }
 
-                setLanguages(languagesData && languagesData.length > 0 ? languagesData : [""])
-                setCurrentLanguage(languagesData && languagesData.length > 0 ? languagesData[0] : "")
-
+                setLanguages(languagesData)
+                setCurrentLanguage(languagesData[0])
                 setCharacters(charactersData)
-
 
                 const codeLength = Object.keys(charactersData)[0]?.length ?? 0;
 
                 const normalizedLinesData =
                     normalizeSpeakerNameFromVoiceLine(
                         linesData,
-                        languagesData && languagesData.length > 0 ? languagesData : [""],
+                        languagesData,
                         charactersData,
                         codeLength);
 
@@ -117,10 +119,10 @@ function normalizeSpeakerNameFromVoiceLine(jsonLines: Line[], languages: string[
         return jsonLines;
     }
 
-
     if (codeLength === 0) {
         return jsonLines;
     }
+
     return jsonLines.map((jsonLine) => {
         if (!jsonLine.voice_file) {
             return jsonLine;
