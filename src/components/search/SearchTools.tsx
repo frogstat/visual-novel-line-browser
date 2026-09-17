@@ -5,7 +5,7 @@ import {getUIName} from "../../utils/uiLocale.ts";
 
 type SearchBarProps = {
     setQuery: (searchText: string) => void;
-    characters: Characters;
+    characters: Characters | null;
     selectCharacter: (e: ChangeEvent<HTMLSelectElement>) => void;
     currentLanguage: string;
     favoritesOnly: boolean;
@@ -39,7 +39,8 @@ function SearchTools({
                             onClick={() => setVoiceFilter("any")}>{getUIName(currentLanguage, "voicedAny")}
                     </button>
                 </div>
-                <button className={favoritesOnly ? "button-active" : ""} onClick={toggleFavoritesOnly}>{getUIName(currentLanguage, "favoritesOnly")}</button>
+                <button className={favoritesOnly ? "button-active" : ""}
+                        onClick={toggleFavoritesOnly}>{getUIName(currentLanguage, "favoritesOnly")}</button>
             </div>
 
             <div className="search-bar">
@@ -50,12 +51,14 @@ function SearchTools({
                     placeholder={getUIName(currentLanguage, "searchQuote")}
                     onChange={(e) => setQuery(e.target.value)}
                 />
+                {characters && (
+                    <CharacterSelect
+                        characters={characters}
+                        currentLanguage={currentLanguage}
+                        selectCharacter={selectCharacter}
+                    />
+                )}
 
-                <CharacterSelect
-                    characters={characters}
-                    currentLanguage={currentLanguage}
-                    selectCharacter={selectCharacter}
-                />
 
             </div>
         </div>

@@ -85,7 +85,7 @@ function GameView({game, unselectGame}: GameViewProps) {
 
                 <SearchTools
                     setQuery={setQuery}
-                    characters={characters ?? {}}
+                    characters={characters}
                     selectCharacter={selectCharacter}
                     currentLanguage={currentLanguage}
                     favoritesOnly={favoritesOnly}

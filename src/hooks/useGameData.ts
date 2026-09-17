@@ -36,16 +36,11 @@ export function useGameData(gameFolder: string) {
 
         async function loadData() {
             try {
-                const [linesData, charactersData] = await Promise.all([
-                    loadJson<Line[]>(`/${gamePath}/lines.json`),
-                    loadJson<Characters>(`/${gamePath}/characters.json`),
-                ]);
+                const linesData = await loadJson<Line[]>(`/${gamePath}/lines.json`);
 
-                if (!linesData || !charactersData) {
-                    throw new Error("Line or Character data missing!");
-                }
-
+                let charactersData: Characters | null;
                 let languagesData: string[];
+
                 try{
                     languagesData = await loadJson<string[]>(`/${gamePath}/languages.json`);
                 } catch (Error){
@@ -53,20 +48,30 @@ export function useGameData(gameFolder: string) {
                     languagesData = [""]
                 }
 
+                try {
+                    charactersData = await loadJson<Characters>(`/${gamePath}/characters.json`)
+                    const codeLength = Object.keys(charactersData)[0]?.length ?? 0;
+                    const normalizedLinesData =
+                        normalizeSpeakerNameFromVoiceLine(
+                            linesData,
+                            languagesData,
+                            charactersData,
+                            codeLength);
+                    setLines(normalizedLinesData)
+
+                } catch (Error){
+                    console.log("No characters found. Disabling character search.");
+                    charactersData = null
+                    setLines(linesData)
+                }
+
                 setLanguages(languagesData)
                 setCurrentLanguage(languagesData[0])
                 setCharacters(charactersData)
 
-                const codeLength = Object.keys(charactersData)[0]?.length ?? 0;
 
-                const normalizedLinesData =
-                    normalizeSpeakerNameFromVoiceLine(
-                        linesData,
-                        languagesData,
-                        charactersData,
-                        codeLength);
 
-                setLines(normalizedLinesData)
+
 
             } catch (Error: Error | any) {
                 setError(Error.toString());
