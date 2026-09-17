@@ -15,7 +15,7 @@ export function useGameData(gameFolder: string) {
     const [lines, setLines] = useState<Line[] | null>(null);
     const [characters, setCharacters] = useState<Characters | null>(null);
     const [languages, setLanguages] = useState<string[]>([]);
-    const [currentLanguage, setCurrentLanguage] = useState<string | undefined>(undefined);
+    const [currentLanguage, setCurrentLanguage] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
 
     const audioFolder = encodeURIComponent(resolveAudioFolder(gameFolder));
@@ -50,7 +50,7 @@ export function useGameData(gameFolder: string) {
                     languagesData = await loadJson<string[]>(`/${gamePath}/languages.json`);
                 } catch (Error){
                     console.log("No languages found. Disabling language feature.");
-                    languagesData = []
+                    languagesData = [""]
                 }
 
                 setLanguages(languagesData)
