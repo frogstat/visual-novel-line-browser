@@ -18,11 +18,11 @@ export function useGameData(gameFolder: string) {
     const [currentLanguage, setCurrentLanguage] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
 
-    const audioFolder = encodeURIComponent(resolveAudioFolder(gameFolder));
+    const audioFolder = resolveAudioFolder(gameFolder);
     const voiceBasePath: string = `/${audioFolder}/voice`;
     const musicBasePath: string = `/${audioFolder}/music`;
 
-    const gamePath: string = encodeURIComponent(gameFolder)
+    const gamePath: string = gameFolder
 
     const codeLength = characters
         ? Object.keys(characters)[0]?.length ?? 0
@@ -90,7 +90,7 @@ export function useGameData(gameFolder: string) {
         const theme = document.createElement("link");
 
         theme.rel = "stylesheet";
-        theme.href = `/${encodeURIComponent(gameFolder)}/theme.css`;
+        theme.href = `/${gameFolder}/theme.css`;
         theme.dataset.gameTheme = "true";
         document.head.appendChild(theme);
 

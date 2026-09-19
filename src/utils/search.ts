@@ -14,7 +14,7 @@ export function createListOfMatches(
     voiceFilter:VoiceFilter): number[] {
 
 
-    const q = query.trim().toLowerCase();
+    const q = query.toLowerCase();
     const matches: number[] = [];
 
     for (let i = 0; i < lines.length; i++) {
