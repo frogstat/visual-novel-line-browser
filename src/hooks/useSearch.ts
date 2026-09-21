@@ -4,7 +4,7 @@ import {createListOfMatches} from "../utils/search.ts";
 import {getCharacterName} from "../utils/lineParser.ts";
 
 
-export function useSearch(gameFolder: string, characters: Characters, languages: string[], codeLength: number, lines: Line[] | null) {
+export function useSearch(gameFolder: string, characters: Characters, languages: string[], lines: Line[] | null) {
     const [query, setQuery] = useState('');
 
     // Toggles
@@ -80,11 +80,10 @@ export function useSearch(gameFolder: string, characters: Characters, languages:
             query,
             languages,
             selectedCharacter,
-            codeLength,
             favorites,
             favoritesOnly,
             voiceFilter);
-    }, [lines, query, languages, selectedCharacter, codeLength, favoritesOnly, voiceFilter]);
+    }, [lines, query, languages, selectedCharacter, favoritesOnly, voiceFilter]);
 
     return {
         voiceFilter,

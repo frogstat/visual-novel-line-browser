@@ -29,3 +29,8 @@ export type SelectedCharacter = {
 }
 
 export type VoiceFilter = "any" | "voiced" | "unvoiced"
+
+export type Metadata = {
+    languages?: string[],
+    hasCharacterCode?: boolean
+}

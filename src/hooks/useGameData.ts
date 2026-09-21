@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import type {Characters, Line} from "../utils/types.ts";
+import type {Characters, Line, Metadata} from "../utils/types.ts";
 import {loadJson} from "../utils/loadJson.ts";
 import {resolveSpeaker} from "../utils/lineParser.ts";
 
@@ -24,10 +24,6 @@ export function useGameData(gameFolder: string) {
 
     const gamePath: string = gameFolder
 
-    const codeLength = characters
-        ? Object.keys(characters)[0]?.length ?? 0
-        : 0;
-
     useEffect(() => {
         setLines(null);
         setCharacters(null);
@@ -41,25 +37,31 @@ export function useGameData(gameFolder: string) {
                 let charactersData: Characters | null;
                 let languagesData: string[];
 
-                try{
-                    languagesData = await loadJson<string[]>(`/${gamePath}/languages.json`);
-                } catch (Error){
+                let metadata: Metadata | undefined;
+                let hasCharacterCode = false;
+                try {
+                    metadata = await loadJson<Metadata>(`/${gamePath}/metadata.json`);
+                    hasCharacterCode = metadata?.hasCharacterCode ?? false;
+                    languagesData = metadata.languages ?? [""];
+                } catch (Error) {
                     console.log("No languages found. Disabling language feature.");
                     languagesData = [""]
                 }
 
                 try {
                     charactersData = await loadJson<Characters>(`/${gamePath}/characters.json`)
-                    const codeLength = Object.keys(charactersData)[0]?.length ?? 0;
-                    const normalizedLinesData =
-                        normalizeSpeakerNameFromVoiceLine(
-                            linesData,
-                            languagesData,
-                            charactersData,
-                            codeLength);
-                    setLines(normalizedLinesData)
+                    if (hasCharacterCode){
+                        const normalizedLinesData =
+                            normalizeSpeakerNameFromVoiceLine(
+                                linesData,
+                                languagesData,
+                                charactersData);
+                        setLines(normalizedLinesData)
+                    } else {
+                        setLines(linesData)
+                    }
 
-                } catch (Error){
+                } catch (Error) {
                     console.log("No characters found. Disabling character search.");
                     charactersData = null
                     setLines(linesData)
@@ -68,9 +70,6 @@ export function useGameData(gameFolder: string) {
                 setLanguages(languagesData)
                 setCurrentLanguage(languagesData[0])
                 setCharacters(charactersData)
-
-
-
 
 
             } catch (Error: Error | any) {
@@ -112,21 +111,22 @@ export function useGameData(gameFolder: string) {
         languages,
         currentLanguage,
         setCurrentLanguage,
-        error,
-        codeLength,
+        error
     }
 }
 
 // Will change speaker names to be based off voice lines instead of the speaker tag in the JSON.
 // If no such resolution is possible, the existing tag will be used.
-function normalizeSpeakerNameFromVoiceLine(jsonLines: Line[], languages: string[], characters: Characters, codeLength: number): Line[] {
+function normalizeSpeakerNameFromVoiceLine(jsonLines: Line[], languages: string[], characters: Characters): Line[] {
     if (!jsonLines || !languages || !characters) {
         return jsonLines;
     }
+    const codeLength = Object.keys(characters)[0]?.length ?? 0;
 
     if (codeLength === 0) {
         return jsonLines;
     }
+
 
     return jsonLines.map((jsonLine) => {
         if (!jsonLine.voice_file) {

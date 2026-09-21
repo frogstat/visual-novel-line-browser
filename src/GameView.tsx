@@ -25,8 +25,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         languages,
         currentLanguage,
         setCurrentLanguage,
-        error,
-        codeLength,
+        error
     } = useGameData(game.folderName);
 
     const playVoice = useAudioPlayer(voiceBasePath);
@@ -60,7 +59,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         setQuery,
         selectCharacter,
         resultIndices
-    } = useSearch(game.folderName, characters ?? {}, languages, codeLength, lines);
+    } = useSearch(game.folderName, characters ?? {}, languages, lines);
 
 
     return (
