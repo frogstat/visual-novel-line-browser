@@ -1,20 +1,79 @@
-* {
-    font-family: sans-serif;
+/* ==========================================================================
+   TABLE OF CONTENTS
+   1. Scale and tokens
+   2. Base elements
+   3. Shared
+   4. Game selector screen
+   5. Game view
+      5.1 Game box
+      5.2 Language selector
+      5.3 Audio player
+      5.4 Header
+      5.5 Search tools
+      5.6 Results (list + card)
+      5.7 Context panel
+
+   SCALING: every size in this file is in rem (or %, em, vh). The only place
+   that decides how big the UI is, is the font-size on <html> in section 1.
+   Do not add px sizes; they will not scale.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. SCALE AND TOKENS
+   ========================================================================== */
+
+html {
+    /* 1rem = 16px up to 1920px wide (1080p and below), then grows in
+       proportion to the viewport: 2560px (1440p) -> 21.3px, 3840px (4K) -> 32px.
+       To make the UI larger or smaller everywhere, change the divisor (120). */
+    font-size: clamp(16px, calc(100vw / 120), 64px);
 }
 
+/* Names are unchanged, since per-game theme.css files may override them. */
 :root {
+    /* Surfaces */
     --background-color: #111111;
     --element-background-color: #181818;
     --element-background-color-hover: #232323;
     --element-border-color: #292929;
+    --panel-background-color: #222222;
+    --overlay-color: rgb(0 0 0 / 0.65);
 
+    /* Text */
     --text-color: #EEEEEE;
 
+    /* Buttons */
     --button-color: #555555;
     --button-color-hover: #666666;
     --button-color-active: #777777;
     --button-color-disabled: #1E1E1E;
+    --button-toggled-color: rgb(0 255 0 / 0.3);
+    --button-toggled-color-hover: rgb(0 255 0 / 0.4);
+    --close-button-color: #333333;
+    --close-button-color-hover: #444444;
 
+    /* States */
+    --highlight-color: rgb(173 255 47 / 0.23);
+    --highlight-color-hover: rgb(180 255 74 / 0.35);
+    --language-active-color: rgb(73 82 103 / 0.64);
+
+    /* Game cards */
+    --game-card-background: rgb(0 0 0 / 0.30);
+    --game-card-background-hover: rgb(0 0 0 / 0.50);
+    --game-card-glow: #404040;
+
+    /* Motion */
+    --transition-fast: 120ms ease;
+}
+
+
+/* ==========================================================================
+   2. BASE ELEMENTS
+   ========================================================================== */
+
+* {
+    font-family: sans-serif;
 }
 
 body {
@@ -23,43 +82,85 @@ body {
     background-color: var(--background-color);
 }
 
-.app {
-    padding: 15px;
-    color: var(--text-color);
-}
-
 p {
     margin: 0;
 }
 
+/* Browsers give form controls a fixed px font size, which would not scale. */
+button,
+input,
+select {
+    font-size: inherit;
+}
+
 button {
     border: none;
-    padding: 5px;
+    padding: 0.3125rem;
     background-color: var(--button-color);
     color: var(--text-color);
-    border-radius: 5px;
-}
+    border-radius: 0.3125rem;
 
-button:disabled {
-    background-color: var(--button-color-disabled);
-    cursor: default;
-}
+    &:hover {
+        background-color: var(--button-color-hover);
+        cursor: pointer;
+    }
 
-button:hover {
-    background-color: var(--button-color-hover);
-    cursor: pointer;
-}
+    &:active {
+        background-color: var(--button-color-active);
+        transform: translateY(0.0625rem);
+    }
 
-button:active {
-    background-color: var(--button-color-active);
-    transform: translateY(1px);
+    &:disabled {
+        background-color: var(--button-color-disabled);
+        cursor: default;
+    }
 }
 
 input {
     color: black;
 }
 
-/** ----------GAME SELECTOR------------------ */
+
+/* ==========================================================================
+   3. SHARED
+   ========================================================================== */
+
+.app {
+    padding: 0.9375rem;
+    color: var(--text-color);
+}
+
+/* SVG icon drawn as a mask, so it takes the current text color (see SvgIcon.tsx).
+   The image itself is set inline via mask-image. */
+.icon {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 0.875rem;
+    height: 0.875rem;
+    background-color: black;
+
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+}
+
+/* Toggled state for filter buttons */
+.button-active {
+    background-color: var(--button-toggled-color);
+
+    &:hover {
+        background-color: var(--button-toggled-color-hover);
+    }
+}
+
+
+/* ==========================================================================
+   4. GAME SELECTOR SCREEN
+   ========================================================================== */
+
 .game-selector-screen {
     color: var(--text-color);
 }
@@ -67,103 +168,95 @@ input {
 .game-selector-container {
     margin: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fill, 220px);
-    gap: 20px;
-    max-width: 1200px;
+    grid-template-columns: repeat(auto-fill, 13.75rem);
+    gap: 1.25rem;
+    max-width: 75rem;
 }
 
 .game-card {
-    background-color: rgb(0 0 0 / 0.30);
-    border-radius: 15px;
+    background-color: var(--game-card-background);
+    border-radius: 0.9375rem;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: 120ms ease;
+    transition: var(--transition-fast);
 
     p {
-        margin: 15px;
-        font-size: 12px;
+        margin: 0.9375rem;
+        font-size: 0.75rem;
+    }
+
+    &:hover {
+        background-color: var(--game-card-background-hover);
+        box-shadow: 0 0 1.875rem 0.0625rem var(--game-card-glow);
+        transform: translateY(-0.125rem);
     }
 }
 
-.game-card:hover {
-    background-color: rgb(0 0 0 / 0.50);
-    box-shadow: 0 0 30px 1px #404040;
-    transform: translateY(-2px);
-    transition: 120ms ease;
-}
-
 .game-card-image {
-    height: 300px;
-    width: 200px;
-    margin-top: 10px;
-    border-radius: 10px;
+    height: 18.75rem;
+    width: 12.5rem;
+    margin-top: 0.625rem;
+    border-radius: 0.625rem;
 }
 
 
-/**-----------GAME-BOX-------------*/
+/* ==========================================================================
+   5. GAME VIEW
+   ========================================================================== */
+
+/* ---------- 5.1 Game box ---------- */
 
 .game-box {
-    /*box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);*/
-    /*background-color: var(--background-light);*/
-    backdrop-filter: blur(2px);
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
-    padding: 10px;
-    border-radius: 15px;
+    backdrop-filter: blur(0.125rem);
+    text-shadow: 0 0.125rem 0.3125rem rgb(0 0 0 / 0.35);
+    padding: 0.625rem;
+    border-radius: 0.9375rem;
     width: 100%;
-    max-width: 900px;
+    max-width: 56.25rem;
     margin: 0 auto;
 }
 
 
-/**-----------HEADER----------*/
+/* ---------- 5.2 Language selector (used in header and context panel) ---------- */
 
-.header {
-    background-color: var(--element-background-color);
-    border: solid 2px var(--element-border-color);
-    padding: 10px;
-    border-radius: 15px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+.language-selector-container {
+    display: inline-flex;
+    flex-direction: row;
+    padding: 0.3125rem;
+    gap: 0.625rem;
+    border-radius: 1.5625rem;
+    background: var(--background-color);
+}
 
-    justify-items: start;
-    align-items: start;
-    margin-bottom: 20px;
+.language-tag {
+    background: transparent;
+    border: 0;
+    border-radius: 0.9375rem;
+    font-size: 1rem;
+    font-weight: 500;
+    width: 3.75rem;
+    text-align: center;
+    transition: 200ms ease;
 
-    .button {
-        justify-self: start;
-        align-self: start;
-
-    }
-
-    .game-title {
-        margin: 0;
-        font-size: 40px;
-        justify-self: start;
-        align-self: end;
-        font-style: italic;
-    }
-
-    .language-selector-wrapper {
-        justify-self: end;
-        align-self: end;
-    }
-
-    .audio-player-container {
-        justify-self: end;
-        align-self: start;
+    &:hover {
+        cursor: pointer;
     }
 }
 
-/** ----------AUDIO PLAYER-----------------*/
+.language-tag-active {
+    background-color: var(--language-active-color);
+}
+
+
+/* ---------- 5.3 Audio player ---------- */
 
 .audio-player-container {
-    padding: 10px;
-    border-radius: 15px;
+    padding: 0.625rem;
+    border-radius: 0.9375rem;
     width: 100%;
-    max-width: 220px;
+    max-width: 13.75rem;
     box-sizing: border-box;
 }
 
@@ -174,9 +267,9 @@ input {
     font-style: italic;
     opacity: 70%;
     text-align: right;
-    font-size: 12px;
-    margin: 0 0 8px;
-    padding-right: 4px;
+    font-size: 0.75rem;
+    margin: 0 0 0.5rem;
+    padding-right: 0.25rem;
 }
 
 .audio-controls {
@@ -191,103 +284,126 @@ input {
 }
 
 .audio-player-button {
-    height: 24px;
-    width: 24px;
-    padding: 0;
-    border-radius: 5px;
-    margin-right: 5px;
-
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 1.5rem;
+    width: 1.5rem;
+    padding: 0;
+    border-radius: 0.3125rem;
+    margin-right: 0.3125rem;
 }
 
-.audio-player-button img {
-    width: 14px;
-    height: 14px;
-}
-
+/* Range inputs are drawn by the browser at a fixed px size, so the track and
+   thumb are styled here to make the slider scale with everything else. */
 .volume-slider {
+    appearance: none;
     margin: 0;
     width: 100%;
-}
-
-/** ----------LANGUAGE SELECTOR---------- */
-.language-selector-container {
-
-    display: inline-flex;
-    flex-direction: row;
-    padding: 5px;
-    gap: 10px;
-    border-radius: 25px;
-
-    background: var(--background-color);
-}
-
-.language-tag {
+    height: 1rem;
     background: transparent;
-    border: 0;
-    border-radius: 15px;
-    font-size: 16px;
-    font-weight: 500;
-    width: 60px;
-    transition: 200ms ease;
-    text-align: center;
-}
-
-.language-tag:hover {
     cursor: pointer;
+
+    &::-webkit-slider-runnable-track {
+        height: 0.25rem;
+        border-radius: 0.125rem;
+        background: var(--button-color);
+    }
+
+    &::-moz-range-track {
+        height: 0.25rem;
+        border-radius: 0.125rem;
+        background: var(--button-color);
+    }
+
+    &::-webkit-slider-thumb {
+        appearance: none;
+        width: 0.875rem;
+        height: 0.875rem;
+        margin-top: -0.3125rem; /* centers the thumb on the track */
+        border: none;
+        border-radius: 50%;
+        background: var(--text-color);
+    }
+
+    &::-moz-range-thumb {
+        width: 0.875rem;
+        height: 0.875rem;
+        border: none;
+        border-radius: 50%;
+        background: var(--text-color);
+    }
 }
 
-.language-tag-active {
-    background-color: rgb(73 82 103 / 0.64);
-    transition: 200ms ease;
+
+/* ---------- 5.4 Header ---------- */
+
+.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    justify-items: start;
+    align-items: start;
+    margin-bottom: 1.25rem;
+    padding: 0.625rem;
+    border: solid 0.125rem var(--element-border-color);
+    border-radius: 0.9375rem;
+    background-color: var(--element-background-color);
+
+    .game-title {
+        margin: 0;
+        font-size: 2.5rem;
+        font-style: italic;
+        justify-self: start;
+        align-self: end;
+    }
+
+    .language-selector-wrapper {
+        justify-self: end;
+        align-self: end;
+    }
+
+    .audio-player-container {
+        justify-self: end;
+        align-self: start;
+    }
 }
 
 
-/** -----------SEARCH TOOLS -----------*/
-
-.button-active {
-    background-color: rgb(0 255 0 / 0.3);
-}
-
-.button-active:hover {
-    background-color: rgb(0 255 0 / 0.4);
-}
+/* ---------- 5.5 Search tools ---------- */
 
 .search-tools-top {
     display: flex;
-    margin-bottom: 15px;
-    justify-content: space-between;
     flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 0.9375rem;
 
     button {
-        width: 165px;
+        width: 10.3125rem;
     }
 
     @media (max-width: 710px) {
-
         flex-direction: column;
-        gap: 10px;
+        gap: 0.625rem;
+
         button {
             width: 100%;
         }
     }
-
-
 }
 
 .voice-filter {
     display: flex;
-    gap: 10px;
     flex-direction: row;
+    gap: 0.625rem;
+
     @media (max-width: 550px) {
         flex-direction: column;
+
         button {
             width: 100%;
         }
     }
-
 }
 
 .search-bar {
@@ -298,18 +414,44 @@ input {
 .search-query-bar {
     border: none;
     border-radius: 9999px;
-    padding: 5px 15px 5px 15px;
+    padding: 0.3125rem 0.9375rem;
     width: 55%;
 }
 
 .character-select-dropdown {
     width: 30%;
     border-radius: 9999px;
-    padding-left: 5px;
-
+    padding-left: 0.3125rem;
 }
 
-/** ----------RESULT LIST-----------*/
+
+/* ---------- 5.6 Results ---------- */
+
+/* Page info + pager */
+.result-list-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.625rem 0;
+    padding: 0 0.625rem;
+}
+
+.result-list-info-buttons {
+    display: flex;
+    flex-direction: row;
+
+    button {
+        padding: 0;
+        width: 2.5rem;
+        height: 1.5625rem;
+        border-radius: 0.4375rem;
+    }
+
+    p {
+        margin: 0 0.625rem;
+    }
+}
+
+/* List container (collapses when given .result-list-closed) */
 .result-list {
     display: grid;
     grid-template-rows: 1fr;
@@ -324,47 +466,21 @@ input {
     overflow: hidden;
 }
 
-.result-list-info {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-    padding: 0 10px;
-}
-
-.result-list-info-buttons {
-    display: flex;
-    flex-direction: row;
-
-    button {
-        padding: 0;
-        width: 40px;
-        height: 25px;
-        border-radius: 7px;
-    }
-
-    p {
-        margin: 0 10px;
-    }
-
-}
-
-/** ----------RESULT CARD---------- */
-
+/* Card (also used for lines inside the context panel) */
 .result-card {
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    border-radius: 6px;
-    padding: 10px 12px;
-    margin-bottom: 6px;
     flex-direction: row;
+    justify-content: space-between;
+    gap: 1.25rem;
+    margin-bottom: 0.375rem;
+    padding: 0.625rem 0.75rem;
+    border: 0.0625rem solid var(--element-border-color);
+    border-radius: 0.375rem;
     background-color: var(--element-background-color);
-    transition: 120ms ease;
-    border: 1px solid var(--element-border-color);
+    transition: var(--transition-fast);
 
-
-    p {
-        margin: 0;
+    &:hover {
+        background-color: var(--element-background-color-hover);
     }
 }
 
@@ -373,22 +489,7 @@ input {
     flex: 1;
     flex-direction: column;
     justify-content: center;
-    gap: 5px;
-
-    p {
-        margin: 0;
-    }
-}
-
-.result-card:hover {
-    background-color: var(--element-background-color-hover);
-    transition: 120ms ease;
-}
-
-.result-card-header {
-    min-height: 50%;
-    display: flex;
-    justify-content: space-between;
+    gap: 0.3125rem;
 }
 
 .result-card-right {
@@ -397,22 +498,24 @@ input {
     align-items: end;
 }
 
-.result-index {
-    margin-top: 3px;
-    font-size: 10px;
-    opacity: 50%;
-}
-
 .result-card-actions {
     display: flex;
     align-items: start;
     justify-content: end;
-    gap: 10px;
+    gap: 0.625rem;
 
     button {
-        height: 28px;
-        min-width: 28px;
+        height: 1.75rem;
+        min-width: 1.75rem;
     }
+}
+
+.card-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 0.3125rem;
 }
 
 .voice-file-link {
@@ -420,49 +523,42 @@ input {
     text-decoration: none;
     outline: none;
     opacity: 50%;
-    font-size: 10px;
+    font-size: 0.625rem;
     cursor: pointer;
-}
 
-.voice-file-link:hover {
-    opacity: 1;
-}
-
-.card-button {
-    padding: 0;
-    border-radius: 5px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-        width: 14px;
-        height: 14px;
+    &:hover {
+        opacity: 1;
     }
 }
 
-/** ----------CONTEXT PANEL---------- */
+.result-index {
+    margin-top: 0.1875rem;
+    font-size: 0.625rem;
+    opacity: 50%;
+}
+
+
+/* ---------- 5.7 Context panel ---------- */
 
 .context-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.65);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 1.25rem;
+    background: var(--overlay-color);
     z-index: 100;
 }
 
 .context-panel {
-    width: 950px;
-    max-height: 98vh;
     display: flex;
     flex-direction: column;
-    background: #222222;
-    border: 1px solid #292929;
-    border-radius: 8px;
+    width: 59.375rem;
+    max-height: 98vh;
+    background: var(--panel-background-color);
+    border: 0.0625rem solid var(--element-border-color);
+    border-radius: 0.5rem;
     overflow: hidden;
 }
 
@@ -470,268 +566,48 @@ input {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    padding: 10px 12px;
+    gap: 0.625rem;
+    padding: 0.625rem 0.75rem;
 }
 
 .context-panel-header-right {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
 }
 
-
 .context-close {
-    flex-shrink: 0;
-    width: 28px;
-    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    width: 1.75rem;
+    height: 1.75rem;
     padding: 0;
     border: 0;
-    border-radius: 6px;
-    background: #333;
+    border-radius: 0.375rem;
+    background: var(--close-button-color);
+    font-size: 0.875rem;
     cursor: pointer;
-    font-size: 14px;
-}
 
-.context-close:hover {
-    background: #444;
-}
-
-.context-panel-lines {
-    overflow-y: scroll;
-    padding: 10px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.context-card-current {
-    background-color: rgb(173 255 47 / 0.23);
-}
-
-.context-card-current:hover {
-    background-color: rgb(180 255 74 / 0.35);
-}
-
-@media (min-height: 1200px) {
-    @media (min-width: 980px) {
-        .game-box {
-            max-width: 1400px;
-
-            img {
-                scale: 1.5;
-            }
-        }
-
-        button {
-            padding: 8px;
-        }
-
-        .game-card {
-            border-radius: 25px;
-
-            p {
-                font-size: 18px;
-                margin: 25px;
-            }
-        }
-
-        .context-panel {
-            width: 1425px;
-        }
-
-        .game-selector-container {
-            grid-template-columns: repeat(auto-fill, 320px);
-            gap: 30px;
-            max-width: 1800px;
-        }
-
-        .game-card-image {
-            height: 450px;
-            width: 300px;
-
-        }
-
-        .audio-player-container {
-            max-width: 330px;
-        }
-
-        .track-title {
-            font-size: 18px;
-        }
-
-        .audio-player-button {
-            height: 36px;
-            width: 36px;
-        }
-
-        .result-card {
-            font-size: 22px;
-            margin-bottom: 10px;
-            border-radius: 9px;
-            padding: 15px 18px;
-        }
-
-        .result-card-actions button {
-            height: 42px;
-            min-width: 42px;
-
-            img {
-                width: 42px;
-            }
-        }
-
-        .result-index {
-            margin-top: 6px;
-            font-size: 15px;
-        }
-
-        .voice-file-link {
-            font-size: 16px;
-        }
-
-        .header,
-        .search-tools,
-        .result-list-info {
-            font-size: 20px;
-
-            button {
-                font-size: 20px;
-            }
-
-            input {
-                font-size: 20px;
-            }
-        }
-
-        .search-tools button {
-            width: 250px;
-            gap: 30px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        .result-list-info button {
-            width: 40px;
-            height: 30px;
-        }
-
-        .header .game-title{
-            font-size: 60px;
-        }
-
+    &:hover {
+        background: var(--close-button-color-hover);
     }
 }
 
-@media (min-height: 1900px) {
-    @media (min-width: 1700px) {
-        .game-box {
-            max-width: 2500px;
+.context-panel-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    overflow-y: scroll;
+}
 
-            img {
-                scale: 2;
-            }
-        }
+/* The line the panel was opened from. Must stay after .result-card. */
+.context-card-current {
+    background-color: var(--highlight-color);
 
-        .game-card {
-            border-radius: 30px;
-
-            p {
-                font-size: 26px;
-                margin: 35px;
-            }
-        }
-
-        .context-panel {
-            width: 2600px;
-        }
-
-
-
-        .game-selector-container {
-            grid-template-columns: repeat(auto-fill, 460px);
-            gap: 45px;
-            max-width: 2600px;
-        }
-
-        .game-card-image {
-            height: 600px;
-            width: 400px;
-
-        }
-
-        .audio-player-container {
-            max-width: 440px;
-        }
-
-        .track-title {
-            font-size: 30px;
-        }
-
-        .audio-player-button {
-            height: 54px;
-            width: 54px;
-            margin-right: 20px;
-        }
-
-        .result-card {
-            font-size: 36px;
-            margin-bottom: 14px;
-            border-radius: 12px;
-            padding: 20px 26px;
-        }
-
-        .result-card-actions button {
-            height: 56px;
-            min-width: 56px;
-
-            img {
-                width: 52px;
-            }
-        }
-
-        .result-index {
-            margin-top: 9px;
-            font-size: 20px;
-        }
-
-        .voice-file-link {
-            font-size: 22px;
-        }
-
-        .header,
-        .search-tools,
-        .result-list-info {
-            font-size: 36px;
-
-            button {
-                font-size: 36px;
-
-            }
-
-            input {
-                font-size: 36px;
-            }
-        }
-
-        .search-tools button {
-            width: 450px;
-            gap: 30px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        .result-list-info button {
-            width: 70px;
-            height: 60px;
-        }
-
-        .header .game-title{
-            font-size: 80px;
-        }
-
+    &:hover {
+        background-color: var(--highlight-color-hover);
     }
 }

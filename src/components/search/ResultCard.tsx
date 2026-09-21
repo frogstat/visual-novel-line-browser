@@ -5,6 +5,7 @@ import searchIcon from "../../assets/search-icon.svg"
 import favoriteIcon from "../../assets/favorited.svg"
 import notFavoritedIcon from "../../assets/not-favorited.svg"
 import {getLineValue} from "../../utils/lineParser.ts";
+import SvgIcon from "../SvgIcon.tsx";
 
 
 type LineCardProps = {
@@ -62,22 +63,26 @@ function ResultCard({
                                 {getFileWithoutExtension(line.voice_file)}
                             </a>
                             <button className="card-button" onClick={() => playVoice(line.voice_file)}>
-                                <img src={playIcon} alt="Play"/>
+                                <SvgIcon label={"play"} icon={playIcon}/>
                             </button>
                         </>
                     )}
 
                     <button className="card-button" onClick={() => toggleFavorite(lineIndex)}>
-                        <img
-                            alt={isFavorited() ? "favorite" : "unfavorite"}
-                            src={isFavorited() ? favoriteIcon : notFavoritedIcon}/>
+                        <SvgIcon
+                            label={isFavorited() ? "favorite" : "unfavorite"}
+                            icon={isFavorited() ? favoriteIcon : notFavoritedIcon}
+                        />
                     </button>
 
                     {showContextView && (
-                        <button className="card-button" onClick={() => showContextView(lineIndex)}>
-                            <img src={searchIcon} alt="Search"/>
-                        </button>
-                    )}
+                            <button className="card-button" onClick={() => showContextView(lineIndex)}>
+                                <SvgIcon
+                                    label={"search"}
+                                    icon={searchIcon}
+                                />
+                            </button>
+                        )}
 
 
                 </div>

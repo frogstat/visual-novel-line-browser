@@ -3,6 +3,8 @@ import pauseButton from "../../assets/pause-icon.svg"
 import playButton from "../../assets/play-icon.svg"
 import nextIcon from "../../assets/next-icon.svg"
 import {getFileWithoutExtension} from "../../utils/generalUtils.ts";
+import type {CSSProperties} from "react";
+import SvgIcon from "../SvgIcon.tsx";
 
 type AudioPlayerProps = {
     currentTrack: string
@@ -21,11 +23,10 @@ function AudioPlayer({currentTrack, volume, changeVolume, playNextTrack, isPlayi
             <div className="audio-controls">
                 <div className="buttons">
                     <button className="audio-player-button" onClick={togglePause}>
-                        <img src={isPlaying ? pauseButton : playButton} alt={isPlaying ? "pause" : "play"}/>
+                        <SvgIcon label={isPlaying ? "pause" : "play"} icon={isPlaying ? pauseButton : playButton}/>
                     </button>
-
                     <button className="audio-player-button" onClick={playNextTrack}>
-                        <img src={nextIcon} alt="next"/>
+                        <SvgIcon label={"next"} icon={nextIcon}/>
                     </button>
                 </div>
 
