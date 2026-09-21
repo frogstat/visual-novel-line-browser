@@ -38,19 +38,17 @@ export function useGameData(gameFolder: string) {
                 let languagesData: string[];
 
                 let metadata: Metadata | undefined;
-                let hasCharacterCode = false;
                 try {
                     metadata = await loadJson<Metadata>(`/${gamePath}/metadata.json`);
-                    hasCharacterCode = metadata?.hasCharacterCode ?? false;
                     languagesData = metadata.languages ?? [""];
                 } catch (Error) {
-                    console.log("No languages found. Disabling language feature.");
+                    console.log("No metadata found. Disabling language and character code feature.");
                     languagesData = [""]
                 }
 
                 try {
                     charactersData = await loadJson<Characters>(`/${gamePath}/characters.json`)
-                    if (hasCharacterCode){
+                    if (metadata?.hasCharacterCode ?? false){
                         const normalizedLinesData =
                             normalizeSpeakerNameFromVoiceLine(
                                 linesData,
