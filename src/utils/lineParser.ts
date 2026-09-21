@@ -60,14 +60,10 @@ export function getLineValue(line: Line, key: "speaker" | "text",  language?: st
 export function getCharacterName(characters: Characters, characterCode: string, language?: string): string {
     const character = characters[characterCode];
 
-    if (typeof character === "string") {
-        return character;
-    }
+    const characterName = language ?
+        character[`name_${language}`]
+        : character[`name`];
 
-    if (!language) {
-        return "";
-    }
-
-    return character?.[`name_${language}`] ?? "";
+    return characterName ? characterName : "";
 }
 

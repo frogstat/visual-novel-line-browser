@@ -7,10 +7,11 @@ export type Line = {
 };
 
 export type Character = {
+    name?: string | null | undefined;
     [key: `name_${string}`]: string | null | undefined;
 }
 
-export type Characters = Record<string, Character | string>;
+export type Characters = Record<string, Character>;
 
 export type ContextView = {
     originIndex: number,
