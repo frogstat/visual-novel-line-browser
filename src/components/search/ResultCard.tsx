@@ -19,7 +19,8 @@ type LineCardProps = {
     voiceBasePath: string,
 
     // Result Card only
-    showContextView: ((originIndex: number) => void) | null;
+    showContextView: ((originIndex: number) => void) | null,
+    setSelectedCharacter: ((name: string) => void) | null,
 
     // Context Card only
     isCurrent: boolean | null;
@@ -36,7 +37,8 @@ function ResultCard({
                         showContextView,
                         isCurrent,
                         originLineRef,
-                        voiceBasePath
+                        voiceBasePath,
+                        setSelectedCharacter
 
                     }: LineCardProps) {
 
@@ -44,13 +46,28 @@ function ResultCard({
         return favorites.includes(lineIndex)
     }
 
+    function handleSpeakerClick(): void {
+        if (!setSelectedCharacter) {
+            return;
+        }
+        const name = getLineValue(line, "speaker", currentLanguage)
+        setSelectedCharacter(name)
+    }
+
     return (
         <div className={`result-card ${isCurrent && originLineRef ? "context-card-current" : ""}`}
              ref={isCurrent ? originLineRef : null}>
             <div className="result-card-left">
+
                 {getLineValue(line, "speaker", currentLanguage) && (
-                    <p>{getLineValue(line, "speaker", currentLanguage)}</p>)}
+                    <p className="result-card-speaker" style={setSelectedCharacter !== null ? {cursor: "pointer"} : {}}
+                       onClick={handleSpeakerClick}>
+                        {getLineValue(line, "speaker", currentLanguage)}
+                    </p>
+                )}
+
                 <p>{getLineValue(line, "text", currentLanguage)}</p>
+
             </div>
 
             <div className="result-card-right">
@@ -76,13 +93,13 @@ function ResultCard({
                     </button>
 
                     {showContextView && (
-                            <button className="card-button" onClick={() => showContextView(lineIndex)}>
-                                <SvgIcon
-                                    label={"search"}
-                                    icon={searchIcon}
-                                />
-                            </button>
-                        )}
+                        <button className="card-button" onClick={() => showContextView(lineIndex)}>
+                            <SvgIcon
+                                label={"search"}
+                                icon={searchIcon}
+                            />
+                        </button>
+                    )}
 
 
                 </div>

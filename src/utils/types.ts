@@ -24,11 +24,6 @@ export type Game = {
     title: string
 }
 
-export type SelectedCharacter = {
-    id: string,
-    names: string[]
-}
-
 export type VoiceFilter = "any" | "voiced" | "unvoiced"
 
 export type Metadata = {

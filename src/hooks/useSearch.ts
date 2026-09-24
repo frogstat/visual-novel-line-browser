@@ -1,17 +1,18 @@
-import {type ChangeEvent, useEffect, useMemo, useState} from "react";
-import type {Characters, Line, SelectedCharacter, VoiceFilter} from "../utils/types.ts";
+import {type ChangeEvent, useEffect, useMemo, useRef, useState} from "react";
+import type {Line, VoiceFilter} from "../utils/types.ts";
 import {createListOfMatches} from "../utils/search.ts";
-import {getCharacterName} from "../utils/lineParser.ts";
 
 
-export function useSearch(gameFolder: string, characters: Characters, languages: string[], lines: Line[] | null) {
+export function useSearch(gameFolder: string, languages: string[], lines: Line[] | null) {
     const [query, setQuery] = useState('');
 
     // Toggles
-    const [selectedCharacter, setSelectedCharacter] = useState<SelectedCharacter | null>(null);
+    const [selectedCharacter, setSelectedCharacter] = useState<string | null>(null);
     const [voiceFilter, setVoiceFilter] = useState<VoiceFilter>("any");
     const [favorites, setFavorites] = useState<number[]>([]);
     const [favoritesOnly, setFavoritesOnly] = useState<boolean>(false);
+
+    const topOfPageRef = useRef<any>(null);
 
     // FAVORITE-RELATED FUNCTIONS
 
@@ -26,6 +27,20 @@ export function useSearch(gameFolder: string, characters: Characters, languages:
         localStorage.setItem(`${gameFolder}-favorites`, JSON.stringify(favorites));
     }, [gameFolder, favorites]);
 
+
+
+    // when clicking a character, it should scroll up
+    useEffect(() => {
+        topOfPageRef.current?.scrollIntoView({
+            block: "start",
+            behavior: "smooth"
+        });
+    }, [selectedCharacter]);
+
+    function toggleFavoritesOnly(): void {
+        setFavoritesOnly(!favoritesOnly);
+    }
+
     // lineIndex is the index of the line in the lines list
     function toggleFavorite(lineIndex: number): void {
         setFavorites(prev => {
@@ -34,39 +49,17 @@ export function useSearch(gameFolder: string, characters: Characters, languages:
                 : [...prev, lineIndex];
         })
     }
-
-    function toggleFavoritesOnly(): void {
-        setFavoritesOnly(!favoritesOnly);
-    }
-
     //CHARACTER-RELATED FUNCTIONS
 
     function selectCharacter(e: ChangeEvent<HTMLSelectElement>): void {
         const option = e.target.selectedOptions[0];
-        const id = option.value;
+        const name = option.value;
 
-        if (!id) {
+        if (!name) {
             setSelectedCharacter(null);
             return;
         }
-
-
-
-        const names: string[] = [];
-
-        for (const language of languages) {
-            const name = getCharacterName(characters, id, language);
-
-            if (name) {
-                names.push(name);
-            }
-        }
-
-        if (!names.length) {
-            setSelectedCharacter(null);
-        } else {
-            setSelectedCharacter({id, names})
-        }
+        setSelectedCharacter(name)
     }
 
     // SEARCH
@@ -94,6 +87,9 @@ export function useSearch(gameFolder: string, characters: Characters, languages:
         toggleFavoritesOnly,
         setQuery,
         selectCharacter,
-        resultIndices
+        resultIndices,
+        setSelectedCharacter,
+        selectedCharacter,
+        topOfPageRef
     }
 }

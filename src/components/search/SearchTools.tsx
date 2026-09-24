@@ -12,6 +12,7 @@ type SearchBarProps = {
     toggleFavoritesOnly: () => void;
     voiceFilter: VoiceFilter;
     setVoiceFilter: (filter: VoiceFilter) => void;
+    selectedCharacter: string | null;
 };
 
 function SearchTools({
@@ -22,7 +23,8 @@ function SearchTools({
                          favoritesOnly,
                          toggleFavoritesOnly,
                          voiceFilter,
-                         setVoiceFilter
+                         setVoiceFilter,
+                         selectedCharacter
                      }: SearchBarProps) {
 
     return (
@@ -56,6 +58,7 @@ function SearchTools({
                         characters={characters}
                         currentLanguage={currentLanguage}
                         selectCharacter={selectCharacter}
+                        selectedCharacter={selectedCharacter}
                     />
                 )}
 

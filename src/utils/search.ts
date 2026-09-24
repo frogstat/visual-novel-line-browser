@@ -1,4 +1,4 @@
-import type {Line, SelectedCharacter, VoiceFilter} from "./types.ts";
+import type {Line, VoiceFilter} from "./types.ts";
 import {getFileWithoutExtension} from "./generalUtils.ts";
 import {getLineValue} from "./lineParser.ts";
 
@@ -7,10 +7,10 @@ export function createListOfMatches(
     lines: Line[],
     query: string,
     languages: string[],
-    selectedCharacter: SelectedCharacter | null,
+    selectedCharacter: string | null,
     favorites: number[],
     favoritesOnly: boolean,
-    voiceFilter:VoiceFilter): number[] {
+    voiceFilter: VoiceFilter): number[] {
 
 
     const q = query.toLowerCase();
@@ -23,7 +23,7 @@ export function createListOfMatches(
             continue;
         }
 
-        if(
+        if (
             (voiceFilter == "voiced" && !line.voice_file) ||
             (voiceFilter == "unvoiced" && line.voice_file)) {
             continue;
@@ -44,10 +44,10 @@ export function createListOfMatches(
 
 }
 
-function lineMatchesSelectedCharacter(selectedCharacter: SelectedCharacter, line: Line, languages: string[]): boolean {
+function lineMatchesSelectedCharacter(selectedCharacter: string, line: Line, languages: string[]): boolean {
     for (const language of languages) {
         const speaker = getLineValue(line, "speaker", language);
-        if (speaker && selectedCharacter.names.includes(speaker)) {
+        if (speaker === selectedCharacter) {
             return true;
         }
     }

@@ -58,12 +58,15 @@ function GameView({game, unselectGame}: GameViewProps) {
         toggleFavoritesOnly,
         setQuery,
         selectCharacter,
-        resultIndices
-    } = useSearch(game.folderName, characters ?? {}, languages, lines);
+        resultIndices,
+        setSelectedCharacter,
+        selectedCharacter,
+        topOfPageRef
+    } = useSearch(game.folderName, languages, lines);
 
 
     return (
-        <main className="app">
+        <main className="app" ref={topOfPageRef}>
             <div className="game-box">
                 <Header
                     returnToGameMenu={unselectGame}
@@ -91,6 +94,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                     toggleFavoritesOnly={toggleFavoritesOnly}
                     voiceFilter={voiceFilter}
                     setVoiceFilter={setVoiceFilter}
+                    selectedCharacter={selectedCharacter}
                 />
 
                 <ResultList
@@ -103,6 +107,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                     favorites={favorites}
                     toggleFavorite={toggleFavorite}
                     voiceBasePath={voiceBasePath}
+                    setSelectedCharacter={setSelectedCharacter}
                 />
             </div>
 

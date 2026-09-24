@@ -91,6 +91,7 @@ function ContextPanel({
                             favorites={favorites}
                             toggleFavorite={toggleFavorite}
                             voiceBasePath={voiceBasePath}
+                            setSelectedCharacter={null}
                         />
                     )}
                 </div>

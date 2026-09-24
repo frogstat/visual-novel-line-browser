@@ -6,6 +6,7 @@ const en = {
     favoritesOnly: "Favorites Only",
     searchQuote: "Search Quote...",
     noCharacters: "No Character",
+    miscCharacter: "Other Character",
 };
 
 const ja = {
@@ -16,6 +17,7 @@ const ja = {
     favoritesOnly: "お気に入りのみ",
     searchQuote: "セリフを検索",
     noCharacters: "キャラクターなし",
+    miscCharacter: "その他",
 };
 
 const ch = {
@@ -26,6 +28,7 @@ const ch = {
     favoritesOnly: "仅显示收藏",
     searchQuote: "搜索台词...",
     noCharacters: "无角色",
+    miscCharacter: "其他的",
 };
 
 export const uiLocale = {

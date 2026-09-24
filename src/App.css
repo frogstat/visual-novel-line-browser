@@ -501,6 +501,21 @@ input {
     flex-direction: column;
     justify-content: center;
     gap: 0.3125rem;
+
+    p{
+        width: fit-content;
+    }
+}
+
+.result-card-speaker{
+    color: rgb(255 241 147 / 0.8);
+    scale: 0.9;
+    transition: 0.2s ease;
+}
+
+.result-card-speaker:hover {
+    color: rgb(255 241 147 / 1);
+    transition: 0.2s ease;
 }
 
 .result-card-right {
