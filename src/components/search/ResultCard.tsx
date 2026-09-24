@@ -1,4 +1,4 @@
-import {getFileWithoutExtension} from "../../utils/generalUtils.ts";
+import downloadIcon from "../../assets/download.svg"
 import type {Line} from "../../utils/types.ts";
 import playIcon from "../../assets/play-icon.svg"
 import searchIcon from "../../assets/search-icon.svg"
@@ -74,14 +74,18 @@ function ResultCard({
                 <div className="result-card-actions">
                     {line.voice_file && (
                         <>
-                            <a className="voice-file-link"
-                               href={`${voiceBasePath}/${line.voice_file}`}
-                               download={line.voice_file.replaceAll("/", "_")}>
-                                {getFileWithoutExtension(line.voice_file)}
-                            </a>
                             <button className="card-button" onClick={() => playVoice(line.voice_file)}>
                                 <SvgIcon label={"play"} icon={playIcon}/>
                             </button>
+                            <a href={`${voiceBasePath}/${line.voice_file}`}
+                               download={line.voice_file.replaceAll("/", "_")}>
+                                <button className="card-button">
+                                    <SvgIcon
+                                        label={"download voice file"}
+                                        icon={downloadIcon}
+                                    />
+                                </button>
+                            </a>
                         </>
                     )}
 
