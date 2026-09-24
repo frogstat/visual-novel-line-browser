@@ -80,6 +80,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
+    line-height: 1.2;
 }
 
 p {
@@ -94,11 +95,20 @@ select {
 }
 
 button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     border: none;
-    padding: 0.3125rem;
+    padding: 0.3125rem 0.625rem;
+
+    min-height: 2rem;
+
     background-color: var(--button-color);
     color: var(--text-color);
+
     border-radius: 0.3125rem;
+    line-height: 1.2;
 
     &:hover {
         background-color: var(--button-color-hover);
@@ -115,6 +125,7 @@ button {
         cursor: default;
     }
 }
+
 
 input {
     color: black;
