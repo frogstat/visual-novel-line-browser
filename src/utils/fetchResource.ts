@@ -1,4 +1,6 @@
-export async function loadJson<T>(jsonPath: string): Promise<T> {
+import {gamesServer} from "../main.tsx";
+
+async function fetchJson<T>(jsonPath: string): Promise<T> {
 
     const response = await fetch(jsonPath);
 
@@ -13,3 +15,7 @@ export async function loadJson<T>(jsonPath: string): Promise<T> {
     return await response.json();
 }
 
+export async function fetchJsonResource<T>(jsonPath: string): Promise<T> {
+    const serverPath = gamesServer + jsonPath;
+    return await fetchJson(serverPath);
+}

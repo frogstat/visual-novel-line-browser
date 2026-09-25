@@ -6,15 +6,14 @@ import GameCard from "./components/GameCard.tsx";
 import type {Game} from "./utils/types.ts";
 
 
-
 function App() {
     const [game, setGame] = useState<Game | null>(null)
     const games: GameData | null = useGameManifest()
 
     function unselectGame() {
         setGame(null);
-
     }
+
 
     function resolveGameSelectorScreen() {
         if (games === null) {

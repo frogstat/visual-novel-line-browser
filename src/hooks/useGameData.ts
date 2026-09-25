@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
 import type {Characters, Line, Metadata} from "../utils/types.ts";
-import {loadJson} from "../utils/loadJson.ts";
+import {fetchJsonResource} from "../utils/fetchResource.ts";
 import {resolveSpeaker} from "../utils/lineParser.ts";
+import {gamesServer} from "../main.tsx";
 
 function resolveAudioFolder(gameFolder: string): string {
     if (gameFolder.endsWith(" ALTFOLDER")) {
@@ -32,14 +33,14 @@ export function useGameData(gameFolder: string) {
 
         async function loadData() {
             try {
-                const linesData = await loadJson<Line[]>(`/${gamePath}/lines.json`);
+                const linesData = await fetchJsonResource<Line[]>(`/${gamePath}/lines.json`);
 
                 let charactersData: Characters | null;
                 let languagesData: string[];
 
                 let metadata: Metadata | undefined;
                 try {
-                    metadata = await loadJson<Metadata>(`/${gamePath}/metadata.json`);
+                    metadata = await fetchJsonResource<Metadata>(`/${gamePath}/metadata.json`);
                     languagesData = metadata.languages ?? [""];
                 } catch (Error) {
                     console.log("No metadata found. Disabling language and character code feature.");
@@ -47,7 +48,7 @@ export function useGameData(gameFolder: string) {
                 }
 
                 try {
-                    charactersData = await loadJson<Characters>(`/${gamePath}/characters.json`)
+                    charactersData = await fetchJsonResource<Characters>(`/${gamePath}/characters.json`)
                     if (metadata?.hasCharacterCode ?? false){
                         const normalizedLinesData =
                             normalizeSpeakerNameFromVoiceLine(
@@ -87,7 +88,7 @@ export function useGameData(gameFolder: string) {
         const theme = document.createElement("link");
 
         theme.rel = "stylesheet";
-        theme.href = `/${gameFolder}/theme.css`;
+        theme.href = `${gamesServer}/${gameFolder}/theme.css`;
         theme.dataset.gameTheme = "true";
         document.head.appendChild(theme);
 

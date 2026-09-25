@@ -1,4 +1,5 @@
 import {useEffect, useRef} from "react";
+import {gamesServer} from "../main.tsx";
 
 export function useAudioPlayer(voiceBasePath:string){
     const currentAudio = useRef<HTMLAudioElement | null>(null);
@@ -13,7 +14,7 @@ export function useAudioPlayer(voiceBasePath:string){
             currentAudio.current.currentTime = 0;
         }
 
-        const audio = new Audio(`${voiceBasePath}/${voiceFile}`);
+        const audio = new Audio(`${gamesServer}${voiceBasePath}/${voiceFile}`);
         currentAudio.current = audio;
         audio.play().then(() => {
             console.log("[VOICE] playing " + voiceFile );

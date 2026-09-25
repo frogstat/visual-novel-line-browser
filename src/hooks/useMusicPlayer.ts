@@ -1,5 +1,6 @@
 import {useEffect, useRef, useState} from "react";
-import {loadJson} from "../utils/loadJson.ts";
+import {fetchJsonResource} from "../utils/fetchResource.ts";
+import {gamesServer} from "../main.tsx";
 
 
 
@@ -28,7 +29,7 @@ export function useMusicPlayer(baseMusicPath: string) {
         setFailedTracks([]);
         setCurrentTrack("");
 
-        loadJson<string[]>(`${baseMusicPath}/manifest.json`)
+        fetchJsonResource<string[]>(`${baseMusicPath}/manifest.json`)
             .then(musicData => {
                 if (!cancelled) {
                     setTracks(musicData);
@@ -55,7 +56,7 @@ export function useMusicPlayer(baseMusicPath: string) {
             return;
         }
 
-        const audio = new Audio(`${baseMusicPath}/${currentTrack}`);
+        const audio = new Audio(`${gamesServer}${baseMusicPath}/${currentTrack}`);
         audio.volume = volume;
         audioRef.current = audio;
 

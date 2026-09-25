@@ -6,6 +6,7 @@ import favoriteIcon from "../../assets/favorited.svg"
 import notFavoritedIcon from "../../assets/not-favorited.svg"
 import {getLineValue} from "../../utils/lineParser.ts";
 import SvgIcon from "../SvgIcon.tsx";
+import {gamesServer} from "../../main.tsx";
 
 
 type LineCardProps = {
@@ -77,7 +78,7 @@ function ResultCard({
                             <button className="card-button" onClick={() => playVoice(line.voice_file)}>
                                 <SvgIcon label={"play"} icon={playIcon}/>
                             </button>
-                            <a href={`${voiceBasePath}/${line.voice_file}`}
+                            <a href={`${gamesServer}${voiceBasePath}/${line.voice_file}?download=1`}
                                download={line.voice_file.replaceAll("/", "_")}>
                                 <button className="card-button">
                                     <SvgIcon

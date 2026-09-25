@@ -1,6 +1,7 @@
 import fallback from "../assets/fallback.png"
 import {useState} from "react";
 import type {Game} from "../utils/types.ts";
+import {gamesServer} from "../main.tsx";
 
 
 type GameGridProps = {
@@ -15,10 +16,10 @@ function GameCard({game, selectGame}: GameGridProps) {
 
 
     function resolveGameCover() {
-        return `/${encodeURIComponent(game.folderName)}/cover.png`
+        return `${gamesServer}/${encodeURIComponent(game.folderName)}/cover`
     }
 
-    const basePath = `/${encodeURIComponent(game.folderName)}`;
+    const basePath = `${gamesServer}/${encodeURIComponent(game.folderName)}`;
     const png = `${basePath}/cover.png`;
     const jpg = `${basePath}/cover.jpg`;
     const jpeg = `${basePath}/cover.jpeg`;

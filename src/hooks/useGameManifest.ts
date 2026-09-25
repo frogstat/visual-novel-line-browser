@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
-import {loadJson} from "../utils/loadJson.ts";
+import {fetchJsonResource} from "../utils/fetchResource.ts";
 
 export type GameData = Record<string, string>;
 
 export function useGameManifest(): GameData | null {
     const [games, setGames] = useState<GameData | null>(null);
     useEffect(() => {
-        loadJson<GameData>("/manifest.json")
+        fetchJsonResource<GameData>("/manifest.json")
             .then((data) => {
 
                 const sorted = Object.fromEntries(
