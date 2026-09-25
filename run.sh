@@ -6,4 +6,5 @@ python server.py &
 procid=$!
 cd -
 trap "kill $procid" EXIT
-npm run dev
+konsole -e "npm run dev"
+kill $procid
