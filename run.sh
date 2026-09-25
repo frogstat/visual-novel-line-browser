@@ -2,6 +2,8 @@
 [[ -d "node_modules" ]] || npm i
 
 cd backend
-konsole -e "python server.py" &
+python server.py &
+procid=$!
 cd -
-konsole -e "npm run dev"
+trap "kill $procid" EXIT
+npm run dev

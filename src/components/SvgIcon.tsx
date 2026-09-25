@@ -1,4 +1,9 @@
-function SvgIcon({label, icon}) {
+type SvgIconProps = {
+    label: string;
+    icon: any;
+}
+
+function SvgIcon({label, icon}: SvgIconProps) {
     const mask = `url("${icon}")`;
     return (
         <span
