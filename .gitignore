@@ -24,4 +24,7 @@ dist-ssr
 *.sw?
 
 public/
-backend/
+backend/public
+backend/__pycache__
+backend/app
+backend/_tools
