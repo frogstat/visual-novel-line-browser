@@ -11,8 +11,8 @@ type ResultListProps = {
     showContextView: (originIndex: number) => void,
     favorites: number[],
     toggleFavorite: (favoriteIndex: number) => void,
-    voiceBasePath: string,
     setSelectedCharacter: (name: string) => void
+    downloadVoiceFile: (name: string | null | undefined) => void,
 }
 
 
@@ -25,8 +25,8 @@ function ResultList({
                         showContextView,
                         favorites,
                         toggleFavorite,
-                        voiceBasePath,
-                        setSelectedCharacter
+                        setSelectedCharacter,
+                        downloadVoiceFile
                     }: ResultListProps,) {
 
     const {
@@ -67,8 +67,8 @@ function ResultList({
                             toggleFavorite={toggleFavorite}
                             isCurrent={null}
                             originLineRef={null}
-                            voiceBasePath={voiceBasePath}
                             setSelectedCharacter={setSelectedCharacter}
+                            downloadVoiceFile={downloadVoiceFile}
                         />
                     )}
                 </div>

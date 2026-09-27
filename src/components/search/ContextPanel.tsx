@@ -7,7 +7,7 @@ type ContextPanelProps = {
     lines: Line[],
     contextView: ContextView
     closeContext: () => void,
-    navigateContextView: (forward:boolean) => void,
+    navigateContextView: (forward: boolean) => void,
     languages: string[],
     currentLanguage: string
     setCurrentLanguage: (language: string) => void,
@@ -16,7 +16,7 @@ type ContextPanelProps = {
     contextMenuRef: any,
     favorites: number[],
     toggleFavorite: (favoriteIndex: number) => void,
-    voiceBasePath: string,
+    downloadVoiceFile: (name: string | null | undefined) => void,
 }
 
 
@@ -33,9 +33,8 @@ function ContextPanel({
                           contextMenuRef,
                           favorites,
                           toggleFavorite,
-                          voiceBasePath
+                          downloadVoiceFile
                       }: ContextPanelProps) {
-
 
 
     return (
@@ -90,8 +89,8 @@ function ContextPanel({
                             showContextView={null}
                             favorites={favorites}
                             toggleFavorite={toggleFavorite}
-                            voiceBasePath={voiceBasePath}
                             setSelectedCharacter={null}
+                            downloadVoiceFile={downloadVoiceFile}
                         />
                     )}
                 </div>

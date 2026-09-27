@@ -3,7 +3,6 @@ import pauseButton from "../../assets/pause-icon.svg"
 import playButton from "../../assets/play-icon.svg"
 import nextIcon from "../../assets/next-icon.svg"
 import {getFileWithoutExtension} from "../../utils/generalUtils.ts";
-import type {CSSProperties} from "react";
 import SvgIcon from "../SvgIcon.tsx";
 
 type AudioPlayerProps = {

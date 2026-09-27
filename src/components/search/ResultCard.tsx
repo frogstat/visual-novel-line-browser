@@ -16,7 +16,7 @@ type LineCardProps = {
     currentLanguage: string,
     favorites: number[],
     toggleFavorite: (favoriteIndex: number) => void,
-    voiceBasePath: string,
+    downloadVoiceFile: (name: string | null | undefined) => void,
 
     // Result Card only
     showContextView: ((originIndex: number) => void) | null,
@@ -37,7 +37,7 @@ function ResultCard({
                         showContextView,
                         isCurrent,
                         originLineRef,
-                        voiceBasePath,
+                        downloadVoiceFile,
                         setSelectedCharacter
 
                     }: LineCardProps) {
@@ -77,15 +77,12 @@ function ResultCard({
                             <button className="card-button" onClick={() => playVoice(line.voice_file)}>
                                 <SvgIcon label={"play"} icon={playIcon}/>
                             </button>
-                            <a href={`${voiceBasePath}/${line.voice_file}`}
-                               download={line.voice_file.replaceAll("/", "_")}>
-                                <button className="card-button">
-                                    <SvgIcon
-                                        label={"download voice file"}
-                                        icon={downloadIcon}
-                                    />
-                                </button>
-                            </a>
+                            <button className="card-button" onClick={() => downloadVoiceFile(line.voice_file)}>
+                                <SvgIcon
+                                    label={"download voice file"}
+                                    icon={downloadIcon}
+                                />
+                            </button>
                         </>
                     )}
 

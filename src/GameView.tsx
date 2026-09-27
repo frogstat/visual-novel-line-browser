@@ -3,7 +3,7 @@ import ResultList from "./components/search/ResultList.tsx";
 import SearchTools from "./components/search/SearchTools.tsx";
 import ContextPanel from "./components/search/ContextPanel.tsx";
 import {useGameData} from "./hooks/useGameData.ts";
-import {useAudioPlayer} from "./hooks/useAudioPlayer.ts";
+import {useVoicePlayer} from "./hooks/useVoicePlayer.ts";
 import {useMusicPlayer} from "./hooks/useMusicPlayer.ts";
 import {useContextView} from "./hooks/useContextView.ts";
 import type {Game} from "./utils/types.ts";
@@ -28,7 +28,10 @@ function GameView({game, unselectGame}: GameViewProps) {
         error
     } = useGameData(game.folderName);
 
-    const playVoice = useAudioPlayer(voiceBasePath);
+    const {
+        downloadVoiceFile,
+        playVoice
+    } = useVoicePlayer(voiceBasePath);
 
     const {
         tracks,
@@ -106,8 +109,8 @@ function GameView({game, unselectGame}: GameViewProps) {
                     showContextView={showContextView}
                     favorites={favorites}
                     toggleFavorite={toggleFavorite}
-                    voiceBasePath={voiceBasePath}
                     setSelectedCharacter={setSelectedCharacter}
+                    downloadVoiceFile={downloadVoiceFile}
                 />
             </div>
 
@@ -125,7 +128,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                     contextMenuRef={contextMenuRef}
                     favorites={favorites}
                     toggleFavorite={toggleFavorite}
-                    voiceBasePath={voiceBasePath}
+                    downloadVoiceFile={downloadVoiceFile}
                 />
             )}
         </main>

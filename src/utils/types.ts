@@ -30,3 +30,5 @@ export type Metadata = {
     languages?: string[],
     hasCharacterCode?: boolean
 }
+
+export type VoiceIndex = Record<string, [number, number]>
