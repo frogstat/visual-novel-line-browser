@@ -33,6 +33,14 @@ function GameCard({game, selectGame}: GameGridProps) {
         }
     }
 
+    function resolveGameTitle() {
+        if (game.title === "うみねこのなく頃に") {
+            return <p>うみねこの<span style={{color: "red"}}>な</span>く頃に</p>
+        } else {
+            return <p>{game.title}</p>
+        }
+    }
+
     return (
         <div onClick={selectGame} className="game-card">
             <img
@@ -40,7 +48,7 @@ function GameCard({game, selectGame}: GameGridProps) {
                 src={imageSrc}
                 alt="cover"
                 onError={handleImageError}/>
-            <p>{game.title}</p>
+            {resolveGameTitle()}
         </div>
 
     );
