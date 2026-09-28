@@ -24,7 +24,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         characters,
         languages,
         currentLanguage,
-        setCurrentLanguage,
+        changeLanguage,
         error
     } = useGameData(game.folderName);
 
@@ -76,7 +76,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                     gameName={game.title}
                     languages={languages}
                     currentLanguage={currentLanguage}
-                    setCurrentLanguage={setCurrentLanguage}
+                    changeLanguage={changeLanguage}
                     tracks={tracks}
                     musicProps={{
                         currentTrack,
@@ -122,7 +122,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                     navigateContextView={navigateContextView}
                     languages={languages}
                     currentLanguage={currentLanguage}
-                    setCurrentLanguage={setCurrentLanguage}
+                    changeLanguage={changeLanguage}
                     playVoice={playVoice}
                     originLineRef={originLineRef}
                     contextMenuRef={contextMenuRef}

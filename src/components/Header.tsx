@@ -7,7 +7,7 @@ type HeaderProps = {
     gameName: string,
     languages: string[],
     currentLanguage: string
-    setCurrentLanguage: (language: string) => void,
+    changeLanguage: (language: string) => void,
     musicProps: any,
     tracks: string[]
 };
@@ -17,7 +17,7 @@ function Header({
                     gameName,
                     languages,
                     currentLanguage,
-                    setCurrentLanguage,
+                    changeLanguage,
                     musicProps,
                     tracks
                 }: HeaderProps) {
@@ -50,7 +50,7 @@ function Header({
                     <LanguageSelector
                         languages={languages}
                         currentLanguage={currentLanguage}
-                        setCurrentLanguage={setCurrentLanguage}
+                        changeLanguage={changeLanguage}
                     />
                 </div>}
         </div>

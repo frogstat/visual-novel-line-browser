@@ -1,10 +1,10 @@
 type LanguageSelectorProps={
     languages: string[],
     currentLanguage: string,
-    setCurrentLanguage: (language: string) => void,
+    changeLanguage: (language: string) => void,
 }
 
-function LanguageSelector({languages, currentLanguage, setCurrentLanguage}: LanguageSelectorProps) {
+function LanguageSelector({languages, currentLanguage, changeLanguage}: LanguageSelectorProps) {
 
 
 
@@ -14,7 +14,7 @@ function LanguageSelector({languages, currentLanguage, setCurrentLanguage}: Lang
                 <div
                     key={language}
                     className={`language-tag ${language === currentLanguage ? "language-tag-active" : ""}`}
-                    onClick={() => setCurrentLanguage(language)}
+                    onClick={() => changeLanguage(language)}
                 >
                     <span>{language.toUpperCase()}</span>
                 </div>

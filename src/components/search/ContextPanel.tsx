@@ -10,7 +10,7 @@ type ContextPanelProps = {
     navigateContextView: (forward: boolean) => void,
     languages: string[],
     currentLanguage: string
-    setCurrentLanguage: (language: string) => void,
+    changeLanguage: (language: string) => void,
     playVoice: (voiceFile: string | null | undefined) => void,
     originLineRef: any,
     contextMenuRef: any,
@@ -25,7 +25,7 @@ function ContextPanel({
                           contextView,
                           closeContext,
                           navigateContextView,
-                          setCurrentLanguage,
+                          changeLanguage,
                           languages,
                           currentLanguage,
                           playVoice,
@@ -55,7 +55,7 @@ function ContextPanel({
                             <LanguageSelector
                                 currentLanguage={currentLanguage}
                                 languages={languages}
-                                setCurrentLanguage={setCurrentLanguage}
+                                changeLanguage={changeLanguage}
                             />
                         )}
 

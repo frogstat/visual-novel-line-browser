@@ -48,7 +48,7 @@ export function useGameData(gameFolder: string) {
 
                 try {
                     charactersData = await loadJson<Characters>(`/${gamePath}/characters.json`)
-                    if (metadata?.hasCharacterCode ?? false){
+                    if (metadata?.hasCharacterCode ?? false) {
                         const normalizedLinesData =
                             normalizeSpeakerNameFromVoiceLine(
                                 linesData,
@@ -66,8 +66,12 @@ export function useGameData(gameFolder: string) {
                 }
 
                 setLanguages(languagesData)
-                setCurrentLanguage(languagesData[0])
                 setCharacters(charactersData)
+
+                const startingLanguage = resolveStartingLanguage(
+                    localStorage.getItem("preferred-language"), languagesData
+                );
+                setCurrentLanguage(startingLanguage)
 
 
             } catch (Error: Error | any) {
@@ -101,6 +105,19 @@ export function useGameData(gameFolder: string) {
         };
     }, [gameFolder]);
 
+    // Handles explicit language switches
+    function changeLanguage(language: string) {
+        setCurrentLanguage(language)
+        localStorage.setItem("preferred-language", language);
+    }
+
+    function resolveStartingLanguage(storedLanguage: string | null, availableLanguages: string[]): string {
+        if (!storedLanguage || !availableLanguages.includes(storedLanguage)) {
+            return availableLanguages[0];
+        }
+        return storedLanguage;
+    }
+
     return {
         lines,
         voiceBasePath,
@@ -108,7 +125,7 @@ export function useGameData(gameFolder: string) {
         characters,
         languages,
         currentLanguage,
-        setCurrentLanguage,
+        changeLanguage,
         error
     }
 }
