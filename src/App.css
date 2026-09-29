@@ -102,7 +102,7 @@ button {
     border: none;
     padding: 0.3125rem 0.625rem;
 
-    min-height: 2rem;
+
 
     background-color: var(--button-color);
     color: var(--text-color);
@@ -264,7 +264,6 @@ input {
 /* ---------- 5.3 Audio player ---------- */
 
 .audio-player-container {
-    padding: 0.625rem;
     border-radius: 0.9375rem;
     width: 100%;
     max-width: 13.75rem;
@@ -281,6 +280,7 @@ input {
     font-size: 0.75rem;
     margin: 0 0 0.5rem;
     padding-right: 0.25rem;
+    padding-bottom: 0.25rem;
 }
 
 .audio-controls {
@@ -298,11 +298,11 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 1.5rem;
-    width: 1.5rem;
     padding: 0;
     border-radius: 0.3125rem;
     margin-right: 0.3125rem;
+    height: 1.5rem;
+    width: 1.5rem;
 }
 
 /* Range inputs are drawn by the browser at a fixed px size, so the track and
@@ -636,5 +636,15 @@ input {
 
     &:hover {
         background-color: var(--highlight-color-hover);
+    }
+}
+
+@media (max-width: 710px) {
+    .app{
+        padding: 0;
+        transition: ease 0.1s;
+    }
+    .game-box{
+        border-radius: 0;
     }
 }
