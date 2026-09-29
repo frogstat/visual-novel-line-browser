@@ -34,8 +34,9 @@ function GameCard({game, selectGame}: GameGridProps) {
     }
 
     function resolveGameTitle() {
-        if (game.title === "うみねこのなく頃に") {
-            return <p>うみねこの<span style={{color: "red"}}>な</span>く頃に</p>
+        if (game.title.endsWith("なく頃に")) {
+            const base = game.title.slice(0, -4);
+            return <p>{base}<span style={{color: "red"}}>な</span>く頃に</p>
         } else {
             return <p>{game.title}</p>
         }
