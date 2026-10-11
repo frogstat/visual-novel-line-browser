@@ -1,5 +1,5 @@
 export async function loadJson<T>(jsonPath: string): Promise<T> {
-
+    console.log(`[JSON] loading ${decodeURIComponent(jsonPath)}`);
     const response = await fetch(jsonPath);
 
     if (!response.ok) {
@@ -7,9 +7,26 @@ export async function loadJson<T>(jsonPath: string): Promise<T> {
     }
     const contentType: string = response.headers.get("content-type") ?? "";
 
-    if (!contentType.includes("application/json")) {
-        throw new Error(jsonPath + " did not return json. Does it exist?");
+    //Whenever a json.gz file is loaded, it's automatically served as plain json, so loadGzipJson is more of a precaution.
+    if (contentType.includes("application/json")) {
+        return response.json();
+    } else if (contentType.includes("application/gzip")) {
+        return loadGzipJson(response);
     }
-    return await response.json();
+
+    throw new Error(jsonPath + " did not return json. Does it exist?");
 }
 
+async function loadGzipJson<T>(response: Response):Promise<T> {
+    if (!response.body) {
+        throw new Error("Response body is empty");
+    }
+
+    const stream = response.body.pipeThrough(
+        new DecompressionStream("gzip")
+    );
+
+    const text = await new Response(stream).text();
+
+    return JSON.parse(text) as T;
+}

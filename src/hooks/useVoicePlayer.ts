@@ -9,7 +9,7 @@ export function useVoicePlayer(voiceBasePath: string) {
         setVoiceIndex(null);
 
         async function loadVoiceIndex() {
-            loadJson<VoiceIndex>(`${voiceBasePath}/voice_index.json`).then((data: VoiceIndex) => {
+            loadJson<VoiceIndex>(`${voiceBasePath}/voice_index.json.gz`).then((data: VoiceIndex) => {
                 setVoiceIndex(data);
             }).catch(console.error);
         }

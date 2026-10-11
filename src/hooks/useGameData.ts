@@ -22,7 +22,6 @@ export function useGameData(gameFolder: string) {
     const voiceBasePath: string = `/${audioFolder}/voice`;
     const musicBasePath: string = `/${audioFolder}/music`;
 
-    const gamePath: string = gameFolder
 
     useEffect(() => {
         setLines(null);
@@ -32,14 +31,14 @@ export function useGameData(gameFolder: string) {
 
         async function loadData() {
             try {
-                const linesData = await loadJson<Line[]>(`/${gamePath}/lines.json`);
+                const linesData = await loadJson<Line[]>(`/${gameFolder}/lines.json.gz`);
 
                 let charactersData: Characters | null;
                 let languagesData: string[];
 
                 let metadata: Metadata | undefined;
                 try {
-                    metadata = await loadJson<Metadata>(`/${gamePath}/metadata.json`);
+                    metadata = await loadJson<Metadata>(`/${gameFolder}/metadata.json.gz`);
                     languagesData = metadata.languages ?? [""];
                 } catch (Error) {
                     console.log("No metadata found. Disabling language and character code feature.");
@@ -47,7 +46,7 @@ export function useGameData(gameFolder: string) {
                 }
 
                 try {
-                    charactersData = await loadJson<Characters>(`/${gamePath}/characters.json`)
+                    charactersData = await loadJson<Characters>(`/${gameFolder}/characters.json.gz`)
                     if (metadata?.hasCharacterCode ?? false) {
                         const normalizedLinesData =
                             normalizeSpeakerNameFromVoiceLine(
@@ -88,21 +87,35 @@ export function useGameData(gameFolder: string) {
     }, [gameFolder])
 
     useEffect(() => {
-        const theme = document.createElement("link");
+        let theme: HTMLStyleElement | undefined;
 
-        theme.rel = "stylesheet";
-        theme.href = `/${gameFolder}/theme.css`;
-        theme.dataset.gameTheme = "true";
-        document.head.appendChild(theme);
+        async function loadTheme(){
+            const response = await fetch(`${gameFolder}/theme.css`);
+            if (!response.ok){
+                throw Error();
+            }
 
-        theme.onerror = () => {
-            console.log("Custom theme not found. Using default.")
-            theme.remove();
-        };
+            const contentType: string = response.headers.get("content-type") ?? "";
+
+            if (!contentType.includes("text/css")) {
+                throw Error();
+            }
+
+            return await response.text();
+        }
+
+        loadTheme().then(css => {
+            console.log("Using custom theme");
+            theme = document.createElement("style");
+            theme.textContent = css;
+            document.head.appendChild(theme);
+
+        }).catch(() => console.log("No theme found. Using default theme."));
 
         return () => {
-            theme.remove();
+            theme?.remove();
         };
+
     }, [gameFolder]);
 
     // Handles explicit language switches

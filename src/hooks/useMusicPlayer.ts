@@ -28,7 +28,7 @@ export function useMusicPlayer(baseMusicPath: string) {
         setFailedTracks([]);
         setCurrentTrack("");
 
-        loadJson<string[]>(`${baseMusicPath}/manifest.json`)
+        loadJson<string[]>(`${baseMusicPath}/manifest.json.gz`)
             .then(musicData => {
                 if (!cancelled) {
                     setTracks(musicData);
