@@ -53,9 +53,9 @@ function SearchTools({
                     placeholder={getUIName(currentLanguage, "searchQuote")}
                     onChange={(e) => setQuery(e.target.value)}
                 />
-                {characters && (
+                {(characters || selectedCharacter) && (
                     <CharacterSelect
-                        characters={characters}
+                        characters={characters ?? []}
                         currentLanguage={currentLanguage}
                         selectCharacter={selectCharacter}
                         selectedCharacter={selectedCharacter}

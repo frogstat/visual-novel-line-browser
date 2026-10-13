@@ -3,7 +3,7 @@ import {type ChangeEvent} from "react";
 import {getUIName} from "../../utils/uiLocale.ts";
 
 type CharacterSelectProps = {
-    characters: Characters,
+    characters: Characters | [],
     selectCharacter: (e: ChangeEvent<HTMLSelectElement>) => void,
     currentLanguage: string,
     selectedCharacter: string | null
