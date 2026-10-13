@@ -33,14 +33,14 @@ export function useGameData(gameFolder: string) {
 
         async function loadData() {
             try {
-                const linesData = await loadJson<Line[]>(`/${gameFolder}/lines.json.gz`);
+                const linesData = await loadJson<Line[]>(`/${gameFolder}/lines.json`);
 
                 let charactersData: Characters | null;
                 let languagesData: string[];
 
                 let metadata: Metadata | undefined;
                 try {
-                    metadata = await loadJson<Metadata>(`/${gameFolder}/metadata.json.gz`);
+                    metadata = await loadJson<Metadata>(`/${gameFolder}/metadata.json`);
                     languagesData = metadata.languages ?? [""];
                 } catch (Error) {
                     console.log("No metadata found. Disabling language and character code feature.");
@@ -48,7 +48,7 @@ export function useGameData(gameFolder: string) {
                 }
 
                 try {
-                    charactersData = await loadJson<Characters>(`/${gameFolder}/characters.json.gz`)
+                    charactersData = await loadJson<Characters>(`/${gameFolder}/characters.json`)
                     if (metadata?.hasCharacterCode ?? false) {
                         const codeLengthData = Object.keys(charactersData)[0]?.length || null;
                         setCodeLength(codeLengthData);

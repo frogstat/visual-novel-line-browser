@@ -6,7 +6,7 @@ export type GameData = Record<string, string>;
 export function useGameManifest(): GameData | null {
     const [games, setGames] = useState<GameData | null>(null);
     useEffect(() => {
-        loadJson<GameData>("/manifest.json.gz")
+        loadJson<GameData>("/manifest.json")
             .then((data) => {
 
                 const sorted = Object.fromEntries(
