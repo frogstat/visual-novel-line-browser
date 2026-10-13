@@ -510,7 +510,7 @@ input {
 
 .result-card-speaker{
     color: rgb(255 241 147 / 0.8);
-    scale: 0.9;
+    font-size: calc(clamp(16px, calc(100vw / 120), 64px) * 0.85);
     transition: 0.2s ease;
 }
 
