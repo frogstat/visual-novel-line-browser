@@ -1,4 +1,4 @@
-import type {Line, VoiceFilter} from "./types.ts";
+import type {Line, SelectedCharacter, VoiceFilter} from "./types.ts";
 import {getFileWithoutExtension} from "./generalUtils.ts";
 import {getLineValue} from "./lineParser.ts";
 
@@ -7,13 +7,16 @@ export function createListOfMatches(
     lines: Line[],
     query: string,
     languages: string[],
-    selectedCharacter: string | null,
+    selectedCharacter: SelectedCharacter | null,
     favorites: number[],
     favoritesOnly: boolean,
-    voiceFilter: VoiceFilter): number[] {
+    voiceFilter: VoiceFilter,
+    codeLength: number | null): number[] {
 
 
     const q = query.toLowerCase();
+    const qRegex = createQueryRegex(q);
+
     const matches: number[] = [];
 
     for (let i = 0; i < lines.length; i++) {
@@ -29,11 +32,11 @@ export function createListOfMatches(
             continue;
         }
 
-        if (selectedCharacter && !lineMatchesSelectedCharacter(selectedCharacter, lines[i], languages)) {
+        if (selectedCharacter && !lineMatchesSelectedCharacter(selectedCharacter, lines[i], languages, codeLength)) {
             continue;
         }
 
-        if (!lineMatchesQuery(line, q, languages)) {
+        if (!lineMatchesQuery(line, q, qRegex, languages)) {
             continue;
         }
 
@@ -44,17 +47,23 @@ export function createListOfMatches(
 
 }
 
-function lineMatchesSelectedCharacter(selectedCharacter: string, line: Line, languages: string[]): boolean {
+function lineMatchesSelectedCharacter(selectedCharacter: SelectedCharacter, line: Line, languages: string[], codeLength: number | null): boolean {
+    if(codeLength && line.voice_file && selectedCharacter.id !== null) {
+        if(line.voice_file.substring(0,codeLength) == selectedCharacter.id){
+            return true;
+        }
+    }
+
     for (const language of languages) {
         const speaker = getLineValue(line, "speaker", language);
-        if (speaker === selectedCharacter) {
+        if (speaker === selectedCharacter.name) {
             return true;
         }
     }
     return false;
 }
 
-function lineMatchesQuery(line: Line, query: string, languages: string[]): boolean {
+function lineMatchesQuery(line: Line, query: string, queryRegex: RegExp, languages: string[]): boolean {
 
     // Lack of search query means that everything matches.
     if (!query) {
@@ -71,16 +80,28 @@ function lineMatchesQuery(line: Line, query: string, languages: string[]): boole
     // Mainly to prevent search results from changing when swapping languages, but is also convenient.
     for (const language of languages) {
         const text = getLineValue(line, "text", language);
+        const speaker = getLineValue(line, "speaker", language);
 
-        if (!text) {
-            continue;
-        }
-
-        if (text.toLowerCase().includes(query)) {
+        if (speaker && speaker.toLowerCase().startsWith(query)) {
             return true;
         }
+
+        if (language === "en" && lineMatchesEnglishQuery(queryRegex, text)) {
+            return true;
+        } else if (language !== "en" && text.toLowerCase().includes(query)) {
+            return true;
+        }
+
     }
 
     return false;
 }
 
+function lineMatchesEnglishQuery(queryRegex: RegExp, text: string): boolean {
+    return queryRegex.test(text.replace("\"", ""));
+}
+
+function createQueryRegex(query: string) {
+    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return new RegExp(`\\b${escapedQuery}`, 'i');
+}

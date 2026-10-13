@@ -11,6 +11,11 @@ export type Character = {
     [key: `name_${string}`]: string | null | undefined;
 }
 
+export type SelectedCharacter = {
+    id: string | null,
+    name: string
+}
+
 export type Characters = Record<string, Character>;
 
 export type ContextView = {

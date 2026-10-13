@@ -1,4 +1,4 @@
-import type {Line} from "../../utils/types.ts";
+import type {Characters, Line, SelectedCharacter} from "../../utils/types.ts";
 import ResultCard from "./ResultCard.tsx";
 import {usePagination} from "../../hooks/usePagination.ts";
 
@@ -11,8 +11,9 @@ type ResultListProps = {
     showContextView: (originIndex: number) => void,
     favorites: number[],
     toggleFavorite: (favoriteIndex: number) => void,
-    setSelectedCharacter: (name: string) => void
+    setSelectedCharacter: (character: SelectedCharacter) => void
     downloadVoiceFile: (name: string | null | undefined) => void,
+    characters: Characters | null
 }
 
 
@@ -26,7 +27,8 @@ function ResultList({
                         favorites,
                         toggleFavorite,
                         setSelectedCharacter,
-                        downloadVoiceFile
+                        downloadVoiceFile,
+                        characters
                     }: ResultListProps,) {
 
     const {
@@ -69,6 +71,7 @@ function ResultList({
                             originLineRef={null}
                             setSelectedCharacter={setSelectedCharacter}
                             downloadVoiceFile={downloadVoiceFile}
+                            characters={characters}
                         />
                     )}
                 </div>

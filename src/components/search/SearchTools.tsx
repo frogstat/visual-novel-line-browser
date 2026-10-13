@@ -1,4 +1,4 @@
-import type {Characters, VoiceFilter} from "../../utils/types.ts";
+import type {Characters, SelectedCharacter, VoiceFilter} from "../../utils/types.ts";
 import CharacterSelect from "./CharacterSelect.tsx";
 import type {ChangeEvent} from "react";
 import {getUIName} from "../../utils/uiLocale.ts";
@@ -12,7 +12,7 @@ type SearchBarProps = {
     toggleFavoritesOnly: () => void;
     voiceFilter: VoiceFilter;
     setVoiceFilter: (filter: VoiceFilter) => void;
-    selectedCharacter: string | null;
+    selectedCharacter: SelectedCharacter | null;
 };
 
 function SearchTools({

@@ -1,13 +1,13 @@
 import {type ChangeEvent, useEffect, useMemo, useRef, useState} from "react";
-import type {Line, VoiceFilter} from "../utils/types.ts";
+import type {Characters, Line, SelectedCharacter, VoiceFilter} from "../utils/types.ts";
 import {createListOfMatches} from "../utils/search.ts";
 
 
-export function useSearch(gameFolder: string, languages: string[], lines: Line[] | null) {
+export function useSearch(gameFolder: string, languages: string[], lines: Line[] | null, codeLength: number | null, characters: Characters | null) {
     const [query, setQuery] = useState('');
 
     // Toggles
-    const [selectedCharacter, setSelectedCharacter] = useState<string | null>(null);
+    const [selectedCharacter, setSelectedCharacter] = useState<SelectedCharacter | null>(null);
     const [voiceFilter, setVoiceFilter] = useState<VoiceFilter>("any");
     const [favorites, setFavorites] = useState<number[]>([]);
     const [favoritesOnly, setFavoritesOnly] = useState<boolean>(false);
@@ -26,7 +26,6 @@ export function useSearch(gameFolder: string, languages: string[], lines: Line[]
     useEffect(() => {
         localStorage.setItem(`${gameFolder}-favorites`, JSON.stringify(favorites));
     }, [gameFolder, favorites]);
-
 
 
     // when clicking a character, it should scroll up
@@ -49,18 +48,29 @@ export function useSearch(gameFolder: string, languages: string[], lines: Line[]
                 : [...prev, lineIndex];
         })
     }
+
     //CHARACTER-RELATED FUNCTIONS
 
     function selectCharacter(e: ChangeEvent<HTMLSelectElement>): void {
         const option = e.target.selectedOptions[0];
-        const name = option.value;
+        const id = option.value;
 
-        if (!name) {
+        if (!id || !characters) {
             setSelectedCharacter(null);
             return;
         }
-        setSelectedCharacter(name)
+
+        const name = languages.length > 0 && languages[0] ?
+            characters[id][`name_${languages[0]}`] :
+            characters[id].name;
+
+        setSelectedCharacter({
+            id: id,
+            name: name ?? "",
+        })
     }
+
+
 
     // SEARCH
 
@@ -75,7 +85,8 @@ export function useSearch(gameFolder: string, languages: string[], lines: Line[]
             selectedCharacter,
             favorites,
             favoritesOnly,
-            voiceFilter);
+            voiceFilter,
+            codeLength);
     }, [lines, query, languages, selectedCharacter, favoritesOnly, voiceFilter]);
 
     return {

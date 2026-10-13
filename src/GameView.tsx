@@ -25,7 +25,8 @@ function GameView({game, unselectGame}: GameViewProps) {
         languages,
         currentLanguage,
         changeLanguage,
-        error
+        error,
+        codeLength
     } = useGameData(encodeURIComponent(game.folderName));
 
     const {
@@ -65,7 +66,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         setSelectedCharacter,
         selectedCharacter,
         topOfPageRef
-    } = useSearch(game.folderName, languages, lines);
+    } = useSearch(game.folderName, languages, lines, codeLength, characters);
 
 
     return (
@@ -111,6 +112,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                     toggleFavorite={toggleFavorite}
                     setSelectedCharacter={setSelectedCharacter}
                     downloadVoiceFile={downloadVoiceFile}
+                    characters={characters}
                 />
             </div>
 

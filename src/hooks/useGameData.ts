@@ -17,6 +17,7 @@ export function useGameData(gameFolder: string) {
     const [languages, setLanguages] = useState<string[]>([]);
     const [currentLanguage, setCurrentLanguage] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
+    const [codeLength, setCodeLength] = useState<number | null>(null);
 
     const audioFolder = resolveAudioFolder(gameFolder);
     const voiceBasePath: string = `/${audioFolder}/voice`;
@@ -26,6 +27,7 @@ export function useGameData(gameFolder: string) {
     useEffect(() => {
         setLines(null);
         setCharacters(null);
+        setCodeLength(null);
         setLanguages([]);
         setCurrentLanguage("");
 
@@ -48,11 +50,16 @@ export function useGameData(gameFolder: string) {
                 try {
                     charactersData = await loadJson<Characters>(`/${gameFolder}/characters.json.gz`)
                     if (metadata?.hasCharacterCode ?? false) {
+                        const codeLengthData = Object.keys(charactersData)[0]?.length || null;
+                        setCodeLength(codeLengthData);
+
                         const normalizedLinesData =
                             normalizeSpeakerNameFromVoiceLine(
                                 linesData,
                                 languagesData,
-                                charactersData);
+                                charactersData,
+                                codeLengthData);
+
                         setLines(normalizedLinesData)
                     } else {
                         setLines(linesData)
@@ -139,22 +146,17 @@ export function useGameData(gameFolder: string) {
         languages,
         currentLanguage,
         changeLanguage,
-        error
+        error,
+        codeLength
     }
 }
 
 // Will change speaker names to be based off voice lines instead of the speaker tag in the JSON.
 // If no such resolution is possible, the existing tag will be used.
-function normalizeSpeakerNameFromVoiceLine(jsonLines: Line[], languages: string[], characters: Characters): Line[] {
-    if (!jsonLines || !languages || !characters) {
+function normalizeSpeakerNameFromVoiceLine(jsonLines: Line[], languages: string[], characters: Characters, codeLength:number | null): Line[] {
+    if (!jsonLines || !languages || !characters || !codeLength) {
         return jsonLines;
     }
-    const codeLength = Object.keys(characters)[0]?.length ?? 0;
-
-    if (codeLength === 0) {
-        return jsonLines;
-    }
-
 
     return jsonLines.map((jsonLine) => {
         if (!jsonLine.voice_file) {

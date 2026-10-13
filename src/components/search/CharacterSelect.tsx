@@ -1,4 +1,4 @@
-import type {Character, Characters} from "../../utils/types.ts";
+import type {Character, Characters, SelectedCharacter} from "../../utils/types.ts";
 import {type ChangeEvent} from "react";
 import {getUIName} from "../../utils/uiLocale.ts";
 
@@ -6,7 +6,7 @@ type CharacterSelectProps = {
     characters: Characters | [],
     selectCharacter: (e: ChangeEvent<HTMLSelectElement>) => void,
     currentLanguage: string,
-    selectedCharacter: string | null
+    selectedCharacter: SelectedCharacter | null
 }
 
 function CharacterSelect({characters, currentLanguage, selectCharacter, selectedCharacter}: CharacterSelectProps) {
@@ -20,7 +20,7 @@ function CharacterSelect({characters, currentLanguage, selectCharacter, selected
             return <></>;
         }
         return (
-            <option value={characterName} key={characterCode}>{characterName}</option>
+            <option value={characterCode} key={characterCode}>{characterName}</option>
         )
     }
 
@@ -29,16 +29,11 @@ function CharacterSelect({characters, currentLanguage, selectCharacter, selected
             return "";
         }
 
-        for (const character of Object.values(characters)){
-            const name = currentLanguage ?
-                character[`name_${currentLanguage}`]
-                : character[`name`];
-            if(selectedCharacter == name){
-                return name;
-            }
+        if(!selectedCharacter.id){
+            return "miscCharacter";
+        } else {
+            return selectedCharacter.id;
         }
-
-        return "miscCharacter";
     }
 
     return (

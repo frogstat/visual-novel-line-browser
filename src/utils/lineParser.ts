@@ -18,11 +18,7 @@ export function resolveTextFromLanguage(line: Line, language: string): string | 
  * @param codeLength - How many chars in the voice file name are the code. (e.g. MAK_COMMON_033.ogg will have a code length of 3)
  * @param language - The current language
  */
-function resolveCharacterNameFromCode(voiceFile: string | undefined | null, characters: Characters, codeLength: number, language: string) {
-
-    if (!voiceFile || !codeLength) {
-        return null;
-    }
+function resolveCharacterNameFromCode(voiceFile: string, characters: Characters, codeLength: number, language: string) {
 
     const characterCode: string = getCharacterCodeFromVoiceLine(voiceFile, codeLength);
     if (characterCode in characters) {
@@ -37,12 +33,20 @@ function resolveSpeakerFromLine(line: Line, language: string): string | null | u
 }
 
 export function resolveSpeaker(voiceFile: string | undefined | null, characters: any, codeLength: number, language: string, line: Line) {
+    const characterName = resolveSpeakerFromLine(line, language)
+
     if (!voiceFile || !codeLength) {
-        return resolveSpeakerFromLine(line, language);
+        return characterName;
     }
 
-    return resolveCharacterNameFromCode(voiceFile, characters, codeLength, language)
-        ?? resolveSpeakerFromLine(line, language);
+    const resolvedName = resolveCharacterNameFromCode(voiceFile, characters, codeLength, language);
+
+    if (!resolvedName) {
+        return characterName;
+    }
+
+    return resolvedName === characterName ? resolvedName : `${resolvedName} ( ${characterName} )`
+
 }
 
 export function getCharacterCodeFromVoiceLine(voiceFile: string, codeLength: number) {

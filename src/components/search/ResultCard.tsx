@@ -1,5 +1,5 @@
 import downloadIcon from "../../assets/download.svg"
-import type {Line} from "../../utils/types.ts";
+import type {Characters, Line, SelectedCharacter} from "../../utils/types.ts";
 import playIcon from "../../assets/play-icon.svg"
 import searchIcon from "../../assets/search-icon.svg"
 import favoriteIcon from "../../assets/favorited.svg"
@@ -20,7 +20,8 @@ type LineCardProps = {
 
     // Result Card only
     showContextView: ((originIndex: number) => void) | null,
-    setSelectedCharacter: ((name: string) => void) | null,
+    setSelectedCharacter: ((name: SelectedCharacter) => void) | null,
+    characters: Characters | null,
 
     // Context Card only
     isCurrent: boolean | null;
@@ -38,8 +39,8 @@ function ResultCard({
                         isCurrent,
                         originLineRef,
                         downloadVoiceFile,
-                        setSelectedCharacter
-
+                        setSelectedCharacter,
+                        characters
                     }: LineCardProps) {
 
     function isFavorited() {
@@ -50,8 +51,22 @@ function ResultCard({
         if (!setSelectedCharacter) {
             return;
         }
+
         const name = getLineValue(line, "speaker", currentLanguage)
-        setSelectedCharacter(name)
+
+        const id = characters ?
+            Object.keys(characters).find(currentId => {
+                const charName = currentLanguage ?
+                    characters[currentId][`name_${currentLanguage}`] :
+                    characters[currentId].name;
+                return charName && name.includes(charName)
+            })
+            : null;
+
+        setSelectedCharacter({
+            id: id ?? null,
+            name: name
+        })
     }
 
     return (
