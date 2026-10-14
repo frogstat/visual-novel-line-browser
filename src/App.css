@@ -1,36 +1,7 @@
-/* ==========================================================================
-   TABLE OF CONTENTS
-   1. Scale and tokens
-   2. Base elements
-   3. Shared
-   4. Game selector screen
-   5. Game view
-      5.1 Game box
-      5.2 Language selector
-      5.3 Audio player
-      5.4 Header
-      5.5 Search tools
-      5.6 Results (list + card)
-      5.7 Context panel
-
-   SCALING: every size in this file is in rem (or %, em, vh). The only place
-   that decides how big the UI is, is the font-size on <html> in section 1.
-   Do not add px sizes; they will not scale.
-   ========================================================================== */
-
-
-/* ==========================================================================
-   1. SCALE AND TOKENS
-   ========================================================================== */
-
 html {
-    /* 1rem = 16px up to 1920px wide (1080p and below), then grows in
-       proportion to the viewport: 2560px (1440p) -> 21.3px, 3840px (4K) -> 32px.
-       To make the UI larger or smaller everywhere, change the divisor (120). */
     font-size: clamp(16px, calc(100vw / 120), 64px);
 }
 
-/* Names are unchanged, since per-game theme.css files may override them. */
 :root {
     /* Surfaces */
     --background-color: #111111;
@@ -59,7 +30,7 @@ html {
     --language-active-color: rgb(73 82 103 / 0.64);
 
     /* Game cards */
-    --game-card-background: rgb(0 0 0 / 0.30);
+    --game-card-background: rgb(0 0 0 / 1);
     --game-card-background-hover: rgb(0 0 0 / 0.50);
     --game-card-glow: #404040;
 
@@ -67,10 +38,6 @@ html {
     --transition-fast: 120ms ease;
 }
 
-
-/* ==========================================================================
-   2. BASE ELEMENTS
-   ========================================================================== */
 
 * {
     font-family: sans-serif;
