@@ -11,7 +11,7 @@ function resolveAudioFolder(gameFolder: string): string {
     return gameFolder;
 }
 
-export function useGameData(gameFolder: string) {
+export function useGameData(gameFolderRaw: string) {
     const [lines, setLines] = useState<Line[] | null>(null);
     const [characters, setCharacters] = useState<Characters | null>(null);
     const [languages, setLanguages] = useState<string[]>([]);
@@ -19,9 +19,12 @@ export function useGameData(gameFolder: string) {
     const [error, setError] = useState<string | null>(null);
     const [codeLength, setCodeLength] = useState<number | null>(null);
 
-    const audioFolder = resolveAudioFolder(gameFolder);
+    const gameFolder = encodeURIComponent(gameFolderRaw);
+    const audioFolder = encodeURIComponent(resolveAudioFolder((gameFolderRaw)));
     const voiceBasePath: string = `/${audioFolder}/voice`;
     const musicBasePath: string = `/${audioFolder}/music`;
+
+
 
 
     useEffect(() => {
@@ -96,9 +99,9 @@ export function useGameData(gameFolder: string) {
     useEffect(() => {
         let theme: HTMLStyleElement | undefined;
 
-        async function loadTheme(){
+        async function loadTheme() {
             const response = await fetch(`${gameFolder}/theme.css`);
-            if (!response.ok){
+            if (!response.ok) {
                 throw Error();
             }
 
@@ -153,7 +156,7 @@ export function useGameData(gameFolder: string) {
 
 // Will change speaker names to be based off voice lines instead of the speaker tag in the JSON.
 // If no such resolution is possible, the existing tag will be used.
-function normalizeSpeakerNameFromVoiceLine(jsonLines: Line[], languages: string[], characters: Characters, codeLength:number | null): Line[] {
+function normalizeSpeakerNameFromVoiceLine(jsonLines: Line[], languages: string[], characters: Characters, codeLength: number | null): Line[] {
     if (!jsonLines || !languages || !characters || !codeLength) {
         return jsonLines;
     }

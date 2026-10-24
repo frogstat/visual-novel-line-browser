@@ -27,7 +27,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         changeLanguage,
         error,
         codeLength
-    } = useGameData(encodeURIComponent(game.folderName));
+    } = useGameData(game.folderName);
 
     const {
         downloadVoiceFile,
