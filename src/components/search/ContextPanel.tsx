@@ -91,6 +91,7 @@ function ContextPanel({
                             toggleFavorite={toggleFavorite}
                             setSelectedCharacter={null}
                             downloadVoiceFile={downloadVoiceFile}
+                            characters={null}
                         />
                     )}
                 </div>

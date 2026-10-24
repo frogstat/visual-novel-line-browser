@@ -38,6 +38,7 @@ function ResultList({
         totalPages,
         currentPageStartIndex,
         currentPageEndIndex,
+        goToFinalPage
     } = usePagination(resultIndices?.length ?? 0);
 
     function getResultList() {
@@ -85,7 +86,7 @@ function ResultList({
                 <p>{(resultIndices?.length ?? 0) === 0 ? 0 : currentPageStartIndex + 1} - {currentPageEndIndex} of {resultIndices?.length ?? 0}</p>
                 <div className="result-list-info-buttons">
                     <button onClick={goToPreviousPage}>←</button>
-                    <p>page {currentPage} of {totalPages}</p>
+                    <p>page {currentPage} of <span className="go-to-total-page" onClick={() => goToFinalPage()}>{totalPages}</span></p>
                     <button onClick={goToNextPage}>→</button>
                 </div>
             </div>

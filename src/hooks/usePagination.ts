@@ -31,6 +31,10 @@ export function usePagination(numberOfResults: number) {
         setCurrentPage(currentPage + 1);
     }
 
+    function goToFinalPage(): void {
+        setCurrentPage(totalPages);
+    }
+
 
 
 
@@ -40,7 +44,8 @@ export function usePagination(numberOfResults: number) {
         currentPage,
         totalPages,
         currentPageStartIndex,
-        currentPageEndIndex
+        currentPageEndIndex,
+        goToFinalPage
     }
 }
 

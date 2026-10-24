@@ -70,7 +70,6 @@ button {
     padding: 0.3125rem 0.625rem;
 
 
-
     background-color: var(--button-color);
     color: var(--text-color);
 
@@ -187,7 +186,8 @@ input {
 /* ---------- 5.1 Game box ---------- */
 
 .game-box {
-    backdrop-filter: blur(0.125rem);
+    backdrop-filter: blur(0.225rem);
+    background-color: rgb(8 10 13 / 0.1);
     text-shadow: 0 0.125rem 0.3125rem rgb(0 0 0 / 0.35);
     padding: 0.625rem;
     border-radius: 0.9375rem;
@@ -470,12 +470,12 @@ input {
     gap: 0.3125rem;
     max-width: 82%;
 
-    p{
+    p {
         width: fit-content;
     }
 }
 
-.result-card-speaker{
+.result-card-speaker {
     color: rgb(255 241 147 / 0.8);
     font-size: calc(clamp(16px, calc(100vw / 120), 64px) * 0.85);
     transition: 0.2s ease;
@@ -607,11 +607,19 @@ input {
 }
 
 @media (max-width: 710px) {
-    .app{
+    .app {
         padding: 0;
         transition: ease 0.1s;
     }
-    .game-box{
+
+    .game-box {
         border-radius: 0;
+    }
+}
+
+.go-to-total-page {
+    cursor: pointer;
+    &:hover {
+        color: var(--button-toggled-color-hover);
     }
 }
