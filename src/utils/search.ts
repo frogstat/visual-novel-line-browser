@@ -1,5 +1,4 @@
 import type {Line, SelectedCharacter, VoiceFilter} from "./types.ts";
-import {getFileWithoutExtension} from "./generalUtils.ts";
 import {getLineValue} from "./lineParser.ts";
 
 
@@ -36,7 +35,7 @@ export function createListOfMatches(
             continue;
         }
 
-        if (!lineMatchesQuery(line, q, qRegex, languages)) {
+        if (!lineMatchesQuery(i, line, q, qRegex, languages)) {
             continue;
         }
 
@@ -63,16 +62,15 @@ function lineMatchesSelectedCharacter(selectedCharacter: SelectedCharacter, line
     return false;
 }
 
-function lineMatchesQuery(line: Line, query: string, queryRegex: RegExp, languages: string[]): boolean {
+function lineMatchesQuery(index: number, line: Line, query: string, queryRegex: RegExp, languages: string[]): boolean {
 
     // Lack of search query means that everything matches.
     if (!query) {
         return true;
     }
 
-    // Direct matches for voice lines should always show.
-    const voiceFile = line.voice_file?.toLowerCase()
-    if (voiceFile && getFileWithoutExtension(voiceFile) === query) {
+    // Searching for the index should return true, but since the user-facing index starts at 1, it's index + 1
+    if(query === String(index + 1)){
         return true;
     }
 
