@@ -1,20 +1,18 @@
 import './App.css'
-import GameView from "./GameView.tsx";
-import {useState} from "react";
+import {Link} from "react-router-dom";
 import {type GameData, useGameManifest} from "./hooks/useGameManifest.ts"
 import GameCard from "./components/GameCard.tsx";
 import type {Game} from "./utils/types.ts";
 
-
+const linkStyle = {
+    color: "inherit",
+    textDecoration: "none",
+    display: "block",
+}
 
 function App() {
-    const [game, setGame] = useState<Game | null>(null)
     const games: GameData | null = useGameManifest()
 
-    function unselectGame() {
-        setGame(null);
-
-    }
 
     function resolveGameSelectorScreen() {
         if (games === null) {
@@ -29,37 +27,28 @@ function App() {
                 };
 
                 return (
-                    <GameCard
-                        selectGame={() => setGame(currentGame)}
-                        key={folderName}
-                        game={currentGame}
-                    />
+                    <Link key={folderName} to={`/games/${encodeURIComponent(folderName)}`} style={linkStyle}>
+                        <GameCard
+                            game={currentGame}
+                        />
+                    </Link>
                 );
             });
         }
     }
 
-    if (game) {
-        return (
-            <GameView
-                game={game}
-                unselectGame={unselectGame}
-            />
-        )
-    } else {
-        return (
-            <main className="app">
-                <div className="game-selector-screen">
-                    <h1 style={{textAlign: "center"}}>Line Browser</h1>
-                    <div className="game-selector-container">
-                        {resolveGameSelectorScreen()}
-                    </div>
+
+    return (
+        <main className="app">
+            <div className="game-selector-screen">
+                <h1 style={{textAlign: "center"}}>Line Browser</h1>
+                <div className="game-selector-container">
+                    {resolveGameSelectorScreen()}
                 </div>
+            </div>
 
-            </main>
-        );
-    }
-
+        </main>
+    );
 }
 
 export default App

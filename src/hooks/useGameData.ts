@@ -97,10 +97,11 @@ export function useGameData(gameFolderRaw: string) {
     }, [gameFolder])
 
     useEffect(() => {
+        let cancelled = false;
         let theme: HTMLStyleElement | undefined;
 
         async function loadTheme() {
-            const response = await fetch(`${gameFolder}/theme.css`);
+            const response = await fetch(`/${gameFolder}/theme.css`);
             if (!response.ok) {
                 throw Error();
             }
@@ -115,6 +116,7 @@ export function useGameData(gameFolderRaw: string) {
         }
 
         loadTheme().then(css => {
+            if (cancelled) return;
             console.log("Using custom theme");
             theme = document.createElement("style");
             theme.textContent = css;
@@ -123,6 +125,7 @@ export function useGameData(gameFolderRaw: string) {
         }).catch(() => console.log("No theme found. Using default theme."));
 
         return () => {
+            cancelled = true;
             theme?.remove();
         };
 

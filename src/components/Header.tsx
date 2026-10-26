@@ -1,9 +1,9 @@
 import LanguageSelector from "./LanguageSelector.tsx";
 import AudioPlayer from "./audio/AudioPlayer.tsx";
 import {getUIName} from "../utils/uiLocale.ts";
+import {Link} from "react-router-dom";
 
 type HeaderProps = {
-    returnToGameMenu: () => void;
     gameName: string,
     languages: string[],
     currentLanguage: string
@@ -13,7 +13,6 @@ type HeaderProps = {
 };
 
 function Header({
-                    returnToGameMenu,
                     gameName,
                     languages,
                     currentLanguage,
@@ -42,7 +41,7 @@ function Header({
 
     return (
         <div className="header">
-            <button className="return-button" onClick={returnToGameMenu}>← {getUIName(currentLanguage, "returnToMenu")}</button>
+            <Link to="/"><button className="return-button">← {getUIName(currentLanguage, "returnToMenu")}</button></Link>
             {resolveColumn()}
             <p className="game-title">{gameName}</p>
             {languages.length > 1 &&

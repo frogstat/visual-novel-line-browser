@@ -5,11 +5,10 @@ import type {Game} from "../utils/types.ts";
 
 type GameGridProps = {
     game: Game,
-    selectGame: () => void
 }
 
 
-function GameCard({game, selectGame}: GameGridProps) {
+function GameCard({game}: GameGridProps) {
 
     const [imageSrc, setImageSrc] = useState(resolveGameCover());
 
@@ -43,7 +42,7 @@ function GameCard({game, selectGame}: GameGridProps) {
     }
 
     return (
-        <div onClick={selectGame} className="game-card">
+        <div className="game-card">
             <img
                 className="game-card-image"
                 src={imageSrc}

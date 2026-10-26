@@ -11,11 +11,10 @@ import {useSearch} from "./hooks/useSearch.ts";
 
 
 type GameViewProps = {
-    game: Game;
-    unselectGame: () => void
+    game: Game
 };
 
-function GameView({game, unselectGame}: GameViewProps) {
+function GameView({game}: GameViewProps) {
 
     const {
         lines,
@@ -60,6 +59,7 @@ function GameView({game, unselectGame}: GameViewProps) {
         toggleFavorite,
         favoritesOnly,
         toggleFavoritesOnly,
+        query,
         setQuery,
         selectCharacter,
         resultIndices,
@@ -73,7 +73,6 @@ function GameView({game, unselectGame}: GameViewProps) {
         <main className="app" ref={topOfPageRef}>
             <div className="game-box">
                 <Header
-                    returnToGameMenu={unselectGame}
                     gameName={game.title}
                     languages={languages}
                     currentLanguage={currentLanguage}
@@ -90,6 +89,7 @@ function GameView({game, unselectGame}: GameViewProps) {
                 />
 
                 <SearchTools
+                    query={query}
                     setQuery={setQuery}
                     characters={characters}
                     selectCharacter={selectCharacter}

@@ -4,6 +4,7 @@ import type {ChangeEvent} from "react";
 import {getUIName} from "../../utils/uiLocale.ts";
 
 type SearchBarProps = {
+    query: string;
     setQuery: (searchText: string) => void;
     characters: Characters | null;
     selectCharacter: (e: ChangeEvent<HTMLSelectElement>) => void;
@@ -16,6 +17,7 @@ type SearchBarProps = {
 };
 
 function SearchTools({
+                         query,
                          setQuery,
                          characters,
                          selectCharacter,
@@ -51,6 +53,7 @@ function SearchTools({
                     className="search-query-bar"
                     type="text"
                     placeholder={getUIName(currentLanguage, "searchQuote")}
+                    value={query}
                     onChange={(e) => setQuery(e.target.value)}
                 />
                 {(characters || selectedCharacter) && (

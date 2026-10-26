@@ -623,3 +623,10 @@ input {
         color: var(--button-toggled-color-hover);
     }
 }
+
+.error-panel{
+    text-align: center;
+    color: white;
+    width: 50vw;
+    margin: auto;
+}

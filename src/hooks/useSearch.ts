@@ -1,18 +1,34 @@
 import {type ChangeEvent, useEffect, useMemo, useRef, useState} from "react";
 import type {Characters, Line, SelectedCharacter, VoiceFilter} from "../utils/types.ts";
 import {createListOfMatches} from "../utils/search.ts";
+import { useSearchParams } from 'react-router-dom';
 
 
 export function useSearch(gameFolder: string, languages: string[], lines: Line[] | null, codeLength: number | null, characters: Characters | null) {
-    const [query, setQuery] = useState('');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [query, setQuery] = useState<string>(searchParams.get("q") ?? "");
 
     // Toggles
     const [selectedCharacter, setSelectedCharacter] = useState<SelectedCharacter | null>(null);
     const [voiceFilter, setVoiceFilter] = useState<VoiceFilter>("any");
     const [favorites, setFavorites] = useState<number[]>([]);
     const [favoritesOnly, setFavoritesOnly] = useState<boolean>(false);
-
     const topOfPageRef = useRef<any>(null);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setSearchParams(prev => {
+                if (query) {
+                    prev.set("q", query);
+                } else {
+                    prev.delete("q");
+                }
+                return prev;
+            }, { replace: true });
+        }, 1000);
+
+        return () => clearTimeout(timeout);
+    }, [query]);
 
     // FAVORITE-RELATED FUNCTIONS
 
@@ -96,11 +112,12 @@ export function useSearch(gameFolder: string, languages: string[], lines: Line[]
         toggleFavorite,
         favoritesOnly,
         toggleFavoritesOnly,
+        query,
         setQuery,
         selectCharacter,
         resultIndices,
         setSelectedCharacter,
         selectedCharacter,
-        topOfPageRef
+        topOfPageRef,
     }
 }
