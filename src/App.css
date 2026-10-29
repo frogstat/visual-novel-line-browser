@@ -146,6 +146,7 @@ input {
     margin: auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, 13.75rem);
+    justify-content: center;
     gap: 1.25rem;
     max-width: 75rem;
 }
