@@ -8,13 +8,12 @@ import {useMusicPlayer} from "./hooks/useMusicPlayer.ts";
 import {useContextView} from "./hooks/useContextView.ts";
 import type {Game} from "./utils/types.ts";
 import {useSearch} from "./hooks/useSearch.ts";
+import {useLoaderData} from "react-router-dom";
 
 
-type GameViewProps = {
-    game: Game
-};
 
-function GameView({game}: GameViewProps) {
+function GameView() {
+    const game: Game = useLoaderData();
 
     const {
         lines,

@@ -1,7 +1,7 @@
 import {type ChangeEvent, useEffect, useMemo, useRef, useState} from "react";
 import type {Characters, Line, SelectedCharacter, VoiceFilter} from "../utils/types.ts";
 import {createListOfMatches} from "../utils/search.ts";
-import { useSearchParams } from 'react-router-dom';
+import {useSearchParams} from 'react-router-dom';
 
 
 export function useSearch(gameFolder: string, languages: string[], lines: Line[] | null, codeLength: number | null, characters: Characters | null) {
@@ -14,21 +14,6 @@ export function useSearch(gameFolder: string, languages: string[], lines: Line[]
     const [favorites, setFavorites] = useState<number[]>([]);
     const [favoritesOnly, setFavoritesOnly] = useState<boolean>(false);
     const topOfPageRef = useRef<any>(null);
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setSearchParams(prev => {
-                if (query) {
-                    prev.set("q", query);
-                } else {
-                    prev.delete("q");
-                }
-                return prev;
-            }, { replace: true });
-        }, 1000);
-
-        return () => clearTimeout(timeout);
-    }, [query]);
 
     // FAVORITE-RELATED FUNCTIONS
 
@@ -87,8 +72,24 @@ export function useSearch(gameFolder: string, languages: string[], lines: Line[]
     }
 
 
-
     // SEARCH
+    const [debouncedQuery, setDebouncedQuery] = useState("");
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedQuery(query)
+            setSearchParams(prev => {
+                if (query) {
+                    prev.set("q", query);
+                } else {
+                    prev.delete("q");
+                }
+                return prev;
+            }, {replace: true});
+        }, 200);
+        return () => clearTimeout(timer);
+    }, [query]);
+
 
     const resultIndices: number[] | null = useMemo(() => {
         if (!lines) {
@@ -96,14 +97,14 @@ export function useSearch(gameFolder: string, languages: string[], lines: Line[]
         }
         return createListOfMatches(
             lines,
-            query,
+            debouncedQuery,
             languages,
             selectedCharacter,
             favorites,
             favoritesOnly,
             voiceFilter,
             codeLength);
-    }, [lines, query, languages, selectedCharacter, favoritesOnly, voiceFilter]);
+    }, [lines, debouncedQuery, languages, selectedCharacter, favoritesOnly, voiceFilter]);
 
     return {
         voiceFilter,

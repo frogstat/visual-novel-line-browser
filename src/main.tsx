@@ -2,16 +2,22 @@ import {createRoot} from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import GameViewValidator from "./GameViewValidator.tsx";
+import GameNotFound from "./components/GameNotFound.tsx";
+import GameView from "./GameView.tsx";
+import {loadGame} from "./utils/gameLoader.ts";
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <App/>
+        element: <App/>,
+        errorElement: <GameNotFound/>
     },
     {
         path: '/games/:gameFolder?',
-        element: <GameViewValidator/>
+        loader: loadGame,
+        element: <GameView/>,
+        errorElement: <GameNotFound/>,
+        HydrateFallback: () => <div>Loading...</div>
     },
 ])
 
