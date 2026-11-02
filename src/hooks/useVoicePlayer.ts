@@ -87,6 +87,7 @@ export function useVoicePlayer(voiceBasePath: string) {
             if (currentAudio.current === audio) {
                 currentAudio.current = null;
             }
+            URL.revokeObjectURL(url);
         });
     }
 
